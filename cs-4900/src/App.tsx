@@ -9,7 +9,7 @@ function App() {
 
   const testAPI = async () => {
     try {
-      const response = await fetch("http://localhost:3000/"); // Replace with your server URL
+      const response = await fetch("https://cs-4900-backend.vercel.app/"); // Replace with your server URL
       const data = await response.text();
       setMessage(data);
     } catch (error) {
