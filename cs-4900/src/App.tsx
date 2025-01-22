@@ -12,7 +12,7 @@ function App() {
   // Fetch data from the backend
   const testAPI = async () => {
     try {
-      const response = await fetch("https://cs-4900-backend.vercel.app/"); // Replace with your backend URL
+      const response = await fetch("https://cs-4900-backend.vercel.app/");
       const data = await response.text();
       setMessage(data);
     } catch (error) {
@@ -27,15 +27,15 @@ function App() {
     if (!comment.trim()) return;
 
     try {
-      const response = await fetch("http://localhost:3000/comments", {
+      const response = await fetch("https://cs-4900-backend.vercel.app/comments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ comment }),
       });
       if (response.ok) {
         const newComment = await response.json();
-        setComments((prev) => [newComment, ...prev]); // Add the new comment to the list
-        setComment(""); // Clear the input field
+        setComments((prev) => [newComment, ...prev]); 
+        setComment(""); 
       }
     } catch (error) {
       console.error("Error submitting comment:", error);
@@ -45,7 +45,7 @@ function App() {
   // Fetch comments from the backend
   const fetchComments = async () => {
     try {
-      const response = await fetch("http://localhost:3000/comments");
+      const response = await fetch("https://cs-4900-backend.vercel.app/comments");
       const data = await response.json();
       setComments(data);
     } catch (error) {
