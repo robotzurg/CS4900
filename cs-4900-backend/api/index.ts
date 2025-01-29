@@ -16,7 +16,7 @@ const pool = new Pool({
 });
 
 // Test API route
-app.get("/", (req, res) => res.send("Express on Vercel"));
+app.get("/api-version", (req, res) => res.send("API v1.0"));
 
 // Add a comment
 app.post("/comments", async (req, res) => {

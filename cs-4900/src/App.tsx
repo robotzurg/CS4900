@@ -1,18 +1,16 @@
 import { useState, useEffect, FormEvent } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
   const [message, setMessage] = useState("");
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<{ id: number; comment: string }[]>([]);
+  const apiUrl = import.meta.env.VITE_API_DEV_URL;
 
   // Fetch data from the backend
   const testAPI = async () => {
     try {
-      const response = await fetch("https://cs-4900-backend.vercel.app/");
+      const response = await fetch(`${apiUrl}/api-version`);
       const data = await response.text();
       setMessage(data);
     } catch (error) {
@@ -27,7 +25,7 @@ function App() {
     if (!comment.trim()) return;
 
     try {
-      const response = await fetch("https://cs-4900-backend.vercel.app/comments", {
+      const response = await fetch(`${apiUrl}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ comment }),
@@ -45,7 +43,7 @@ function App() {
   // Fetch comments from the backend
   const fetchComments = async () => {
     try {
-      const response = await fetch("https://cs-4900-backend.vercel.app/comments");
+      const response = await fetch(`${apiUrl}/comments`);
       const data = await response.json();
       setComments(data);
     } catch (error) {
@@ -56,32 +54,17 @@ function App() {
   // Load comments on initial render
   useEffect(() => {
     fetchComments();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
+      <h1>Waveform</h1>
       <div>
-        <a href="https://vite.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React + TypeScript</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>Edit <code>src/App.tsx</code> and save to test HMR</p>
-      </div>
-      <div>
-        <button onClick={testAPI}>Test API</button>
+        <button onClick={testAPI}>Get API Version</button>
       </div>
       <p>{message}</p>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h2>Database Test</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -93,7 +76,7 @@ function App() {
       </form>
       <div>
         <h2>Comments:</h2>
-        <ul>
+        <ul style={{ listStyleType: 'none' }}>
           {comments.map((item) => (
             <li key={item.id}>{item.comment}</li>
           ))}
