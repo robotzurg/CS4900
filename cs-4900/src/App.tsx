@@ -61,7 +61,7 @@ function App() {
     <>
       <h1>Waveform</h1>
       <div>
-        <button onClick={testAPI}>Get API Version</button>
+        <button id="get-api-version" onClick={testAPI}>Get API Version</button>
       </div>
       <p>{message}</p>
       <h2>Database Test</h2>

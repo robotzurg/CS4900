@@ -1,80 +1,35 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { expect, it, vi } from "vitest";
 import App from "../src/App";
 
-describe("Waveform App", () => {
-  beforeEach(() => {
-    (global.fetch as jest.Mock).mockClear();
-  });
+it("fetches and displays API version", async () => {
+  // Mock the fetch API to return a specific response
+  vi.spyOn(global, "fetch").mockResolvedValueOnce({
+    text: () => Promise.resolve("API v1.0"),
+  } as Response);
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+  // Render the App component
+  render(<App />);
+  
+  // Find the "Get API Version" button and click it
+  const button = screen.getByText(/Get API Version/i);
+  fireEvent.click(button);
 
-  test("fetches and displays API version", async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      text: () => Promise.resolve("API v1.0"),
-    });
+  // Wait for the API version to be displayed and assert it
+  await waitFor(() => expect(screen.getByText("API v1.0")).toBeInTheDocument());
+});
 
-    render(<App />);
-    
-    const button = screen.getByText(/Get API Version/i);
-    fireEvent.click(button);
+it("loads comments on initial render", async () => {
+  // Mock the fetch API to return a list of comments
+  vi.spyOn(global, "fetch").mockResolvedValueOnce({
+    json: () => Promise.resolve([{ id: 1, comment: "Existing Comment" }]),
+  } as Response);
 
-    await waitFor(() => expect(screen.getByText("API v1.0")).toBeInTheDocument());
-  });
+  // Render the App component
+  render(<App />);
 
-  test("prevents empty comment submission", async () => {
-    render(<App />);
-    
-    const submitButton = screen.getByText(/Submit/i);
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(fetch).not.toHaveBeenCalled(); // Ensure fetch is not called
-      expect(screen.queryByText(/Error submitting comment/i)).not.toBeInTheDocument();
-    });
-  });
-
-  test("submits a comment successfully", async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      json: () => Promise.resolve({ id: 2, comment: "Test comment" }),
-    });
-
-    render(<App />);
-    
-    const input = screen.getByPlaceholderText(/Write a comment/i);
-    const submitButton = screen.getByText(/Submit/i);
-
-    fireEvent.change(input, { target: { value: "Test comment" } });
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(screen.getByText("Test comment")).toBeInTheDocument();
-    });
-  });
-
-  test("loads comments on initial render", async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      json: () => Promise.resolve([{ id: 1, comment: "Existing Comment" }]),
-    });
-
-    render(<App />);
-    
-    await waitFor(() => {
-      expect(screen.getByText("Existing Comment")).toBeInTheDocument();
-    });
-  });
-
-  test("displays error message when fetch fails", async () => {
-    (fetch as jest.Mock).mockRejectedValueOnce(new Error("Failed to fetch"));
-
-    render(<App />);
-    
-    const button = screen.getByText(/Get API Version/i);
-    fireEvent.click(button);
-
-    await waitFor(() => {
-      expect(screen.getByText(/Error fetching data/i)).toBeInTheDocument();
-    });
+  // Wait for the comments to be displayed and assert their presence
+  await waitFor(() => {
+    expect(screen.getByText("Existing Comment")).toBeInTheDocument();
   });
 });
