@@ -44,6 +44,18 @@ app.get("/comments", async (req, res) => {
   }
 });
 
+// Get stats for Waveform bot (useful for the discord bot)
+app.get("/bot-stats", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM global_statistics LIMIT 1");
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("Error fetching statistics:", error);
+    res.status(500).json({ error: "Failed to fetch statistics" });
+  }
+});
+
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
