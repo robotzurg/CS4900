@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import artistRouter from './routes/artistsRoutes.ts';
+import songRouter from './routes/songRoutes.ts';
+import reviewRouter from './routes/reviewRoutes.ts';
 
 dotenv.config();
 
@@ -11,11 +13,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/', artistRouter);
-
+// Setup main routes
 app.get('/', async (req, res) => {
   res.send('API v1.0');
 });
+
+app.use('/', artistRouter);
+app.use('/', songRouter);
+app.use('/', reviewRouter);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
