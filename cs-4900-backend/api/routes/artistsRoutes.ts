@@ -3,35 +3,29 @@ import pool from '../config/db.ts';
 
 const router = pkg.Router();
 
-// POST route for creating an artist
-router.post('/artists', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-  const { name, bio } = req.body;
+// GET route to get all artists
+router.get('/api/artists', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
 
-  if (!name || !bio) {
-    return res.status(400).json({ message: 'Name and bio are required.' });
-  }
-
-  try {
-    const result = await pool.query(
-      'INSERT INTO artists (artist_id, name, bio) VALUES (uuid_generate_v4(), $1, $2) RETURNING *',
-      [name, bio]
-    );
-    return res.status(201).json(result.rows[0]);
-  } catch (error) {
-    console.error('Error creating artist:', error);
-    return res.status(500).json({ message: 'Server error' });
-  }
 });
 
-// GET route for fetching all artists
-router.get('/artists', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-  try {
-    const result = await pool.query('SELECT * FROM artists');
-    return res.status(200).json(result.rows);
-  } catch (error) {
-    console.error('Error fetching artists:', error);
-    return res.status(500).json({ message: 'Server error' });
-  }
+// GET route to get a specific artist
+router.get('/api/artists/:artistId', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
+
+});
+
+// POST route to create a new artist
+router.post('/api/artists', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
+
+});
+
+// PUT route to edit an artist
+router.put('/api/artists/:artistId', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
+
+});
+
+// DELETE route to delete an artist
+router.delete('/api/artists/:artistId', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
+
 });
 
 export default router;

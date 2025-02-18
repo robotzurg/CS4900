@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import artistRouter from './routes/artistsRoutes.ts';
 import songRouter from './routes/songRoutes.ts';
-import reviewRouter from './routes/reviewRoutes.ts';
+import reviewRouter from './routes/reviewsRoutes.ts';
 
 dotenv.config();
 
