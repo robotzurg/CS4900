@@ -7,9 +7,12 @@ CREATE DATABASE waveform_db;
 -- Connect to the new database
 \c waveform_db;
 
+-- Create pgcrypto extension for gen_random_uuid()
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
 -- Users Table
 CREATE TABLE Users (
-  user_id UUID PRIMARY KEY,
+  user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   spotify_access_token TEXT,
   spotify_refresh_token TEXT,
   lfm_username TEXT,
@@ -18,9 +21,9 @@ CREATE TABLE Users (
   discord_review_ping BOOLEAN DEFAULT FALSE,
   bio TEXT,
   spotify_mailbox_playlist_id TEXT,
-  username TEXT UNIQUE,
-  password TEXT,
-  email TEXT UNIQUE,
+  username TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
   discord_user_id TEXT UNIQUE,
   discord_username TEXT,
   friends_list UUID[]
@@ -28,9 +31,9 @@ CREATE TABLE Users (
 
 -- Songs Table
 CREATE TABLE Songs (
-  song_id UUID PRIMARY KEY,
-  title TEXT,
-  release_date DATE,
+  song_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title TEXT NOT NULL,
+  release_date DATE NOT NULL,
   image_url TEXT,
   spotify_link TEXT,
   spotify_uri TEXT,
@@ -41,9 +44,9 @@ CREATE TABLE Songs (
 
 -- Albums Table
 CREATE TABLE Albums (
-  album_id UUID PRIMARY KEY,
-  title TEXT,
-  release_date DATE,
+  album_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title TEXT NOT NULL,
+  release_date DATE NOT NULL,
   image_url TEXT,
   spotify_link TEXT,
   spotify_uri TEXT,
@@ -54,30 +57,44 @@ CREATE TABLE Albums (
 
 -- Genres Table
 CREATE TABLE Genres (
-  genre_id UUID PRIMARY KEY,
-  name TEXT UNIQUE
+  genre_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT UNIQUE NOT NULL
 );
 
 -- Artists Table
 CREATE TABLE Artists (
-  artist_id UUID PRIMARY KEY,
-  name TEXT,
+  artist_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
   image_url TEXT,
   bio TEXT
 );
 
--- Music_Artists Table
-CREATE TABLE Music_Artists (
-  music_id UUID REFERENCES Songs(song_id) ON DELETE CASCADE,
+-- Song_Artists Table
+CREATE TABLE Song_Artists (
+  song_id UUID REFERENCES Songs(song_id) ON DELETE CASCADE,
   artist_id UUID REFERENCES Artists(artist_id) ON DELETE CASCADE,
-  PRIMARY KEY (music_id, artist_id)
+  PRIMARY KEY (song_id, artist_id)
 );
 
--- Music_Genres Table
-CREATE TABLE Music_Genres (
-  music_id UUID REFERENCES Songs(song_id) ON DELETE CASCADE,
+-- Song_Genres Table
+CREATE TABLE Song_Genres (
+  song_id UUID REFERENCES Songs(song_id) ON DELETE CASCADE,
   genre_id UUID REFERENCES Genres(genre_id) ON DELETE CASCADE,
-  PRIMARY KEY (music_id, genre_id)
+  PRIMARY KEY (song_id, genre_id)
+);
+
+-- Album_Artists Table
+CREATE TABLE Album_Artists (
+  album_id UUID REFERENCES Albums(album_id) ON DELETE CASCADE,
+  artist_id UUID REFERENCES Artists(artist_id) ON DELETE CASCADE,
+  PRIMARY KEY (album_id, artist_id)
+);
+
+-- Album_Genres Table
+CREATE TABLE Album_Genres (
+  album_id UUID REFERENCES Albums(album_id) ON DELETE CASCADE,
+  genre_id UUID REFERENCES Genres(genre_id) ON DELETE CASCADE,
+  PRIMARY KEY (album_id, genre_id)
 );
 
 -- Song_Albums Table
@@ -89,10 +106,10 @@ CREATE TABLE Song_Albums (
 
 -- Reviews Table
 CREATE TABLE Reviews (
-  review_id UUID PRIMARY KEY,
+  review_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES Users(user_id),
-  timestamp DATE,
-  favorited BOOLEAN,
+  timestamp DATE NOT NULL,
+  favorited BOOLEAN NOT NULL,
   review_text TEXT,
   rating NUMERIC(3, 1),
   user_sent_by_id UUID,
@@ -104,11 +121,11 @@ CREATE TABLE Reviews (
 
 -- Comments Table
 CREATE TABLE Comments (
-  comment_id UUID PRIMARY KEY,
+  comment_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   review_id UUID REFERENCES Reviews(review_id) ON DELETE CASCADE,
   user_id UUID REFERENCES Users(user_id),
-  comment_text TEXT,
-  timestamp DATE
+  comment_text TEXT NOT NULL,
+  timestamp DATE NOT NULL
 );
 
 -- Mail Table
@@ -118,7 +135,7 @@ CREATE TABLE Mail (
   receiver_id UUID REFERENCES Users(user_id),
   song_id UUID REFERENCES Songs(song_id),
   album_id UUID REFERENCES Albums(album_id),
-  timestamp DATE,
+  timestamp DATE NOT NULL,
   CONSTRAINT check_song_or_album CHECK (
     (song_id IS NOT NULL AND album_id IS NULL) OR
     (album_id IS NOT NULL AND song_id IS NULL)
@@ -127,7 +144,8 @@ CREATE TABLE Mail (
 
 -- Discord_Server_Config Table
 CREATE TABLE Discord_Server_Config (
-  discord_server_id TEXT PRIMARY KEY,
-  disable_ratings BOOLEAN,
-  disable_global_reviews BOOLEAN
+  discord_server_id TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
+  disable_ratings BOOLEAN NOT NULL,
+  disable_global_reviews BOOLEAN NOT NULL
 );
+
