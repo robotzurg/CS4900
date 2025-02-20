@@ -35,8 +35,8 @@
     "rootDir": "./",  
     "baseUrl": "./",
     "paths": {
-      "@routes/*": ["src/routes/*"],  
-      "@config/*": ["src/config/*"]
+      "@routes/*": ["api/routes/*"],  
+      "@config/*": ["api/config/*"]
     }
   },
   "exclude": ["dist", "node_modules"],

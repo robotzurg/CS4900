@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import pkg from "@vercel/node";
-import albumRouter from "../src/routes/albumRoutes.ts";
-import artistRouter from "../src/routes/artistsRoutes.ts";
+import albumRouter from "../api/routes/albumRoutes.ts";
+import artistRouter from "../api/routes/artistsRoutes.ts";
 
 dotenv.config();
 
