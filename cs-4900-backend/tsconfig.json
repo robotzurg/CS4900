@@ -11,7 +11,7 @@
     "allowImportingTsExtensions": true,  
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": true,
+    "noEmit": true, 
 
     /* Linting */
     "alwaysStrict": true,
@@ -32,13 +32,12 @@
     "noEmitHelpers": false,
 
     "outDir": "dist",
-    "rootDir": "./",  
-    "baseUrl": "./",
-    "paths": {
-      "@routes/*": ["api/routes/*"],  
-      "@config/*": ["api/config/*"]
-    }
+    "rootDir": "api",
+    "baseUrl": "."
   },
-  "exclude": ["dist", "node_modules"],
-  "include": ["api/**/*", "src/**/*"]  
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
+  "include": ["api"]
 }
