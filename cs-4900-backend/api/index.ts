@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import vercel from '@vercel/node';
-import albumRouter from "./routes/albumRoutes.ts";
-import artistRouter from "./routes/artistsRoutes.ts";
+import pkg from "@vercel/node";
+import albumRouter from "../src/routes/albumRoutes.ts";
+import artistRouter from "../src/routes/artistsRoutes.ts";
 
 dotenv.config();
 
@@ -23,7 +23,7 @@ app.use("/api/albums", albumRouter);
 app.use("/api/artists", artistRouter);
 
 // Export Express handler for Vercel
-export default (req: vercel.VercelRequest, res: vercel.VercelResponse) => {
+export default (req: pkg.VercelRequest, res: pkg.VercelResponse) => {
   return app(req, res);
 };
 
