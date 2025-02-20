@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./api/index.ts"
+    "start": "ts-node-esm ./api/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "express": "^4.21.2",
     "pg": "^8.13.3",
     "sqids": "^0.3.0",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.2"
   },
   "devDependencies": {
