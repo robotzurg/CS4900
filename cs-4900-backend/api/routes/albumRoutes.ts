@@ -6,26 +6,45 @@ const router = pkg.Router();
 // GET route to get all albums
 router.get('/api/albums', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
     try {
-        const result = await pool.query('SELECT * FROM Albums');
+        const result = await pool.query(`SELECT a.*, 
+            COALESCE(json_agg(DISTINCT aa.artist_id) FILTER (WHERE aa.artist_id IS NOT NULL), '[]') AS artist_ids,
+            COALESCE(json_agg(DISTINCT ga.genre_id) FILTER (WHERE ga.genre_id IS NOT NULL), '[]') AS genre_ids
+        FROM Albums a
+        LEFT JOIN Album_Artists aa ON a.album_id = aa.album_id
+        LEFT JOIN Album_Genres ga ON a.album_id = ga.album_id
+        GROUP BY a.album_id;`);
         res.json(result.rows);
     } catch (err) {
         res.status(500).json({ error: `Error retrieving albums: ${err}` });
     }
 });
 
-// GET route to get a specific album
+// GET route to get a specific album with artist IDs
 router.get('/api/albums/:albumId', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
     const { albumId } = req.params;
     try {
-        const result = await pool.query('SELECT * FROM Albums WHERE album_id = $1', [albumId]);
+        const result = await pool.query(
+            `SELECT a.*, 
+                COALESCE(json_agg(DISTINCT aa.artist_id) FILTER (WHERE aa.album_id IS NOT NULL, '[]') AS artist_ids,
+                COALESCE(json_agg(DISTINCT ga.genre_id) FILTER (WHERE ga.album_id IS NOT NULL), '[]') AS genre_ids
+                FROM Albums a
+                LEFT JOIN Album_Artists aa ON a.album_id = aa.album_id
+                LEFT JOIN Album_Genres ga ON a.album_id = ga.album_id
+             WHERE a.album_id = $1
+             GROUP BY a.album_id`, 
+            [albumId]
+        );
+
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Album not found' });
         }
+        
         res.json(result.rows[0]);
     } catch (err) {
         res.status(500).json({ error: `Error retrieving album: ${err}` });
     }
 });
+
 
 // POST route to create a new album
 router.post('/api/albums', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
