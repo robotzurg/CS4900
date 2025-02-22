@@ -6,7 +6,7 @@ import pg from 'pg';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const envPath = join(__dirname, '../../.env.development.local');
+const envPath = join(__dirname, '../../.env');
 dotenv.config({ path: envPath });
 
 const { Pool } = pg;
