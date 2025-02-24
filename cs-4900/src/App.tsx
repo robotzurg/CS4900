@@ -38,6 +38,10 @@ function App() {
         <h1>Waveform</h1>
       </div>
       <div>
+        <h2>Sign In</h2>
+        <Button variant="secondary" className="button google" href="/login/federated/google">Sign in with Google</Button>
+      </div>
+      <div>
         <Button variant="primary" id="get-api-version" onClick={testAPI}>Get API Version</Button>
       </div>
       <Button variant="primary" id="get-albums" onClick={testAlbums}>Get Albums</Button>

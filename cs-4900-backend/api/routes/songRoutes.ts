@@ -1,31 +1,14 @@
-import pkg from 'express';
-import pool from '../config/db.ts';
+import { Router } from 'express';
+import { SongService } from '../services/songService.ts';
+import { createGenericController } from '../controllers/genericController.ts';
 
-const router = pkg.Router();
+const router = Router();
+const songController = createGenericController(SongService, 'song');
 
-// GET route to get all songs
-router.get('/api/songs', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-
-});
-
-// GET route to get a specific song
-router.get('/api/songs/:songId', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-
-});
-
-// POST route to create a new song
-router.post('/api/songs', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-
-});
-
-// PUT route to edit an song
-router.put('/api/songs/:songId', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-
-});
-
-// DELETE route to delete an song
-router.delete('/api/songs/:songId', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-
-});
+router.get('/api/songs', songController.getAll);
+router.get('/api/songs/:songId', songController.getById);
+router.post('/api/songs', songController.create);
+router.put('/api/songs/:songId', songController.update);
+router.delete('/api/songs/:songId', songController.delete);
 
 export default router;

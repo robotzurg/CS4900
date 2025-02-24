@@ -1,9 +1,14 @@
+import { GenericService } from './genericService.ts';
 import type { Album } from '../models/album.ts';
 import pool from '../config/db.ts';
 import { generateId } from '../utils/idGenerator.ts';
 
-export class AlbumService {
-  static async getAllAlbums(): Promise<Album[]> {
+export class AlbumService extends GenericService<Album> {
+  constructor() {
+    super('albums');
+  }
+
+  async getAll(): Promise<Album[]> {
     const query = `
       SELECT a.*, 
         COALESCE(json_agg(DISTINCT aa.artist_id) FILTER (WHERE aa.artist_id IS NOT NULL), '[]') AS artist_ids,
@@ -17,7 +22,7 @@ export class AlbumService {
     return result.rows;
   }
 
-  static async getAlbumById(albumId: string): Promise<Album | null> {
+  async getById(albumId: string): Promise<Album | null> {
     const query = `
       SELECT a.*, 
         COALESCE(json_agg(DISTINCT aa.artist_id) FILTER (WHERE aa.album_id IS NOT NULL), '[]') AS artist_ids,
@@ -32,56 +37,38 @@ export class AlbumService {
     return result.rows.length > 0 ? result.rows[0] : null;
   }
 
-  static async createAlbum(albumData: Omit<Album, 'id'>, artistIds: string[]): Promise<Album> {
+  async create(albumData: Omit<Album, 'id'>, artistIds: string[] = []): Promise<Album> {
     const client = await pool.connect();
     try {
       await client.query('BEGIN');
 
+      // Insert the album into the Albums table
       const insertAlbumQuery = `
         INSERT INTO Albums (id, title, release_date, image_url, spotify_link, spotify_uri, soundcloud_link, apple_link, youtube_link) 
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;
       `;
-
       const { rows } = await client.query(insertAlbumQuery, [
         generateId(), albumData.title, albumData.release_date, albumData.image_url,
         albumData.spotify_link, albumData.spotify_uri, albumData.soundcloud_link,
         albumData.apple_link, albumData.youtube_link
       ]);
 
-      const id = rows[0].id;
+      const albumId = rows[0].album_id;
 
-      const artistQueries = artistIds.map(artist_id => 
-        client.query(`INSERT INTO Album_Artists (album_id, artist_id) VALUES ($1, $2)`, [id, artist_id])
+      // Insert album-artist relationships
+      const artistQueries = artistIds.map(artistId =>
+        client.query(`INSERT INTO Album_Artists (album_id, artist_id) VALUES ($1, $2)`, [albumId, artistId])
       );
 
       await Promise.all(artistQueries);
 
       await client.query('COMMIT');
-      return { ...albumData, id };
+      return { ...albumData, id: albumId };
     } catch (error) {
       await client.query('ROLLBACK');
       throw new Error(`Error creating album: ${error}`);
     } finally {
       client.release();
     }
-  }
-
-  static async updateAlbum(albumId: string, albumData: Partial<Omit<Album, 'id'>>): Promise<Album | null> {
-    const updates = Object.keys(albumData)
-      .map((key, index) => `${key} = $${index + 1}`)
-      .join(', ');
-
-    const values = Object.values(albumData);
-
-    if (values.length === 0) return null;
-
-    const query = `UPDATE Albums SET ${updates} WHERE album_id = $${values.length + 1} RETURNING *`;
-    const result = await pool.query(query, [...values, albumId]);
-    return result.rows.length > 0 ? result.rows[0] : null;
-  }
-
-  static async deleteAlbum(albumId: string): Promise<boolean> {
-    const result = await pool.query('DELETE FROM Albums WHERE album_id = $1', [albumId]);
-    return (result.rowCount ?? 0) > 0;
   }
 }
