@@ -39,5 +39,5 @@
     "dist",
     "node_modules"
   ],
-  "include": ["api"]
+  "include": ["api/**/*"]
 }

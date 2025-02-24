@@ -1,5 +1,6 @@
 import pkg from 'express';
 import pool from '../config/db.ts';
+import { generateId } from '../utils/idGenerator.ts';
 
 const router = pkg.Router();
 
@@ -16,8 +17,9 @@ router.get('/api/artists', async (req: pkg.Request, res: pkg.Response): Promise<
 // GET route to get a specific artist
 router.get('/api/artists/:artistId', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
     const { artistId } = req.params;
+
     try {
-        const result = await pool.query('SELECT * FROM artists WHERE artist_id = $1', [artistId]);
+        const result = await pool.query('SELECT * FROM artists WHERE id = $1', [artistId]);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'artist not found' });
         }
@@ -34,9 +36,9 @@ router.post('/api/artists', async (req: pkg.Request, res: pkg.Response): Promise
     try {
         // Insert artist and return artist_id
         const result = await pool.query(
-            `INSERT INTO artists (name, image_url, bio) 
-            VALUES ($1, $2, $3) RETURNING artist_id`,
-            [name, image_url, bio]
+            `INSERT INTO artists (id, name, image_url, bio) 
+            VALUES ($1, $2, $3, $4) RETURNING id`,
+            [generateId(), name, image_url, bio]
         );
 
         res.status(201).json(result.rows[0]);
@@ -53,7 +55,7 @@ router.put('/api/artists/:artistId', async (req: pkg.Request, res: pkg.Response)
     const { name, image_url, bio } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE artists SET name = $1, image_url = $2, bio = $3 WHERE artist_id = $4 RETURNING *',
+            'UPDATE artists SET name = $1, image_url = $2, bio = $3 WHERE id = $4 RETURNING *',
             [name, image_url, bio, artistId]
         );
         if (result.rows.length === 0) {
@@ -69,7 +71,7 @@ router.put('/api/artists/:artistId', async (req: pkg.Request, res: pkg.Response)
 router.delete('/api/artists/:artistId', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
     const { artistId } = req.params;
     try {
-        const result = await pool.query('DELETE FROM artists WHERE artist_id = $1 RETURNING *', [artistId]);
+        const result = await pool.query('DELETE FROM artists WHERE id = $1 RETURNING *', [artistId]);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Artist not found' });
         }

@@ -8,4 +8,4 @@ export interface Album {
     soundcloud_link?: string | null;
     apple_link?: string | null;
     youtube_link?: string | null;
-}  
+}
