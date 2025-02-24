@@ -31,6 +31,7 @@ CREATE TABLE Songs (
   id TEXT PRIMARY KEY,
   title TEXT NOT NULL,
   release_date DATE NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
   image_url TEXT,
   spotify_link TEXT,
   spotify_uri TEXT,
@@ -44,6 +45,7 @@ CREATE TABLE Albums (
   id TEXT PRIMARY KEY,
   title TEXT NOT NULL,
   release_date DATE NOT NULL,
+  slug, TEXT UNIQUE NOT NULL,
   image_url TEXT,
   spotify_link TEXT,
   spotify_uri TEXT,
@@ -55,6 +57,7 @@ CREATE TABLE Albums (
 -- Genres Table
 CREATE TABLE Genres (
   id TEXT PRIMARY KEY,
+  slug TEXT UNIQUE NOT NULL,
   name TEXT UNIQUE NOT NULL
 );
 
@@ -62,6 +65,7 @@ CREATE TABLE Genres (
 CREATE TABLE Artists (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
   image_url TEXT,
   bio TEXT
 );
