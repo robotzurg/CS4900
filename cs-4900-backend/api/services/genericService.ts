@@ -29,15 +29,24 @@ export class GenericService<T> {
     }
   }
 
+  async getByName(name: string): Promise<T | null> {
+      const query = `
+      SELECT id, name FROM ${this.tableName} WHERE name ILIKE $1;
+    `;
+    const result = await pool.query(query, [name]);
+    return result.rows.length > 0 ? result.rows[0] : null;
+  }
+
   async create(data: Partial<T>): Promise<T> {
     try {
-      let fields: any = Object.keys(data);
-      const values = Object.values(data);
-      const placeholders = values.map((_, index) => `$${index + 1}`).join(', ');
       const id = generateId();
-      fields.unshift(id);
+      let fields: any = Object.keys(data);
+      let values = Object.values(data);
+      values.unshift(id);
+      const placeholders = values.map((_, index) => `$${index + 1}`).join(', ');
+      fields.unshift('id');
       fields = fields.join(', ');
-      
+
       const result = await pool.query(
         `INSERT INTO ${this.tableName} (${fields}) VALUES (${placeholders}) RETURNING *`,
         values

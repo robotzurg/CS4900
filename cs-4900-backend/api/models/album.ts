@@ -1,6 +1,6 @@
 export interface Album {
     id: string;
-    title: string;
+    name: string;
     release_date: string;
     image_url: string;
     spotify_link?: string | null;

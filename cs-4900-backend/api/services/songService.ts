@@ -58,17 +58,21 @@ export class SongService extends GenericService<Song> {
   async create(songData: Omit<Song, 'id'>, artistIds: string[] = [], albumIds: string[] = []): Promise<Song> {
     const client = await pool.connect();
     try {
+
+      // Check if artist IDs are provided
+      if (artistIds.length == 0) throw 'No artist IDs provided.';
+
       await client.query('BEGIN');
       const id = generateId();
-      const slug = generateSlug(songData.title);
+      const slug = generateSlug(songData.name);
 
       // Insert the song into the Songs table
       const insertSongQuery = `
-        INSERT INTO Songs (id, title, release_date, slug, image_url, spotify_link, spotify_uri, soundcloud_link, apple_link, youtube_link) 
+        INSERT INTO Songs (id, name, release_date, slug, image_url, spotify_link, spotify_uri, soundcloud_link, apple_link, youtube_link) 
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;
       `;
       const { rows } = await client.query(insertSongQuery, [
-        id, songData.title, songData.release_date, slug, songData.image_url,
+        id, songData.name, songData.release_date, slug, songData.image_url,
         songData.spotify_link, songData.spotify_uri, songData.soundcloud_link,
         songData.apple_link, songData.youtube_link
       ]);
@@ -91,7 +95,7 @@ export class SongService extends GenericService<Song> {
       return { ...songData, id: id };
     } catch (error) {
       await client.query('ROLLBACK');
-      throw new Error(`Error creating song: ${error}`);
+      throw error;
     } finally {
       client.release();
     }

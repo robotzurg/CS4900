@@ -57,17 +57,21 @@ export class AlbumService extends GenericService<Album> {
   async create(albumData: Omit<Album, 'id'>, artistIds: string[] = []): Promise<Album> {
     const client = await pool.connect();
     try {
+
+      // Check if artist IDs are provided
+      if (artistIds.length == 0) throw "No artist IDs provided.";
+
       await client.query('BEGIN');
       const id = generateId();
-      const slug = generateSlug(albumData.title);
+      const slug = generateSlug(albumData.name);
 
       // Insert the album into the Albums table
       const insertAlbumQuery = `
-        INSERT INTO Albums (id, title, release_date, slug, image_url, spotify_link, spotify_uri, soundcloud_link, apple_link, youtube_link) 
+        INSERT INTO Albums (id, name, release_date, slug, image_url, spotify_link, spotify_uri, soundcloud_link, apple_link, youtube_link) 
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id;
       `;
       await client.query(insertAlbumQuery, [
-        id, albumData.title, albumData.release_date, slug, albumData.image_url,
+        id, albumData.name, albumData.release_date, slug, albumData.image_url,
         albumData.spotify_link, albumData.spotify_uri, albumData.soundcloud_link,
         albumData.apple_link, albumData.youtube_link
       ]);
@@ -83,7 +87,7 @@ export class AlbumService extends GenericService<Album> {
       return { ...albumData, id: id };
     } catch (error) {
       await client.query('ROLLBACK');
-      throw new Error(`Error creating album: ${error}`);
+      throw error;
     } finally {
       client.release();
     }

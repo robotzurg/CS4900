@@ -29,7 +29,7 @@ CREATE TABLE Users (
 -- Songs Table
 CREATE TABLE Songs (
   id TEXT PRIMARY KEY,
-  title TEXT NOT NULL,
+  name TEXT NOT NULL,
   release_date DATE NOT NULL,
   slug TEXT UNIQUE NOT NULL,
   image_url TEXT,
@@ -43,7 +43,7 @@ CREATE TABLE Songs (
 -- Albums Table
 CREATE TABLE Albums (
   id TEXT PRIMARY KEY,
-  title TEXT NOT NULL,
+  name TEXT NOT NULL,
   release_date DATE NOT NULL,
   slug, TEXT UNIQUE NOT NULL,
   image_url TEXT,
