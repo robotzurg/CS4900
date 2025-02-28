@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { fetchSong } from "../../services/api";
 import SongCard from "../../components/SongCard";
 import './SongPage.css';
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 
 function SongPage() {
   const { slug } = useParams();
