@@ -10,3 +10,14 @@ export const fetchBySlug = async (entity: string, slug: string) => {
         return { error: `Error retrieving ${entity}: ${err}` };
     }
 };
+
+export const fetchByName = async (entity: string, query: string) => {
+    try {
+        if (!query || !entity) return []
+        const response = await fetch(`/api/${entity}?query=${query}`);
+        const data = await response.json();
+        return data.map((artist: any) => artist.name);
+    } catch (err) {
+        return { error: `Error retrieving ${entity}: ${err}` };
+    }
+};
