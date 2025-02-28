@@ -5,7 +5,6 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Flex, RingProgress, Text, Stack } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpotify, faSoundcloud, faApple, faYoutube } from '@fortawesome/free-brands-svg-icons'
-import Helmet from 'react-helmet';
 
 import MainNavbar from "../../components/MainNavbar";
 import './Song.css';
