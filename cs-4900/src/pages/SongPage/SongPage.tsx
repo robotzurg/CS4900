@@ -33,26 +33,7 @@ function SongPage() {
   return (
     <Container>
       <Row>
-        <Col>
-          <SongCard song={song} />
-        </Col>
-        <Col>
-          <SongCard song={song} />
-        </Col>
-        <Col>
-          <SongCard song={song} />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <SongCard song={song} />
-        </Col>
-        <Col>
-          <SongCard song={song} />
-        </Col>
-        <Col>
-          <SongCard song={song} />
-        </Col>
+        <SongCard song={song} />
       </Row>
     </Container>
   );
