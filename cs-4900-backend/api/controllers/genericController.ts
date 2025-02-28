@@ -23,6 +23,24 @@ export const createGenericController = <T>(service: any, entity: string) => {
             }
         },
 
+        getBySlugOrId: async (req: pkg.Request, res: pkg.Response): Promise<any> => {
+            const { slugOrId } = req.params;
+            try {
+                let item = await serviceInstance.getBySlug(slugOrId);
+
+                if (!item) {
+                    item = await serviceInstance.getById(slugOrId);
+                }
+                if (!item) {
+                    return res.status(404).json({ error: `${entity} not found` });
+                }
+                res.json(item);
+
+            } catch (err) {
+                res.status(500).json({ error: `Error retrieving ${entity}: ${err}` });
+            }
+        },
+
         getByName: async (req: pkg.Request, res: pkg.Response): Promise<any> => {
             try {
                 const item: T | null = await serviceInstance.getByName(req.params.name);

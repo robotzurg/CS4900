@@ -26,17 +26,17 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Ping the render server every 10 minutes, because otherwise it goes down for inactivity.
-const url = `https://cs4900-637g.onrender.com/`;
-const interval = 10 * 60000; 
+// const url = `https://cs4900-637g.onrender.com/`;
+// const interval = 10 * 60000; 
 
-function reloadWebsite() {
-  fetch(url)
-    .then(response => {
-      console.log(`Reloaded at ${new Date().toISOString()}: Status Code ${response.status}`);
-    })
-    .catch(error => {
-      console.error(`Error reloading at ${new Date().toISOString()}:`, error.message);
-    });
-}
+// function reloadWebsite() {
+//   fetch(url)
+//     .then(response => {
+//       console.log(`Reloaded at ${new Date().toISOString()}: Status Code ${response.status}`);
+//     })
+//     .catch(error => {
+//       console.error(`Error reloading at ${new Date().toISOString()}:`, error.message);
+//     });
+// }
 
-setInterval(reloadWebsite, interval);
+// setInterval(reloadWebsite, interval);

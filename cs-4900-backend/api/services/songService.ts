@@ -55,6 +55,29 @@ export class SongService extends GenericService<Song> {
     return result.rows.length > 0 ? result.rows[0] : null;
   }
 
+  async getBySlug(slug: string): Promise<Song | null> {
+    const query = `
+      SELECT s.*, 
+        COALESCE(
+          json_agg(DISTINCT jsonb_build_object('id', aa.artist_id, 'name', ar.name)) 
+          FILTER (WHERE aa.artist_id IS NOT NULL), '[]'
+        ) AS artists,
+        COALESCE(
+          json_agg(DISTINCT jsonb_build_object('id', ga.genre_id, 'name', g.name)) 
+          FILTER (WHERE ga.genre_id IS NOT NULL), '[]'
+        ) AS genres
+      FROM Songs s
+      LEFT JOIN Song_Artists aa ON s.id = aa.song_id
+      LEFT JOIN Artists ar ON aa.artist_id = ar.id
+      LEFT JOIN Song_Genres ga ON s.id = ga.song_id
+      LEFT JOIN Genres g ON ga.genre_id = g.id
+      WHERE s.slug = $1
+      GROUP BY s.id;
+    `;
+    const result = await pool.query(query, [slug]);
+    return result.rows.length > 0 ? result.rows[0] : null;
+  }
+
   async create(songData: Omit<Song, 'id'>, artistIds: string[] = [], albumIds: string[] = []): Promise<Song> {
     const client = await pool.connect();
     try {
@@ -69,7 +92,7 @@ export class SongService extends GenericService<Song> {
       // Insert the song into the Songs table
       const insertSongQuery = `
         INSERT INTO Songs (id, name, release_date, slug, image_url, spotify_link, spotify_uri, soundcloud_link, apple_link, youtube_link) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id;
       `;
       const { rows } = await client.query(insertSongQuery, [
         id, songData.name, songData.release_date, slug, songData.image_url,

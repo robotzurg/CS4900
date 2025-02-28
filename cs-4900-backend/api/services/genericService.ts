@@ -11,6 +11,7 @@ export class GenericService<T> {
   async getAll(): Promise<T[]> {
     try {
       const result = await pool.query(`SELECT * FROM ${this.tableName}`);
+      console.log(result);
       return result.rows;
     } catch (err) {
       throw new Error(`Error retrieving ${this.tableName}: ${err}`);
@@ -30,10 +31,18 @@ export class GenericService<T> {
   }
 
   async getByName(name: string): Promise<T | null> {
-      const query = `
-      SELECT id, name FROM ${this.tableName} WHERE name ILIKE $1;
+    const query = `
+      SELECT * FROM ${this.tableName} WHERE name ILIKE $1;
     `;
     const result = await pool.query(query, [name]);
+    return result.rows.length > 0 ? result.rows[0] : null;
+  }
+
+  async getBySlug(slug: string): Promise<T | null> {
+    const query = `
+      SELECT * FROM ${this.tableName} WHERE slug = $1
+    `;
+    const result = await pool.query(query, [slug]);
     return result.rows.length > 0 ? result.rows[0] : null;
   }
 
