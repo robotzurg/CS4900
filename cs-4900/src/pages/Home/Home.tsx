@@ -1,5 +1,15 @@
+// import { Button } from "react-bootstrap";
+import MainNavbar from "../../components/MainNavbar";
+import './Home.css';
+
 function Home() {
-    return <h1>Welcome to Waveform</h1>;
+    return (
+        <div>
+            <MainNavbar />
+            <main>
+            </main>
+        </div>
+    );
 }
   
 export default Home;  
