@@ -11,12 +11,13 @@ export const fetchBySlug = async (entity: string, slug: string) => {
     }
 };
 
-export const fetchByName = async (entity: string, query: string) => {
+export const searchByName = async (entity: string, query: string) => {
     try {
         if (!query || !entity) return []
-        const response = await fetch(`/api/${entity}?query=${query}`);
+        const response = await fetch(`${isDev ? apiUrl : apiDevUrl}/api/${entity}?query=${query}`);
         const data = await response.json();
-        return data.map((artist: any) => artist.name);
+        const results = data.map((value: any) => ({ id: value.id, name: value.name }));
+        return results;
     } catch (err) {
         return { error: `Error retrieving ${entity}: ${err}` };
     }

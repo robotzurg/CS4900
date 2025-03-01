@@ -12,7 +12,7 @@ function SongCard({ song }: { song: any }) {
                 <Col xs={12} md={7}>
                     <Card.Title>{song.name}</Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">
-                    {song.artists.map((s: any) => s.name).join(', ')}
+                      {song.artists.map((s: any) => s.name).join(', ')}
                     </Card.Subtitle>
                     <Card.Text>
                     Released on: {new Date(song.release_date).toLocaleDateString()}
