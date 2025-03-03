@@ -3,8 +3,12 @@
 // import { createGenericController } from '../controllers/genericController.ts';
 
 // const router = Router();
-// const reviewController = createGenericController(ReviewService, 'song');
+// const reviewController = createGenericController(ReviewService, 'review');
 
-// router.get('/api/review/:userName/:artistSlugOrId/:songSlugOrId', reviewController.getAll);
+// router.get('/api/reviews/:id', reviewController.getAll);
+// router.get('/api/reviews/:id/:reviewId', reviewController.getById);
+// router.post('/api/reviews/:id', reviewController.create);
+// router.put('/api/reviews/:id/:reviewId', reviewController.update);
+// router.delete('/api/reviews/:id/:reviewId', reviewController.delete);
 
 // export default router;

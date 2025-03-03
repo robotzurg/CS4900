@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { fetchBySlug } from "../../services/api";
+import { fetchById } from "../../services/api";
 import { Container, Row, Col } from "react-bootstrap";
 import { Flex, RingProgress, Text, Stack } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,16 +10,16 @@ import MainNavbar from "../../components/MainNavbar";
 import './Song.css';
 
 function SongPage() {
-  const { slug } = useParams();
+  const { id } = useParams();
   const [song, setSong] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!slug) return;
+    if (!id) return;
 
     const getSong = async () => {
       try {
-        const data = await fetchBySlug('songs', slug);
+        const data = await fetchById('songs', id);
         setSong(data);
       } catch (error) {
         console.error("Error fetching song:", error);
@@ -29,7 +29,7 @@ function SongPage() {
     };
 
     getSong();
-  }, [slug]);
+  }, [id]);
 
   if (loading) return <p>Loading...</p>;
   if (!song) return <p>Song not found</p>;
