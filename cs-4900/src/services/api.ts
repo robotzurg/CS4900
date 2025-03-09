@@ -1,4 +1,4 @@
-const isDev = true;
+const isDev = false;
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiDevUrl = import.meta.env.VITE_API_DEV_URL;
 

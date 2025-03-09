@@ -30,7 +30,7 @@ h1 {
 }
 
 .song-card {
-  max-width: 80%;
+  /* max-width: 80%; */
   margin: auto;
   background-color: rgb(241, 241, 241);
   border-radius: 10px;
