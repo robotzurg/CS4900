@@ -11,6 +11,15 @@ export const fetchById = async (entity: string, id: string) => {
     }
 };
 
+export const fetchAll = async (entity: string) => {
+    try {
+        const res = await fetch(`${isDev ? apiUrl : apiDevUrl}/api/${entity}`);
+        return res.json();
+    } catch (err) {
+        return { error: `Error retrieving ${entity}: ${err}` };
+    }
+};
+
 export const searchByName = async (entity: string, query: string) => {
     try {
         if (!query || !entity) return []
