@@ -4,7 +4,7 @@ const apiDevUrl = import.meta.env.VITE_API_DEV_URL;
 
 export const fetchById = async (entity: string, id: string) => {
     try {
-        const res = await fetch(`${isDev ? apiUrl : apiDevUrl}/api/${entity}/${id}`);
+        const res = await fetch(`${isDev ? apiDevUrl : apiUrl}/api/${entity}/${id}`);
         return res.json();
     } catch (err) {
         return { error: `Error retrieving ${entity}: ${err}` };
@@ -13,7 +13,7 @@ export const fetchById = async (entity: string, id: string) => {
 
 export const fetchAll = async (entity: string) => {
     try {
-        const res = await fetch(`${isDev ? apiUrl : apiDevUrl}/api/${entity}`);
+        const res = await fetch(`${isDev ? apiDevUrl : apiUrl}/api/${entity}`);
         return res.json();
     } catch (err) {
         return { error: `Error retrieving ${entity}: ${err}` };
