@@ -3,40 +3,40 @@ import { useParams } from "react-router";
 import { fetchById } from "../../services/api";
 
 import MainNavbar from "../../components/MainNavbar";
-import './SongPage.css';
+import './AlbumPage.css';
 import MusicInfoCard from "../../components/MusicInfoCard";
 
-function SongPage() {
-  const { songId } = useParams(); // Extract songId from useParams hook
-  const [song, setSong] = useState<any | null>(null);
+function AlbumPage() {
+  const { albumId } = useParams(); // Extract albumId from useParams hook
+  const [album, setAlbum] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!songId) return;
+    if (!albumId) return;
 
-    const getSong = async () => {
+    const getalbum = async () => {
       try {
-        const data = await fetchById('songs', songId);
-        setSong(data);
+        const data = await fetchById('albums', albumId);
+        setAlbum(data);
       } catch (error) {
-        console.error("Error fetching song:", error);
+        console.error("Error fetching album:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    getSong();
-  }, [songId]); 
+    getalbum();
+  }, [albumId]); 
 
   if (loading) return <p>Loading...</p>;
-  if (!song) return <p>Song not found</p>;
+  if (!album) return <p>Album not found</p>;
 
   return (
     <div>
       <MainNavbar />
-      <MusicInfoCard music={song} />
+      <MusicInfoCard music={album} />
     </div>
   );
 }
 
-export default SongPage;
+export default AlbumPage;

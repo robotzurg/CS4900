@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import MainNavbar from "../../components/MainNavbar.tsx";
-import SongsGrid from "../../components/SongsGrid.tsx";
 import { fetchAll } from "../../services/api.ts";
 import "./Songs.css";
+import MusicListGrid from "../../components/MusicListGrid.tsx";
 
 function Songs() {
   const [songs, setSongs] = useState<any[]>([]);
@@ -14,7 +14,7 @@ function Songs() {
   return (
     <div>
       <MainNavbar />
-      <SongsGrid songs={songs}></SongsGrid>
+      <MusicListGrid musicList={songs} entity="songs"></MusicListGrid>
     </div>
   );
 }

@@ -4,33 +4,33 @@ import { Flex, RingProgress, Text, Stack } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpotify, faSoundcloud, faApple, faYoutube } from '@fortawesome/free-brands-svg-icons'
 
-function SongInfoCard({ song }: { song: any }) {
+function MusicInfoCard({ music }: { music: any }) {
   return (
-    <Container className="mt-4 song-card">
+    <Container className="mt-4 music-card">
         <Row className="d-flex p-3">
           <Col lg={3}>
             <Col className="d-flex flex-column justify-content-center">
               <div className='page-header'>
-                <h2><strong>{song.name}</strong></h2>
+                <h2><strong>{music.name}</strong></h2>
                 <h4>
-                  {song.artists.map((artist: any, index: number) => (
+                  {music.artists.map((artist: any, index: number) => (
                     <span key={index}>
                     <Link className="artist-link" to={`/artist/${artist.name}`}>
                       {artist.name}
                     </Link>
-                    {index < song.artists.length - 1 && ', '}
+                    {index < music.artists.length - 1 && ', '}
                   </span>
                   ))}
                 </h4>
               </div>
               <p>
-                <strong>Release Date:</strong> {new Date(song.release_date).toLocaleDateString()}<br />
-                <strong>Genres:</strong> {song.genres.map((genre: any, index: number) => (
+                <strong>Release Date:</strong> {new Date(music.release_date).toLocaleDateString()}<br />
+                <strong>Genres:</strong> {music.genres.map((genre: any, index: number) => (
                   <span key={index}>
                   <Link className="genre-link" to={`/genre/${genre.name}`}>
                     {genre.name}
                   </Link>
-                  {index < song.artists.length - 1 && ', '}
+                  {index < music.artists.length - 1 && ', '}
                 </span>
                 ))}
               </p>
@@ -72,8 +72,8 @@ function SongInfoCard({ song }: { song: any }) {
             </Col>
           <Col lg={3} className="text-center">
             <img
-              src={song.image_url}
-              alt={song.name}
+              src={music.image_url}
+              alt={music.name}
               style={{ maxWidth: '100%', borderRadius: '10px' }}
             />
           </Col>
@@ -82,4 +82,4 @@ function SongInfoCard({ song }: { song: any }) {
   );
 }
 
-export default SongInfoCard;
+export default MusicInfoCard;

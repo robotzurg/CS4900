@@ -1,10 +1,10 @@
-const isDev = false;
+const isDev = import.meta.env.VITE_IS_DEV;
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiDevUrl = import.meta.env.VITE_API_DEV_URL;
 
 export const fetchById = async (entity: string, id: string) => {
     try {
-        const res = await fetch(`${isDev ? apiDevUrl : apiUrl}/api/${entity}/${id}`);
+        const res = await fetch(`${isDev == 'true' ? apiDevUrl : apiUrl}/api/${entity}/${id}`);
         return res.json();
     } catch (err) {
         return { error: `Error retrieving ${entity}: ${err}` };
@@ -13,7 +13,7 @@ export const fetchById = async (entity: string, id: string) => {
 
 export const fetchAll = async (entity: string) => {
     try {
-        const res = await fetch(`${isDev ? apiDevUrl : apiUrl}/api/${entity}`);
+        const res = await fetch(`${isDev == 'true' ? apiDevUrl : apiUrl}/api/${entity}`);
         return res.json();
     } catch (err) {
         return { error: `Error retrieving ${entity}: ${err}` };
@@ -23,7 +23,7 @@ export const fetchAll = async (entity: string) => {
 export const searchByName = async (entity: string, query: string) => {
     try {
         if (!query || !entity) return []
-        const response = await fetch(`${isDev ? apiUrl : apiDevUrl}/api/${entity}?query=${query}`);
+        const response = await fetch(`${isDev == 'true' ? apiUrl : apiDevUrl}/api/${entity}?query=${query}`);
         const data = await response.json();
         const results = data.map((value: any) => ({ id: value.id, name: value.name }));
         return results;

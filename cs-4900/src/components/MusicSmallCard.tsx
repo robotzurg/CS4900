@@ -4,48 +4,48 @@ import { fetchById } from "../services/api";
 import { Link } from 'react-router';
 import { Flex, RingProgress, Text, Stack } from '@mantine/core';
 
-function SongSmallCard({ songId }: { songId: any }) {
-    const [song, setSong] = useState<any | null>(null);
+function MusicSmallCard({ musicId, entity }: { musicId: any, entity: any }) {
+    const [music, setMusic] = useState<any | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-    if (!songId) return;
+    console.log(musicId);
+    if (!musicId) return;
 
-    const getSong = async () => {
+    const getMusic = async (entity: any) => {
         try {
-            const data = await fetchById('songs', songId);
-            setSong(data);
+            const data = await fetchById(entity, musicId);
+            setMusic(data);
         } catch (error) {
-            console.error("Error fetching song:", error);
+            console.error("Error fetching music:", error);
         } finally {
             setLoading(false);
         }
     };
 
-    getSong();
-    }, [songId]);
+    getMusic(entity);
+    }, [musicId]);
 
     if (loading) return <p>Loading...</p>;
-    if (!song) return <p>Song not found</p>;
+    if (!music) return <p>Music not found</p>;
 
     return (
-        
         <Card className="border-0 shadow p-0" style={{ width: "15rem", maxWidth: "15rem"}}>
-        <Link to={`/song/${songId}`} style={{ textDecoration: "none" }}>
-        <Card.Img variant="top" src={song.image_url} alt={song.name} />
+        <Link to={`/${entity}/${musicId}`} style={{ textDecoration: "none" }}>
+        <Card.Img variant="top" src={music.image_url} alt={music.name} />
         <Card.Body>
             <Card.Title className="fw-bold">
-                {song.name}
+                {music.name}
             </Card.Title>
             <Card.Subtitle className="text-muted">
                 <Col className='p-0'>
                 By&nbsp;
-                {song.artists.map((artist: any, index: number) => (
+                {music.artists.map((artist: any, index: number) => (
                     <span key={index}>
                         <Link className="artist-link text-muted" to={`/artist/${artist.name}`}>
                             {artist.name}
                         </Link>
-                        {index < song.artists.length - 1 && ', '}
+                        {index < music.artists.length - 1 && ', '}
                     </span>
                 ))}
                 </Col>
@@ -87,4 +87,4 @@ function SongSmallCard({ songId }: { songId: any }) {
     );
 }
 
-export default SongSmallCard;
+export default MusicSmallCard;

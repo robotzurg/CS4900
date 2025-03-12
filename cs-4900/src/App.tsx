@@ -5,6 +5,7 @@ import SongPage from "./pages/SongPage/SongPage.tsx";
 import Albums from "./pages/Albums/Albums.tsx";
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
+import AlbumPage from "./pages/AlbumPage/AlbumPage.tsx";
 
 function App() {
   return (
@@ -12,8 +13,9 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/songs" element={<Songs/>} />
-      <Route path="/song/:songId" element={<SongPage/>} />
+      <Route path="/songs/:songId" element={<SongPage/>} />
       <Route path="/albums" element={<Albums/>} />
+      <Route path="/albums/:albumId" element={<AlbumPage/>} />
     </Routes>
   </MantineProvider>
     

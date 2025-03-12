@@ -29,7 +29,7 @@ h1 {
   max-width: 1550px;
 }
 
-.song-card {
+.music-card {
   /* max-width: 80%; */
   margin: auto;
   background-color: rgb(241, 241, 241);
@@ -49,7 +49,9 @@ h1 {
 }
 
 .card-col {
-  width: 100%;
+  justify-content: center;
+  min-width: fit-content;
+  padding-bottom: 40px;
 }
 
 /* Padding utility classes */
