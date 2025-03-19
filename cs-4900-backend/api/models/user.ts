@@ -2,8 +2,6 @@ export interface Song {
     id: string;
     bio: string;
     username: string;
-    password: string;
-    email: string;
     discord_mailbox_dm: boolean;
     discord_review_ping: boolean;
     friends_list: Array<string>;

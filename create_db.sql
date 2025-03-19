@@ -112,12 +112,18 @@ CREATE TABLE Reviews (
   timestamp DATE NOT NULL,
   favorited BOOLEAN NOT NULL,
   review_text TEXT,
+  song_id TEXT REFERENCES Songs(id) ON DELETE CASCADE,
+  album_id TEXT REFERENCES Albums(id) ON DELETE CASCADE,
   rating NUMERIC(3, 1),
   user_sent_by_id TEXT,
   discord_url TEXT,
   discord_guild_id TEXT,
   discord_message_id TEXT,
-  discord_channel_id TEXT
+  discord_channel_id TEXT,
+  CONSTRAINT check_song_or_album CHECK (
+    (song_id IS NOT NULL AND album_id IS NULL) OR
+    (album_id IS NOT NULL AND song_id IS NULL)
+  )
 );
 
 -- Comments Table

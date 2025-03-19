@@ -1,32 +1,36 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { fetchById } from "../../services/api";
-
+import { fetchById, fetchAll } from "../../services/api";
 import MainNavbar from "../../components/MainNavbar";
-import './SongPage.css';
 import MusicInfoCard from "../../components/MusicInfoCard";
+import ReviewListGrid from "../../components/ReviewListGrid";
 
 function SongPage() {
-  const { songId } = useParams(); // Extract songId from useParams hook
+  const { songId } = useParams(); 
   const [song, setSong] = useState<any | null>(null);
+  const [reviews, setReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!songId) return;
 
-    const getSong = async () => {
+    const fetchSongAndReviews = async () => {
       try {
-        const data = await fetchById('songs', songId);
-        setSong(data);
+        const [songData, reviewsData] = await Promise.all([
+          fetchById('songs', songId),
+          fetchAll('reviews', [['musicId', songId], ['type', 'song']])
+        ]);
+        setSong(songData);
+        setReviews(reviewsData);
       } catch (error) {
-        console.error("Error fetching song:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    getSong();
-  }, [songId]); 
+    fetchSongAndReviews();
+  }, [songId]);
 
   if (loading) return <p>Loading...</p>;
   if (!song) return <p>Song not found</p>;
@@ -35,6 +39,7 @@ function SongPage() {
     <div>
       <MainNavbar />
       <MusicInfoCard music={song} />
+      <ReviewListGrid reviews={reviews} />
     </div>
   );
 }

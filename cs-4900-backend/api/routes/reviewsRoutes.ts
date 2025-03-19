@@ -1,14 +1,12 @@
-// import { Router } from 'express';
-// import { ReviewService } from '../services/reviewService.ts';
-// import { createGenericController } from '../controllers/genericController.ts';
+import { Router } from 'express';
+import reviewController from '../controllers/reviewController.ts';
 
-// const router = Router();
-// const reviewController = createGenericController(ReviewService, 'review');
+const router = Router();
 
-// router.get('/api/reviews/:id', reviewController.getAll);
-// router.get('/api/reviews/:id/:reviewId', reviewController.getById);
-// router.post('/api/reviews/:id', reviewController.create);
-// router.put('/api/reviews/:id/:reviewId', reviewController.update);
-// router.delete('/api/reviews/:id/:reviewId', reviewController.delete);
+router.get('/api/reviews', reviewController.getAll);
+router.get('/api/reviews/:musicId', reviewController.getReviews);
+router.post('/api/reviews', reviewController.create);
+router.put('/api/reviews/:reviewId', reviewController.update);
+router.delete('/api/reviews/:reviewId', reviewController.delete);
 
-// export default router;
+export default router;

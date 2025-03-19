@@ -9,7 +9,6 @@ function MusicSmallCard({ musicId, entity }: { musicId: any, entity: any }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-    console.log(musicId);
     if (!musicId) return;
 
     const getMusic = async (entity: any) => {

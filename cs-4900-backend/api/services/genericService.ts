@@ -11,7 +11,6 @@ export class GenericService<T> {
   async getAll(): Promise<T[]> {
     try {
       const result = await pool.query(`SELECT * FROM ${this.tableName}`);
-      console.log(result);
       return result.rows;
     } catch (err) {
       throw new Error(`Error retrieving ${this.tableName}: ${err}`);

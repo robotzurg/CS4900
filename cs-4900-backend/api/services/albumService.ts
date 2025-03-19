@@ -51,7 +51,6 @@ export class AlbumService extends GenericService<Album> {
       GROUP BY a.id;
     `;
     const result = await pool.query(query, [albumId]);
-    console.log(result);
     return result.rows.length > 0 ? result.rows[0] : null;
   }  
 
