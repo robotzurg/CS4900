@@ -12,13 +12,21 @@ import reviewRouter from './routes/reviewsRoutes.ts';
 dotenv.config();
 
 const app = express();
-const frontEndUrl = process.env.IS_DEV ? process.env.DEV_FRONT_URL : process.env.MAIN_FRONT_URL;
-console.log(frontEndUrl);
 
-// Middleware
+const allowedOrigins: string[] = [
+  'http://localhost:5173',
+  'https://waveform-reviews.vercel.app'
+];
+
 app.use(cors({
-  origin: `${process.env.IS_DEV ? process.env.DEV_FRONT_URL : process.env.MAIN_FRONT_URL}`,
-  credentials: true, 
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
 
 app.use(express.json());
