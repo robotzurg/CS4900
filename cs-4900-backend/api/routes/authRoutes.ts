@@ -22,7 +22,8 @@ passport.use(
           ['google', profile.id]
         );
 
-        console.log(profile);
+        console.log("PROFILE DATA", profile);
+        console.log("ROWS: ", rows);
 
         if (rows.length > 0) {
           // User exists, fetch their info
