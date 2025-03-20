@@ -40,6 +40,7 @@ passport.use(
 
         return done(null, { id: newUserId, username: profile.displayName });
       } catch (err) {
+        console.log(err);
         return done(err);
       }
     }
