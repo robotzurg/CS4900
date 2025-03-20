@@ -87,6 +87,11 @@ router.get(
 );
 
 router.get('/api/me', (req, res) => {
+
+  console.log("Headers:", req.headers);
+  console.log("Session:", req.session);
+  console.log("User:", req.user);
+
   if (req.isAuthenticated()) { 
     res.json(req.user); 
   } else {
