@@ -3,12 +3,14 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import session from 'express-session';
 import passport from 'passport';
+import pgSession from 'connect-pg-simple';
 import pool from '../api/config/db.ts';
 import authRouter from './routes/authRoutes.ts';
 import albumRouter from './routes/albumRoutes.ts';
 import artistRouter from './routes/artistsRoutes.ts';
 import songRouter from './routes/songRoutes.ts';
 import reviewRouter from './routes/reviewsRoutes.ts';
+
 dotenv.config();
 
 const app = express();
@@ -21,7 +23,6 @@ const allowedOrigins: string[] = [
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
-      console.log(origin, allowedOrigins);
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -31,24 +32,31 @@ app.use(cors({
   credentials: true
 }));
 
-
 app.use(express.json());
 
-// Setup main routes
-app.get('/', async (req, res) => {
-  res.send('API v1.0');
-});
+// Session middleware with PostgreSQL store
+const PgSessionStore = pgSession(session);
 
-// Session middleware (required for passport)
 app.use(session({
-  secret: process.env.SESSION_SECRET as string, // Type assertion to avoid undefined error
+  store: new PgSessionStore({
+    pool,
+    tableName: 'session'
+  }),
+  secret: process.env.SESSION_SECRET as string,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { 
     secure: process.env.NODE_ENV === 'production',
-    sameSite: false
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    httpOnly: true
   }
 }));
+
+app.use((req, res, next) => {
+  console.log('Session ID:', req.sessionID); // Log session ID
+  next();
+});
+
 
 // Initialize Passport
 app.use(passport.initialize());
@@ -62,7 +70,6 @@ passport.serializeUser((user: any, done) => {
 
 passport.deserializeUser(async (id: string, done) => {
   try {
-    // Fetch the user based on the id from your database
     const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
     console.log('START USER');
     console.log(result.rows[0]);
@@ -84,7 +91,7 @@ app.use('/', reviewRouter);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-// Ping the render server every 10 minutes, because otherwise it goes down for inactivity.
+// Ping the render server every 10 minutes
 const url = `https://cs4900-637g.onrender.com/`;
 const interval = 10 * 60000; 
 
