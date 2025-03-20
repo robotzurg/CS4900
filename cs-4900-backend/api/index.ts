@@ -63,8 +63,12 @@ passport.deserializeUser(async (id: string, done) => {
   try {
     // Fetch the user based on the id from your database
     const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+    console.log('START USER');
+    console.log(result.rows[0]);
+    console.log('END USER');
     done(null, result.rows[0]); // Attach the user object to the session
-  } catch (err) {
+  } catch (err) { 
+    console.log(`ERROR FROM DESERIALIZE: ${err}`);
     done(err);
   }
 });
