@@ -20,8 +20,8 @@ const allowedOrigins: string[] = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    console.log(origin);
     if (!origin || allowedOrigins.includes(origin)) {
+      console.log(origin, allowedOrigins);
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
