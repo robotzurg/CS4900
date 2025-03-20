@@ -22,6 +22,8 @@ passport.use(
           ['google', profile.id]
         );
 
+        console.log(profile);
+
         if (rows.length > 0) {
           // User exists, fetch their info
           const userResult = await pool.query('SELECT * FROM users WHERE id = $1', [rows[0].user_id]);
