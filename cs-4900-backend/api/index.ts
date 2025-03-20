@@ -37,7 +37,7 @@ app.use(express.json());
 // Session middleware with PostgreSQL store
 const PgSessionStore = pgSession(session);
 
-app.set('trust proxy', 1); // or true
+app.set('trust proxy', 1);
 
 app.use(session({
   store: new PgSessionStore({
