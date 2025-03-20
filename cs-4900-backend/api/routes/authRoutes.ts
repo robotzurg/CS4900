@@ -28,6 +28,7 @@ passport.use(
         if (rows.length > 0) {
           // User exists, fetch their info
           const userResult = await pool.query('SELECT * FROM users WHERE id = $1', [rows[0].user_id]);
+          console.log('USER RESULT:' + userResult);
           return done(null, userResult.rows[0]);
         }
 
@@ -83,6 +84,7 @@ router.get(
     failureRedirect: process.env.IS_DEV === 'true' ? `${process.env.DEV_FRONT_URL}login` : `${process.env.MAIN_FRONT_URL}login`
   }),
   (req, res) => {
+    console.log('test');
     res.redirect(process.env.IS_DEV === 'true' ? `${process.env.DEV_FRONT_URL}` : `${process.env.MAIN_FRONT_URL}`);
   }
 );
