@@ -28,4 +28,8 @@ To run test cases, run the following commands in the cs-4900 folder.
 
 ## Default URLs (for development):
 - Backend Services API: http://localhost:3000
-- Graphical User Interface (GUI): http://localhost:5173
+- Frontend URL: http://localhost:5173
+
+## Default URLs (outside of development):
+- Backend Services API: https://cs4900-637g.onrender.com/
+- Frontend URL: https://waveform-reviews.vercel.app

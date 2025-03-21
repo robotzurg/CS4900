@@ -11,7 +11,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      callbackURL: '/oauth2/redirect/google',
+      callbackURL: `${process.env.IS_DEV === 'true' ? `${process.env.DEV_API_URL}` : `${process.env.MAIN_API_URL}`}/oauth2/redirect/google`,
       scope: ['profile'],
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -22,9 +22,13 @@ passport.use(
           ['google', profile.id]
         );
 
+        console.log("PROFILE DATA", profile);
+        console.log("ROWS: ", rows);
+
         if (rows.length > 0) {
           // User exists, fetch their info
           const userResult = await pool.query('SELECT * FROM users WHERE id = $1', [rows[0].user_id]);
+          console.log('USER RESULT:' + userResult);
           return done(null, userResult.rows[0]);
         }
 
@@ -40,6 +44,7 @@ passport.use(
 
         return done(null, { id: newUserId, username: profile.displayName });
       } catch (err) {
+        console.log(err);
         return done(err);
       }
     }
@@ -79,11 +84,17 @@ router.get(
     failureRedirect: process.env.IS_DEV === 'true' ? `${process.env.DEV_FRONT_URL}login` : `${process.env.MAIN_FRONT_URL}login`
   }),
   (req, res) => {
+    console.log('test');
     res.redirect(process.env.IS_DEV === 'true' ? `${process.env.DEV_FRONT_URL}` : `${process.env.MAIN_FRONT_URL}`);
   }
 );
 
 router.get('/api/me', (req, res) => {
+
+  console.log("Headers:", req.headers);
+  console.log("Session:", req.session);
+  console.log("User:", req.user);
+
   if (req.isAuthenticated()) { 
     res.json(req.user); 
   } else {
