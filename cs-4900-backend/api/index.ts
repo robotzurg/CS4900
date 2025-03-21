@@ -15,7 +15,7 @@ const app = express();
 
 const allowedOrigins: string[] = [
   'http://localhost:5173',
-  'https://waveform-reviews.vercel.app'
+  'https://www.waveformreviews.net'
 ];
 
 app.use(cors({
