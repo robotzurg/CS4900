@@ -18,6 +18,7 @@ CREATE TABLE Users (
   discord_review_ping BOOLEAN DEFAULT FALSE,
   bio TEXT,
   spotify_mailbox_playlist_id TEXT,
+  profile_picture TEXT,
   username TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   email TEXT UNIQUE NOT NULL,

@@ -1,31 +1,15 @@
 import pkg from 'express';
 import pool from '../config/db.ts';
+import { UserService } from '../services/userService.ts';
+import { createGenericController } from '../controllers/genericController.ts';
 
 const router = pkg.Router();
+const userController = createGenericController(UserService, 'user');
 
-// GET route to get a users profile
-router.get('/api/users/:userId/profile', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-
-});
-
-// PUT route to edit a users profile
-router.put('/api/users/:userId/profile', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-
-});
-
-// GET route to get a users friend list
-router.get('/api/users/:userId/friends', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-
-});
-
-// POST route to add a friend
-router.post('/api/users/:userId/friends/:friendId', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-
-});
-
-// DELETE route to remove a friend
-router.delete('/api/users/:userId/friends/:friendId', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-
-});
+router.get('/api/users', userController.getAll);
+router.get('/api/users/:userId', userController.getById);
+router.post('/api/users', userController.create);
+router.put('/api/users/:userId', userController.update);
+router.delete('/api/users/:userId', userController.delete);
 
 export default router;

@@ -37,7 +37,7 @@ app.use(express.json());
 // Session middleware with PostgreSQL store
 const PgSessionStore = pgSession(session);
 
-app.set('trust proxy', 1);
+//app.set('trust proxy', 1);
 
 app.use(session({
   store: new PgSessionStore({
@@ -55,7 +55,6 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-  console.log('Session ID:', req.sessionID); // Log session ID
   next();
 });
 
@@ -66,19 +65,14 @@ app.use(passport.session());
 
 // Passport serializeUser and deserializeUser
 passport.serializeUser((user: any, done) => {
-  console.log(user, 'SERIALIZE USER OUTPUT');
   done(null, user.id); // Store the user's ID in the session
 });
 
 passport.deserializeUser(async (id: string, done) => {
   try {
     const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
-    console.log('START USER');
-    console.log(result.rows[0]);
-    console.log('END USER');
     done(null, result.rows[0]); // Attach the user object to the session
   } catch (err) { 
-    console.log(`ERROR FROM DESERIALIZE: ${err}`);
     done(err);
   }
 });
@@ -93,18 +87,18 @@ app.use('/', reviewRouter);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-// Ping the render server every 10 minutes
-const url = `https://cs4900-637g.onrender.com/`;
-const interval = 10 * 60000; 
+// // Ping the render server every 10 minutes
+// const url = `https://api.waveformreviews.net/`;
+// const interval = 10 * 60000; 
 
-function reloadWebsite() {
-  fetch(url)
-    .then(response => {
-      //console.log(`Reloaded at ${new Date().toISOString()}: Status Code ${response.status}`);
-    })
-    .catch(error => {
-      console.error(`Error reloading at ${new Date().toISOString()}:`, error.message);
-    });
-}
+// function reloadWebsite() {
+//   fetch(url)
+//     .then(response => {
+//       //console.log(`Reloaded at ${new Date().toISOString()}: Status Code ${response.status}`);
+//     })
+//     .catch(error => {
+//       console.error(`Error reloading at ${new Date().toISOString()}:`, error.message);
+//     });
+// }
 
-setInterval(reloadWebsite, interval);
+// setInterval(reloadWebsite, interval);

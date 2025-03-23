@@ -1,10 +1,11 @@
-export interface Song {
+export interface User {
     id: string;
     bio: string;
     username: string;
     discord_mailbox_dm: boolean;
     discord_review_ping: boolean;
     friends_list: Array<string>;
+    profile_picture?: string | null;
     spotify_mailbox_playlist_id?: string | null;
     discord_user_id?: string | null;
     discord_username?: string | null;

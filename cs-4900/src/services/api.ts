@@ -3,7 +3,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const apiDevUrl = import.meta.env.VITE_API_DEV_URL;
 
 export const authLogin = () => {
-    window.location.href = `${isDev === 'true' ? apiDevUrl : apiUrl}/login/federated/google`;
+    window.location.href = `${isDev == 'true' ? apiDevUrl : apiUrl}/login/federated/google`;
 };
 
 export const authLogout = async () => {
