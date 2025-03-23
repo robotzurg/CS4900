@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Card, Button, Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import MainNavbar from "../../components/MainNavbar";
-import { fetchById } from "../../services/api";
+import { fetchAll, fetchById } from "../../services/api";
+import MusicListGrid from "../../components/MusicListGrid";
+import { Flex } from "@mantine/core";
 
 interface User {
   id: string;
@@ -16,6 +18,11 @@ const ProfilePage = () => {
   const { userId } = useParams();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [songs, setSongs] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchAll("songs").then(setSongs).catch(console.error);
+  }, []);
 
   useEffect(() => {
     if (!userId) return;
@@ -38,22 +45,27 @@ const ProfilePage = () => {
   return (
     <div>
       <MainNavbar />
-      <Container className="d-flex justify-content-center align-items-center min-vh-100 bg-dark text-white">
-        <Card className="w-50 p-4 shadow-lg bg-secondary text-center">
-          <Card.Img variant="top" src={user.profile_picture || "/default-avatar.png"} className="rounded-circle w-25 mx-auto" />
-          <Card.Body>
-            <Card.Title>{user.username}</Card.Title>
-            <Card.Text>{user.bio || "No bio available."}</Card.Text>
-            {user.friends_list && user.friends_list.length > 0 && (
-              <div className="d-flex flex-wrap justify-content-center gap-2 mt-3">
-                {user.friends_list.map((friend, index) => (
-                  <span key={index} className="badge bg-light text-dark">{friend}</span>
-                ))}
-              </div>
-            )}
-            <Button variant="primary" className="mt-4 w-100">Edit Profile</Button>
-          </Card.Body>
-        </Card>
+      <Container className="mt-4">
+        <Row className="d-flex p-3">
+          <Col lg={8}>
+            <Row className="d-flex flex-column justify-content-center pb-40">
+              <Flex className="align-items-end gap-4">
+                <img src="https://www.gravatar.com/avatar/?d=mp" alt="Default profile picture icon"></img>
+                <h2><strong>{user.username}</strong></h2>
+              </Flex>
+              <p className="pt-20">{user.bio || "User has not written a bio yet."} </p>
+            </Row>
+            <Row>
+              <h2><strong>Song Reviews</strong></h2>
+                <div>
+                  <MusicListGrid musicList={songs} entity="songs"></MusicListGrid>
+                </div>
+            </Row>
+          </Col>
+          <Col lg={4} className="bg-gray">
+            <p>Sidebar content (add later)</p>
+          </Col>
+        </Row>
       </Container>
     </div>
   );

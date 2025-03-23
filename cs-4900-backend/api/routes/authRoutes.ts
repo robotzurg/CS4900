@@ -70,6 +70,7 @@ router.get('/logout', (req, res) => {
       // Send response after session is destroyed
       res.clearCookie('connect.sid');
       res.redirect(process.env.IS_DEV === 'true' ? `${process.env.DEV_FRONT_URL}` : `${process.env.MAIN_FRONT_URL}`);
+      return;
     });
 
     return "success"

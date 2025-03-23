@@ -7,6 +7,7 @@ import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 import AlbumPage from "./pages/AlbumPage/AlbumPage.tsx";
 import ProfilePage from "./pages/Profile/Profile.tsx";
+import SearchPage from "./pages/Search/Search.tsx";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path="/albums" element={<Albums/>} />
       <Route path="/albums/:albumId" element={<AlbumPage/>} />
       <Route path="/profile/:userId" element={<ProfilePage/>} />
+      <Route path="/search" element={<SearchPage/>} />
     </Routes>
   </MantineProvider>
     

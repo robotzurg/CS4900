@@ -26,20 +26,30 @@ export const authLogout = async () => {
     }
 }
 
+export const onSearch = async(searchTerm: string, type: string | null = null) => {
+    try {
+        const res = await fetch(`${isDev === 'true' ? apiDevUrl : apiUrl}/api/search${type != null ? `/${type}` : ''}?q=${searchTerm}`);
+        return res.json();
+    } catch (err) {
+        return { error: `Error searching: ${err}` };
+    }
+}
+
 export const fetchUser = async () => {
-    const response = await fetch(`${isDev === 'true' ? apiDevUrl : apiUrl}/api/me`, {
+    const res = await fetch(`${isDev === 'true' ? apiDevUrl : apiUrl}/api/me`, {
       credentials: 'include',
     });
   
-    if (!response.ok) {
+    if (!res.ok) {
       throw new Error('User not authenticated');
     }
   
-    return response.json();
+    return res.json();
 };  
 
 export const fetchById = async (entity: string, id: string) => {
     try {
+        console.log(entity, id);
         const res = await fetch(`${isDev == 'true' ? apiDevUrl : apiUrl}/api/${entity}/${id}`);
         return res.json();
     } catch (err) {
