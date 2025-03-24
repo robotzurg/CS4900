@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Container, Col, Row, Image } from "react-bootstrap";
 import { fetchById } from "../services/api";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import HeartButton from "./HeartButton";
 
 function ReviewCard({ review }: { review: any }) {
   const [user, setUser] = useState<any | null>(null);
@@ -37,7 +38,7 @@ function ReviewCard({ review }: { review: any }) {
       </Row>
       <Row>
       <Col className="mt-2 d-flex align-items-center">
-        <FontAwesomeIcon icon={faHeart} size="lg" />
+        <HeartButton />
         <p className="mb-0 ms-2">20</p>
       </Col>
       </Row>

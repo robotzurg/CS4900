@@ -9,7 +9,7 @@ function ReviewListGrid({ reviews }: { reviews: any[] }) {
         <h2>Reviews</h2>
         {reviews.length > 0 ? (
         reviews.map((review) => (
-            <Col key={review.id} md={4}>
+            <Col key={review.id} md={6}>
                 <ReviewCard review={review} />
             </Col>
         ))

@@ -1,10 +1,21 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import { useState } from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { Flex, RingProgress, Text, Stack } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpotify, faSoundcloud, faApple, faYoutube } from '@fortawesome/free-brands-svg-icons'
+import CreateReviewModal from './CreateReviewModal';
 
 function MusicInfoCard({ music }: { music: any }) {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCreateReview = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleReviewSubmit = (rating: number, reviewText: string) => {
+    console.log('Review submitted:', { rating, reviewText });
+  };
+
   return (
     <Container className="mt-4 music-card">
         <Row className="d-flex p-3">
@@ -40,6 +51,7 @@ function MusicInfoCard({ music }: { music: any }) {
                 <FontAwesomeIcon icon={faApple} size="2x" fixedWidth />
                 <FontAwesomeIcon icon={faYoutube} size="2x" fixedWidth />
               </Flex>
+              <Button className='mt-40' style={{ width: "50%" }} onClick={handleCreateReview}>Add A Review</Button>
             </Col>
           </Col>
           <Col lg={6} className="d-flex flex-column align-items-center justify-content-center rating-circles">
@@ -78,6 +90,7 @@ function MusicInfoCard({ music }: { music: any }) {
             />
           </Col>
         </Row>
+        <CreateReviewModal show={showModal} handleClose={handleCloseModal} onSubmit={handleReviewSubmit} />
       </Container>
   );
 }
