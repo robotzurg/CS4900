@@ -3,7 +3,6 @@ import { Container, Col, Row, Image } from "react-bootstrap";
 import { fetchById } from "../services/api";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { Center, Flex } from "@mantine/core";
 
 function ReviewCard({ review }: { review: any }) {
   const [user, setUser] = useState<any | null>(null);
