@@ -7,7 +7,7 @@ import pgSession from 'connect-pg-simple';
 import pool from '../api/config/db.ts';
 import authRouter from './routes/authRoutes.ts';
 import albumRouter from './routes/albumRoutes.ts';
-import artistRouter from './routes/artistsRoutes.ts';
+import artistRouter from './routes/artistRoutes.ts';
 import songRouter from './routes/songRoutes.ts';
 import reviewRouter from './routes/reviewsRoutes.ts';
 import userRouter from './routes/userRoutes.ts';

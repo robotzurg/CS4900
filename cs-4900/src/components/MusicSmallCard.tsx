@@ -41,7 +41,7 @@ function MusicSmallCard({ musicId, entity }: { musicId: any, entity: any }) {
                 By&nbsp;
                 {music.artists.map((artist: any, index: number) => (
                     <span key={index}>
-                        <Link className="artist-link text-muted" to={`/artist/${artist.name}`}>
+                        <Link className="artist-link text-muted" to={`/artists/${artist.id}`}>
                             {artist.name}
                         </Link>
                         {index < music.artists.length - 1 && ', '}

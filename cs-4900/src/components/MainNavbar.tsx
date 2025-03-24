@@ -61,6 +61,7 @@ function MainNavbar() {
             <Nav className="me-auto">
               <Nav.Link href="/songs">View Songs</Nav.Link>
               <Nav.Link href="/albums">View Albums</Nav.Link>
+              <Nav.Link href="/artists">View Artists</Nav.Link>
             </Nav>
             <Nav>
               <Navbar.Text>Loading...</Navbar.Text>
@@ -80,6 +81,7 @@ function MainNavbar() {
           <Nav className="me-auto">
             <Nav.Link href="/songs">View Songs</Nav.Link>
             <Nav.Link href="/albums">View Albums</Nav.Link>
+            <Nav.Link href="/artists">View Artists</Nav.Link>
           </Nav>
           <Nav className="d-flex align-items-center">
             <Form onSubmit={handleSearchSubmit} className="me-2">

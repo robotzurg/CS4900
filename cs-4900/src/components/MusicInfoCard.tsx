@@ -15,7 +15,7 @@ function MusicInfoCard({ music }: { music: any }) {
                 <h4>
                   {music.artists.map((artist: any, index: number) => (
                     <span key={index}>
-                    <Link className="artist-link" to={`/artist/${artist.name}`}>
+                    <Link className="artist-link" to={`/artist/${artist.id}`}>
                       {artist.name}
                     </Link>
                     {index < music.artists.length - 1 && ', '}
@@ -27,7 +27,7 @@ function MusicInfoCard({ music }: { music: any }) {
                 <strong>Release Date:</strong> {new Date(music.release_date).toLocaleDateString()}<br />
                 <strong>Genres:</strong> {music.genres.map((genre: any, index: number) => (
                   <span key={index}>
-                  <Link className="genre-link" to={`/genre/${genre.name}`}>
+                  <Link className="genre-link" to={`/genre/${genre.id}`}>
                     {genre.name}
                   </Link>
                   {index < music.artists.length - 1 && ', '}

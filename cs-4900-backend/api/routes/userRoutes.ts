@@ -1,5 +1,4 @@
 import pkg from 'express';
-import pool from '../config/db.ts';
 import { UserService } from '../services/userService.ts';
 import { createGenericController } from '../controllers/genericController.ts';
 
