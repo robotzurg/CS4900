@@ -15,7 +15,7 @@ function MusicInfoCard({ music }: { music: any }) {
                 <h4>
                   {music.artists.map((artist: any, index: number) => (
                     <span key={index}>
-                    <Link className="artist-link" to={`/artist/${artist.id}`}>
+                    <Link className="artist-link" to={`/artists/${artist.id}`}>
                       {artist.name}
                     </Link>
                     {index < music.artists.length - 1 && ', '}
