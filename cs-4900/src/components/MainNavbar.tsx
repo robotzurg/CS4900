@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Container, Nav, Navbar, Button, FormControl, Form } from 'react-bootstrap';
-import { authLogin, authLogout, fetchUser, onSearch } from '../services/api.ts';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Container, Nav, Navbar, Button, FormControl, Form, Image, NavDropdown } from 'react-bootstrap';
+import { authLogin, authLogout, fetchUser, onSearch } from '../services/index.ts';
+import { useNavigate } from 'react-router-dom';
 
 function MainNavbar() {
   const [user, setUser] = useState<any>(null);
@@ -97,11 +97,29 @@ function MainNavbar() {
               </div>
             </Form>
             {user ? (
-              <>
-                <Nav.Link href={`/profile/${user.id}`}>View Profile</Nav.Link>
-                <Navbar.Text className="me-2">Signed in as: {user.username}</Navbar.Text>
-                <Button variant="outline-danger" onClick={handleLogout}>Logout</Button>
-              </>
+              <NavDropdown
+                id="nav-dropdown-profile"
+                title={
+                  <>
+                    <Image 
+                      src={user.profile_picture || "https://www.gravatar.com/avatar/?d=mp"} 
+                      alt={user.username} 
+                      className="me-2" 
+                      roundedCircle 
+                      width={30} 
+                      height={30} 
+                    />
+                    <Navbar.Text>{user.username}</Navbar.Text>
+                  </>
+                }
+              >
+                <NavDropdown.Item as={Nav.Link} href={`/profile/${user.id}`}>
+                  Profile
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
             ) : (
               <Button variant="outline-success" onClick={handleLogin}>Sign in with Google</Button>
             )}

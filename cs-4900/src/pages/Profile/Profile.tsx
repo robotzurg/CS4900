@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Container, Row, Col } from "react-bootstrap";
 import MainNavbar from "../../components/MainNavbar";
-import { fetchAll, fetchById } from "../../services/api";
+import { fetchAll, fetchById } from "../../services/index";
 import MusicListGrid from "../../components/MusicListGrid";
 import { Flex } from "@mantine/core";
 

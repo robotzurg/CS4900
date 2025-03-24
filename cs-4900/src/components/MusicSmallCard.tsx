@@ -1,6 +1,6 @@
 import { Card, Col } from 'react-bootstrap';
 import { useEffect, useState } from "react";
-import { fetchById } from "../services/api";
+import { fetchById } from "../services/index";
 import { Link } from 'react-router';
 import { Flex, RingProgress, Text, Stack } from '@mantine/core';
 

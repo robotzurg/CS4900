@@ -10,8 +10,16 @@ import ProfilePage from "./pages/Profile/Profile.tsx";
 import SearchPage from "./pages/Search/Search.tsx";
 import Artists from "./pages/Artists/Artists.tsx";
 import ArtistPage from "./pages/ArtistPage/ArtistPage.tsx";
+import { useEffect } from "react";
+
 
 function App() {
+
+  useEffect(() => {
+    const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+    if (link) link.href = "/favicon.png";
+  }, []);
+  
   return (
   <MantineProvider>
     <Routes>

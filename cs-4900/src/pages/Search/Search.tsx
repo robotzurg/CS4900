@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Form, Button, Container } from "react-bootstrap";
-import { onSearch } from "../../services/api";
+import { onSearch } from "../../services/index";
 import MainNavbar from "../../components/MainNavbar";
 import MusicListGrid from "../../components/MusicListGrid";
 import { useSearchParams } from "react-router-dom";

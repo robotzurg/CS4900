@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { fetchById } from "../services/api";
+import { fetchById } from "../services/index";
 import { Link } from "react-router-dom";
 
 function ArtistCard({ artistId }: { artistId: string }) {

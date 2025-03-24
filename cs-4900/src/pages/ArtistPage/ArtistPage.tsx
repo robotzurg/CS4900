@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { fetchById, fetchAll } from "../../services/api";
+import { fetchById, fetchAll } from "../../services/index";
 import MainNavbar from "../../components/MainNavbar";
 import MusicListGrid from "../../components/MusicListGrid";
 import { Container, Row, Col, Spinner } from "react-bootstrap";

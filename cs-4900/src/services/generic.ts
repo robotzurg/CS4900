@@ -2,54 +2,8 @@ let isDev = import.meta.env.VITE_IS_DEV;
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiDevUrl = import.meta.env.VITE_API_DEV_URL;
 
-export const authLogin = () => {
-    window.location.href = `${isDev == 'true' ? apiDevUrl : apiUrl}/login/federated/google`;
-};
-
-export const authLogout = async () => {
-    try {
-        const response = await fetch(`${isDev === 'true' ? apiDevUrl : apiUrl}/logout`, {
-            credentials: 'include',
-        });
-
-        if (!response.ok) {
-            throw new Error('Logout request failed');
-        }
-        
-    } catch (error) {
-        // Log the error with type-safe error handling
-        if (error instanceof Error) {
-            console.error('Logout failed:', error.message);
-        } else {
-            console.error('Logout failed:', error);
-        }
-    }
-}
-
-export const onSearch = async(searchTerm: string, type: string | null = null) => {
-    try {
-        const res = await fetch(`${isDev === 'true' ? apiDevUrl : apiUrl}/api/search${type != null ? `/${type}` : ''}?q=${searchTerm}`);
-        return res.json();
-    } catch (err) {
-        return { error: `Error searching: ${err}` };
-    }
-}
-
-export const fetchUser = async () => {
-    const res = await fetch(`${isDev === 'true' ? apiDevUrl : apiUrl}/api/me`, {
-      credentials: 'include',
-    });
-  
-    if (!res.ok) {
-      throw new Error('User not authenticated');
-    }
-  
-    return res.json();
-};  
-
 export const fetchById = async (entity: string, id: string) => {
     try {
-        console.log(entity, id);
         const res = await fetch(`${isDev == 'true' ? apiDevUrl : apiUrl}/api/${entity}/${id}`);
         return res.json();
     } catch (err) {

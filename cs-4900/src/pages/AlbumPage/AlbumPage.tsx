@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { fetchById } from "../../services/api";
+import { fetchById } from "../../services/index";
 
 import MainNavbar from "../../components/MainNavbar";
 import './AlbumPage.css';

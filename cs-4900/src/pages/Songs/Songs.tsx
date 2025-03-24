@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import MainNavbar from "../../components/MainNavbar.tsx";
-import { fetchAll } from "../../services/api.ts";
+import { fetchAll } from "../../services/index.ts";
 import "./Songs.css";
 import MusicListGrid from "../../components/MusicListGrid.tsx";
 import { Container } from "react-bootstrap";

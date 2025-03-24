@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Col, Row, Image } from "react-bootstrap";
-import { fetchById } from "../services/api";
+import { fetchById } from "../services/index";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import HeartButton from "./HeartButton";

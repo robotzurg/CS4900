@@ -22,9 +22,6 @@ passport.use(
           ['google', profile.id]
         );
 
-        console.log("PROFILE DATA", profile);
-        console.log("ROWS: ", rows);
-
         if (rows.length > 0) {
           // User exists, fetch their info
           const userResult = await pool.query('SELECT * FROM users WHERE id = $1', [rows[0].user_id]);
@@ -81,10 +78,10 @@ router.get('/logout', (req, res) => {
 router.get(
   '/oauth2/redirect/google',
   passport.authenticate('google', { 
-    failureRedirect: process.env.IS_DEV === 'true' ? `${process.env.DEV_FRONT_URL}login` : `${process.env.MAIN_FRONT_URL}login`
+    failureRedirect: process.env.IS_DEV === 'true' ? `${process.env.DEV_FRONT_URL}` : `${process.env.MAIN_FRONT_URL}`
   }),
-  (req, res) => {
-    res.redirect(process.env.IS_DEV === 'true' ? `${process.env.DEV_FRONT_URL}` : `${process.env.MAIN_FRONT_URL}`);
+  (req: any, res: any) => {
+    res.redirect(process.env.IS_DEV === 'true' ? `${process.env.DEV_FRONT_URL}/profile/${req.user.id}` : `${process.env.MAIN_FRONT_URL}/profile/${req.user.id}`);
   }
 );
 
