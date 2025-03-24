@@ -14,7 +14,7 @@ passport.use(
       callbackURL: `${process.env.IS_DEV === 'true' ? `${process.env.DEV_API_URL}` : `${process.env.MAIN_API_URL}`}/oauth2/redirect/google`,
       scope: ['profile'],
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile: any, done) => {
       try {
         // Check if user already exists
         const { rows } = await pool.query(
@@ -25,12 +25,13 @@ passport.use(
         if (rows.length > 0) {
           // User exists, fetch their info
           const userResult = await pool.query('SELECT * FROM users WHERE id = $1', [rows[0].user_id]);
+          userResult.rows[0].new = false;
           return done(null, userResult.rows[0]);
         }
 
         // New user, insert into database
         const newUserId = generateId();
-        await pool.query('INSERT INTO users (id, username) VALUES ($1, $2)', [newUserId, profile.displayName]);
+        await pool.query('INSERT INTO users (id, username, profile_picture) VALUES ($1, $2, $3)', [newUserId, profile.displayName, profile.photos[0].value]);
 
         // Link federated credentials
         await pool.query(
@@ -38,7 +39,8 @@ passport.use(
           [newUserId, 'google', profile.id]
         );
 
-        return done(null, { id: newUserId, username: profile.displayName });
+        // Pass user info with new: true in info argument
+        return done(null, { id: newUserId, username: profile.displayName, pic: profile.photos[0].value, new: true });
       } catch (err) {
         console.log(err);
         return done(err);
@@ -78,10 +80,23 @@ router.get('/logout', (req, res) => {
 router.get(
   '/oauth2/redirect/google',
   passport.authenticate('google', { 
-    failureRedirect: process.env.IS_DEV === 'true' ? `${process.env.DEV_FRONT_URL}` : `${process.env.MAIN_FRONT_URL}`
+    failureRedirect: process.env.IS_DEV === 'true' ? `${process.env.DEV_FRONT_URL}` : `${process.env.MAIN_FRONT_URL}` 
   }),
   (req: any, res: any) => {
-    res.redirect(process.env.IS_DEV === 'true' ? `${process.env.DEV_FRONT_URL}/profile/${req.user.id}` : `${process.env.MAIN_FRONT_URL}/profile/${req.user.id}`);
+    let isNew = req.user.new;
+    if (isNew == null) isNew = false;
+
+    if (isNew) {
+      // Redirect to create profile page if new user
+      res.redirect(process.env.IS_DEV === 'true' 
+        ? `${process.env.DEV_FRONT_URL}/create-profile?id=${req.user.id}&name=${req.user.username}&pic=${req.user.pic}` 
+        : `${process.env.MAIN_FRONT_URL}/create-profile?id=${req.user.id}&name=${req.user.username}&pic=${req.user.pic}`);
+    } else {
+      // Redirect to user profile if already exists
+      res.redirect(process.env.IS_DEV === 'true' 
+        ? `${process.env.DEV_FRONT_URL}/profile/${req.user.id}` 
+        : `${process.env.MAIN_FRONT_URL}/profile/${req.user.id}`);
+    }
   }
 );
 

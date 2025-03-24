@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Image } from "react-bootstrap";
 import MainNavbar from "../../components/MainNavbar";
 import { fetchAll, fetchById } from "../../services/index";
 import MusicListGrid from "../../components/MusicListGrid";
@@ -50,7 +50,14 @@ const ProfilePage = () => {
           <Col lg={8}>
             <Row className="d-flex flex-column justify-content-center pb-40">
               <Flex className="align-items-end gap-4">
-                <img src="https://www.gravatar.com/avatar/?d=mp" alt="Default profile picture icon"></img>
+                  <Image 
+                    src={user.profile_picture || "https://www.gravatar.com/avatar/?d=mp"} 
+                    alt={user.username} 
+                    className="me-2" 
+                    roundedCircle 
+                    width={75} 
+                    height={75} 
+                  />
                 <h2><strong>{user.username}</strong></h2>
               </Flex>
               <p className="pt-20">{user.bio || "User has not written a bio yet."} </p>

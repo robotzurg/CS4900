@@ -11,6 +11,7 @@ import SearchPage from "./pages/Search/Search.tsx";
 import Artists from "./pages/Artists/Artists.tsx";
 import ArtistPage from "./pages/ArtistPage/ArtistPage.tsx";
 import { useEffect } from "react";
+import CreateProfilePage from "./pages/CreateProfilePage/CreateProfilePage.tsx";
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
     const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
     if (link) link.href = "/favicon.png";
   }, []);
-  
+
   return (
   <MantineProvider>
     <Routes>
@@ -31,6 +32,7 @@ function App() {
       <Route path="/artists" element={<Artists/>} />
       <Route path="/artists/:artistId" element={<ArtistPage/>} />
       <Route path="/profile/:userId" element={<ProfilePage/>} />
+      <Route path="/create-profile" element={<CreateProfilePage/>} />
       <Route path="/search" element={<SearchPage/>} />
     </Routes>
   </MantineProvider>

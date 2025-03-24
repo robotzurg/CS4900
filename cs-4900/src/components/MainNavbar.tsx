@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Container, Nav, Navbar, Button, FormControl, Form, Image, NavDropdown } from 'react-bootstrap';
+import { Container, Nav, Navbar, Button, FormControl, Form, Image, NavDropdown, InputGroup } from 'react-bootstrap';
 import { authLogin, authLogout, fetchUser, onSearch } from '../services/index.ts';
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function MainNavbar() {
   const [user, setUser] = useState<any>(null);
@@ -29,7 +31,7 @@ function MainNavbar() {
   };
 
   const handleLogout = async () => {
-    authLogout();
+    await authLogout();
     setUser(null);
     window.location.href = "/";
   };
@@ -53,7 +55,7 @@ function MainNavbar() {
 
   if (isLoading) {
     return (
-      <Navbar expand="lg" className="bg-body-tertiary">
+      <Navbar expand="lg" className="bg-body-tertiary" style={{ maxHeight: "55px" }}>
         <Container>
           <Navbar.Brand href="/">Waveform</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -63,9 +65,6 @@ function MainNavbar() {
               <Nav.Link href="/albums">View Albums</Nav.Link>
               <Nav.Link href="/artists">View Artists</Nav.Link>
             </Nav>
-            <Nav>
-              <Navbar.Text>Loading...</Navbar.Text>
-            </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
@@ -73,7 +72,7 @@ function MainNavbar() {
   }
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className="bg-body-tertiary" style={{ maxHeight: "55px" }}>
       <Container>
         <Navbar.Brand href="/">Waveform</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -84,18 +83,27 @@ function MainNavbar() {
             <Nav.Link href="/artists">View Artists</Nav.Link>
           </Nav>
           <Nav className="d-flex align-items-center">
-            <Form onSubmit={handleSearchSubmit} className="me-2">
-              <div className="d-flex">
-                <FormControl
-                  type="text"
-                  placeholder="Search"
-                  className="me-2"
-                  value={searchTerm}
-                  onChange={handleInputChange}
-                />
-                <Button variant="outline-success" type="submit">Search</Button>
+          <Form onSubmit={handleSearchSubmit} className="me-2">
+            <InputGroup>
+              <FormControl
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={handleInputChange}
+                style={{ paddingRight: '40px', borderRadius: '10px' }}
+              />
+              <div 
+                style={{ 
+                  position: 'absolute', 
+                  right: '10px', 
+                  top: '50%', 
+                  transform: 'translateY(-50%)', 
+                }}
+              >
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
               </div>
-            </Form>
+            </InputGroup>
+          </Form>
             {user ? (
               <NavDropdown
                 id="nav-dropdown-profile"
@@ -113,7 +121,7 @@ function MainNavbar() {
                   </>
                 }
               >
-                <NavDropdown.Item as={Nav.Link} href={`/profile/${user.id}`}>
+                <NavDropdown.Item as={Nav.Link} href={`/profile/${user.id}`} className="py-2 px-3 text-dark">
                   Profile
                 </NavDropdown.Item>
                 <NavDropdown.Item onClick={handleLogout}>
@@ -121,7 +129,26 @@ function MainNavbar() {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <Button variant="outline-success" onClick={handleLogin}>Sign in with Google</Button>
+              <NavDropdown
+                id="nav-dropdown-profile"
+                title={
+                  <>
+                    <Image 
+                      src={"https://www.gravatar.com/avatar/?d=mp"} 
+                      alt="Not logged in avatar" 
+                      className="me-2" 
+                      roundedCircle 
+                      width={30} 
+                      height={30} 
+                    />
+                    <Navbar.Text>Login</Navbar.Text>
+                  </>
+                }
+              >
+                <NavDropdown.Item as={Button} onClick={handleLogin} className="py-2 px-3 text-dark">
+                  Login With Google
+                </NavDropdown.Item>
+              </NavDropdown>
             )}
           </Nav>
         </Navbar.Collapse>

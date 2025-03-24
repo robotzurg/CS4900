@@ -15,12 +15,12 @@ const SearchPage = () => {
 
   useEffect(() => {
     if (searchQuery) {
-      handleSearch(searchQuery); // Call handleSearch with searchQuery on mount
+      handleSearch(searchQuery);
     }
   }, [searchQuery]);
 
   const handleSearch = async (query: string) => {
-    setQuery(query); // Update state with the search query
+    setQuery(query);
     if (!query.trim()) return;
     setLoading(true);
     try {

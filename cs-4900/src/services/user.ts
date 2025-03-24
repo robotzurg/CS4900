@@ -13,3 +13,24 @@ export const fetchUser = async () => {
   
     return res.json();
 };  
+
+export const updateUser = async (userData) => {
+    const url = `${isDev === 'true' ? apiDevUrl : apiUrl}/api/users/${userData.id}`;
+  
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(userData), 
+    });
+  
+    if (!res.ok) {
+      throw new Error('Error updating user profile');
+    }
+  
+    return res.json();
+};
+
+  
