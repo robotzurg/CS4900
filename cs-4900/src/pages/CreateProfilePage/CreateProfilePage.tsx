@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Container, Row, Col, Form, Button, Image } from "react-bootstrap";
-import MainNavbar from "../../components/MainNavbar";
 import { updateUser } from "../../services";
 import { useSearchParams } from "react-router-dom";
 
