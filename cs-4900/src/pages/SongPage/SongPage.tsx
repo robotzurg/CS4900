@@ -18,7 +18,7 @@ function SongPage() {
       try {
         const [songData, reviewsData] = await Promise.all([
           fetchById('songs', songId),
-          fetchAll('reviews', [['musicId', songId], ['type', 'song']])
+          fetchAll('reviews', [['musicId', songId], ['type', 'song'], ['userType', 'critic']])
         ]);
         setSong(songData);
         setReviews(reviewsData);

@@ -17,14 +17,13 @@ CREATE TABLE Users (
   discord_mailbox_dm BOOLEAN DEFAULT FALSE,
   discord_review_ping BOOLEAN DEFAULT FALSE,
   bio TEXT,
+  user_type TEXT NOT NULL,  
   spotify_mailbox_playlist_id TEXT,
   profile_picture TEXT,
   username TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL,
-  email TEXT UNIQUE NOT NULL,
   discord_user_id TEXT UNIQUE,
   discord_username TEXT,
-  friends_list UUID[]
+  friends_list TEXT[]
 );
 
 -- Songs Table

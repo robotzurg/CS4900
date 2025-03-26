@@ -10,13 +10,14 @@ const reviewController = {
         try {
             const { musicId } = req.params;
             let type = (req.query.type as string) || "song";
+            let userType = (req.query.userType as string) || "user";
             let reviewId = req.query.reviewId as string | undefined;
 
             let reviews: Review[] = [];
             if (!reviewId) {
                 reviews = await new ReviewService().getAllByMusicType(musicId, type);
             } else {
-                reviews = await new ReviewService().getAllReviewsFromMusic(musicId, reviewId, type);
+                reviews = await new ReviewService().getAllReviewsFromMusic(musicId, reviewId, type, userType);
             }
 
             res.json(reviews);

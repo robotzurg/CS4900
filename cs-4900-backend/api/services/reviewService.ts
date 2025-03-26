@@ -13,9 +13,20 @@ export class ReviewService extends GenericService<Review> {
         return rows;
     }
 
-    async getAllReviewsFromMusic(musicId: string, reviewId: string, type: string): Promise<Review[]> {
-        const query = `SELECT * FROM reviews WHERE ${type}_id = $1 AND id = $2`;
-        const { rows } = await pool.query(query, [musicId, reviewId]);
+    async getAllReviewsFromMusic(musicId: string, reviewId: string, type: string, userType: string): Promise<Review[]> {
+        let query = `
+            SELECT * FROM reviews 
+            WHERE ${type}_id = $1 AND id = $2
+        `;
+        let params = [musicId, reviewId];
+
+        console.log(userType);
+
+        if (userType) {
+            query += ` AND user_id IN (SELECT id FROM users WHERE user_type = $3)`;
+            params.push(userType);
+        }
+        const { rows } = await pool.query(query, params);
         return rows;
     }
 }
