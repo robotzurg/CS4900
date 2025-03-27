@@ -4,6 +4,8 @@ import { fetchById } from "../services/index";
 import { Link } from 'react-router';
 import { Flex, RingProgress, Text, Stack } from '@mantine/core';
 
+Flex
+
 function MusicSmallCard({ musicId, entity }: { musicId: any, entity: any }) {
     const [music, setMusic] = useState<any | null>(null);
     const [loading, setLoading] = useState(true);

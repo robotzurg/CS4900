@@ -5,7 +5,7 @@ import { Flex, RingProgress, Text, Stack } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpotify, faSoundcloud, faApple, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import CreateReviewModal from './CreateReviewModal';
-import { fetchUser } from '../services';
+import { addReview, fetchUser, getReviewByUserId, updateReview } from '../services';
 
 function MusicInfoCard({ music }: { music: any }) {
   const [showModal, setShowModal] = useState(false);
@@ -14,9 +14,35 @@ function MusicInfoCard({ music }: { music: any }) {
   const handleCreateReview = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
-  const handleReviewSubmit = (rating: number, reviewText: string) => {
-    console.log('Review submitted:', { rating, reviewText });
-  };
+const handleReviewSubmit = async (rating: number | null, reviewText: string, favorite: boolean) => {
+  if (!user) return;
+
+  const existingReview = await getReviewByUserId(user.id, music.id);
+  console.log(existingReview);
+
+  if (existingReview) {
+    await updateReview({
+      id: existingReview.id,
+      user_id: user.id,
+      song_id: music.id,
+      timestamp: new Date().toISOString().split('T')[0],
+      favorited: favorite,
+      rating: rating,
+      review_text: reviewText,
+    });
+  } else {
+    await addReview({
+      user_id: user.id,
+      song_id: music.id,
+      timestamp: new Date().toISOString().split('T')[0],
+      favorited: favorite,
+      rating: rating,
+      review_text: reviewText,
+    });
+  }
+
+  window.location.reload();
+};
 
   useEffect(() => {
     const checkUser = async () => {

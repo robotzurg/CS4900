@@ -4,3 +4,4 @@ export * from './auth';
 export * from './user';
 export * from './search';
 export * from './generic';
+export * from './review';

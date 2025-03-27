@@ -7,26 +7,23 @@ export class ReviewService extends GenericService<Review> {
         super('reviews');
     }
 
-    async getAllByMusicType(musicId: string, type: string): Promise<Review[]> {
-        const query = `SELECT * FROM reviews WHERE ${type}_id = $1`;
-        const { rows } = await pool.query(query, [musicId]);
-        return rows;
-    }
-
-    async getAllReviewsFromMusic(musicId: string, reviewId: string, type: string, userType: string): Promise<Review[]> {
-        let query = `
-            SELECT * FROM reviews 
-            WHERE ${type}_id = $1 AND id = $2
-        `;
-        let params = [musicId, reviewId];
-
-        console.log(userType);
+    async getAllReviewsByMusicType(musicId: string, type: string, userType?: string | null, userId?: string | null): Promise<Review[]> {
+        let query = `SELECT * FROM reviews WHERE ${type}_id = $1`;
+        let params: any[] = [musicId];
 
         if (userType) {
-            query += ` AND user_id IN (SELECT id FROM users WHERE user_type = $3)`;
+            query += ` AND user_id IN (SELECT id FROM users WHERE user_type = $${params.length + 1})`;
             params.push(userType);
         }
+
+        if (userId) {
+            query += ` AND user_id = $${params.length + 1}`;
+            params.push(userId);
+        }
+
+        console.log(query, params);
+
         const { rows } = await pool.query(query, params);
         return rows;
-    }
+    }    
 }

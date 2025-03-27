@@ -4,18 +4,36 @@ import { Modal, Button, Form } from 'react-bootstrap';
 interface CreateReviewModalProps {
   show: boolean;
   handleClose: () => void;
-  onSubmit: (rating: number, reviewText: string) => void;
+  onSubmit: (rating: number | null, reviewText: string, favorite: boolean) => void;
 }
 
 const CreateReviewModal: React.FC<CreateReviewModalProps> = ({ show, handleClose, onSubmit }) => {
-  const [rating, setRating] = useState<number>(0);
+  const [rating, setRating] = useState<string>('');
   const [reviewText, setReviewText] = useState<string>('');
+  const [favorite, setFavorite] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = () => {
-    if (rating > 0 && reviewText.trim()) {
-      onSubmit(rating, reviewText);
-      setRating(0);
+  const validateRating = (value: string) => {
+    const num = parseFloat(value);
+    const emptyField = (value == '');
+    if ((isNaN(num) && !emptyField) || num < 0 || num > 10) {
+      setError('Rating must be between 0 and 10.');
+      return false;
+    }
+    setError(null);
+    return true;
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    let numberRating: number | null = null;
+    if (rating != '') numberRating = parseFloat(rating);
+
+    if (error == null) {
+      onSubmit(numberRating, reviewText, favorite);
+      setRating('');
       setReviewText('');
+      setFavorite(false);
       handleClose();
     }
   };
@@ -26,14 +44,20 @@ const CreateReviewModal: React.FC<CreateReviewModalProps> = ({ show, handleClose
         <Modal.Title>Add A Review</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={(e) => e.preventDefault()}>
+        <Form onSubmit={handleSubmit}>
           <Form.Group>
             <Form.Label>Rating (0-10)</Form.Label>
             <Form.Control
-                type="text"
-                inputMode="decimal"
-                placeholder="Enter rating (0-10, decimals allowed)"
-                />
+              type="text"
+              inputMode="decimal"
+              placeholder="Enter rating (0-10, decimals allowed)"
+              value={rating}
+              onChange={(e) => {
+                setRating(e.target.value);
+                validateRating(e.target.value);
+              }}
+              isInvalid={!!error}
+            />
           </Form.Group>
           <Form.Group className="mt-3">
             <Form.Label>Review</Form.Label>
@@ -46,10 +70,12 @@ const CreateReviewModal: React.FC<CreateReviewModalProps> = ({ show, handleClose
           </Form.Group>
           <Form.Group className="mt-3">
             <Form.Check
-            type="checkbox"
-            label="Favorite"
-            id={`favorite-checkbox`}
-          />
+              type="checkbox"
+              label="Favorite"
+              id="favorite-checkbox"
+              checked={favorite}
+              onChange={(e) => setFavorite(e.target.checked)}
+            />
           </Form.Group>
         </Form>
       </Modal.Body>
@@ -57,7 +83,7 @@ const CreateReviewModal: React.FC<CreateReviewModalProps> = ({ show, handleClose
         <Button variant="secondary" onClick={handleClose}>
           Cancel
         </Button>
-        <Button variant="primary" onClick={handleSubmit}>
+        <Button variant="primary" type="submit" onClick={handleSubmit}>
           Submit
         </Button>
       </Modal.Footer>
