@@ -4,9 +4,9 @@ export const searchAll = async (query: string): Promise<{ id: string; name: stri
     if (!query) return [];
     const { rows } = await pool.query(
         `
-        SELECT id, name AS name, song_type, 'song' AS type FROM songs WHERE name ILIKE $1
+        SELECT id, name AS name, category, 'song' AS type FROM songs WHERE name ILIKE $1
         UNION
-        SELECT id, name AS name, album_type, 'album' AS type FROM albums WHERE name ILIKE $1
+        SELECT id, name AS name, category, 'album' AS type FROM albums WHERE name ILIKE $1
         LIMIT 10
         `,
         [`%${query}%`]

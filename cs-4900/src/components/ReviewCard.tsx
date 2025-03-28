@@ -16,13 +16,10 @@ function ReviewCard({ review }: { review: any }) {
 
   if (!user) return null;
 
-  const ratingNumber = parseFloat(review.rating); 
-  const formattedRating = Number.isInteger(ratingNumber)
-    ? ratingNumber.toString()
-    : ratingNumber.toFixed(1);
+  const formattedRating = review.rating.toString().replace(/\.0+$/, '');
 
   return (
-    <Container className="mt-4 review-card p-3 border rounded">
+    <Container className="review-card p-3 border rounded">
       <Row className="align-items-center">
         <Col xs="auto">
           <Image

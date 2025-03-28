@@ -2,7 +2,7 @@ let isDev = import.meta.env.VITE_IS_DEV;
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiDevUrl = import.meta.env.VITE_API_DEV_URL;
 
-export const fetchUser = async () => {
+export const fetchMe = async () => {
     const res = await fetch(`${isDev === 'true' ? apiDevUrl : apiUrl}/api/me`, {
       credentials: 'include',
     });

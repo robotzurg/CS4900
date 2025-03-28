@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Container, Nav, Navbar, Button, FormControl, Form, Image, NavDropdown, InputGroup } from 'react-bootstrap';
-import { authLogin, authLogout, fetchUser, onSearch } from '../services/index.ts';
+import { authLogin, authLogout, fetchMe, onSearch } from '../services/index.ts';
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +15,7 @@ function MainNavbar() {
     const checkUser = async () => {
       setIsLoading(true);
       try {
-        const currentUser = await fetchUser();
+        const currentUser = await fetchMe();
         setUser(currentUser);
       } catch (error) {
         setUser(null);

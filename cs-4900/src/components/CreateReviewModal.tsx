@@ -1,22 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 interface CreateReviewModalProps {
   show: boolean;
   handleClose: () => void;
   onSubmit: (rating: number | null, reviewText: string, favorite: boolean) => void;
+  existingReview?: { rating: number | null; review_text: string; favorited: boolean };
 }
 
-const CreateReviewModal: React.FC<CreateReviewModalProps> = ({ show, handleClose, onSubmit }) => {
+const CreateReviewModal: React.FC<CreateReviewModalProps> = ({ show, handleClose, onSubmit, existingReview }) => {
   const [rating, setRating] = useState<string>('');
   const [reviewText, setReviewText] = useState<string>('');
   const [favorite, setFavorite] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (existingReview) {
+      setRating(existingReview.rating !== null ? existingReview.rating.toString().replace(/\.0+$/, '') : '');
+      setReviewText(existingReview.review_text);
+      setFavorite(existingReview.favorited);
+    } else {
+      setRating('');
+      setReviewText('');
+      setFavorite(false);
+    }
+  }, [existingReview, show]);
+
   const validateRating = (value: string) => {
     const num = parseFloat(value);
-    const emptyField = (value == '');
-    if ((isNaN(num) && !emptyField) || num < 0 || num > 10) {
+    if ((isNaN(num) && value !== '') || num < 0 || num > 10) {
       setError('Rating must be between 0 and 10.');
       return false;
     }
@@ -27,13 +39,10 @@ const CreateReviewModal: React.FC<CreateReviewModalProps> = ({ show, handleClose
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     let numberRating: number | null = null;
-    if (rating != '') numberRating = parseFloat(rating);
+    if (rating !== '') numberRating = parseFloat(rating);
 
-    if (error == null) {
+    if (!error) {
       onSubmit(numberRating, reviewText, favorite);
-      setRating('');
-      setReviewText('');
-      setFavorite(false);
       handleClose();
     }
   };
@@ -41,7 +50,7 @@ const CreateReviewModal: React.FC<CreateReviewModalProps> = ({ show, handleClose
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Add A Review</Modal.Title>
+        <Modal.Title>{existingReview ? 'Edit Review' : 'Add Review'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -84,7 +93,7 @@ const CreateReviewModal: React.FC<CreateReviewModalProps> = ({ show, handleClose
           Cancel
         </Button>
         <Button variant="primary" type="submit" onClick={handleSubmit}>
-          Submit
+          {existingReview ? 'Update' : 'Submit'}
         </Button>
       </Modal.Footer>
     </Modal>

@@ -5,9 +5,9 @@ import { Flex, RingProgress, Text, Stack } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpotify, faSoundcloud, faApple, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import CreateReviewModal from './CreateReviewModal';
-import { addReview, fetchUser, getReviewByUserId, updateReview } from '../services';
+import { addReview, fetchMe, getReviewByUserId, updateReview } from '../services';
 
-function MusicInfoCard({ music }: { music: any }) {
+function MusicInfoCard({ music, userReview }: { music: any, userReview: any[] }) {
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState<any>(null);
 
@@ -17,14 +17,16 @@ function MusicInfoCard({ music }: { music: any }) {
 const handleReviewSubmit = async (rating: number | null, reviewText: string, favorite: boolean) => {
   if (!user) return;
 
-  const existingReview = await getReviewByUserId(user.id, music.id);
-  console.log(existingReview);
+  const isAlbum = music.category === "album";
+  const musicEntityKey = isAlbum ? "album_id" : "song_id";
+
+  const existingReview = await getReviewByUserId(music.id, user.id);
 
   if (existingReview) {
     await updateReview({
       id: existingReview.id,
       user_id: user.id,
-      song_id: music.id,
+      [musicEntityKey]: music.id,
       timestamp: new Date().toISOString().split('T')[0],
       favorited: favorite,
       rating: rating,
@@ -33,7 +35,7 @@ const handleReviewSubmit = async (rating: number | null, reviewText: string, fav
   } else {
     await addReview({
       user_id: user.id,
-      song_id: music.id,
+      [musicEntityKey]: music.id,
       timestamp: new Date().toISOString().split('T')[0],
       favorited: favorite,
       rating: rating,
@@ -47,7 +49,7 @@ const handleReviewSubmit = async (rating: number | null, reviewText: string, fav
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const currentUser = await fetchUser();
+        const currentUser = await fetchMe();
         setUser(currentUser);
       } catch (error) {
         setUser(null);
@@ -91,7 +93,7 @@ const handleReviewSubmit = async (rating: number | null, reviewText: string, fav
                 <FontAwesomeIcon icon={faApple} size="2x" fixedWidth />
                 <FontAwesomeIcon icon={faYoutube} size="2x" fixedWidth />
               </Flex>
-              {user ? <Button className='mt-40' style={{ width: "50%" }} onClick={handleCreateReview}>Add A Review</Button> : null}
+              {user ? <Button className='mt-40' style={{ width: "50%" }} onClick={handleCreateReview}>{userReview.length > 0 ? `Edit Review` : `Add A Review`}</Button> : null}
             </Col>
           </Col>
           <Col lg={6} className="d-flex flex-column align-items-center justify-content-center rating-circles">
@@ -130,7 +132,7 @@ const handleReviewSubmit = async (rating: number | null, reviewText: string, fav
             />
           </Col>
         </Row>
-        <CreateReviewModal show={showModal} handleClose={handleCloseModal} onSubmit={handleReviewSubmit} />
+        <CreateReviewModal show={showModal} handleClose={handleCloseModal} onSubmit={handleReviewSubmit} existingReview={userReview.length > 0 ? userReview[0] : null} />
       </Container>
   );
 }

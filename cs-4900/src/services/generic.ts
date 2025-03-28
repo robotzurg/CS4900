@@ -2,9 +2,13 @@ let isDev = import.meta.env.VITE_IS_DEV;
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiDevUrl = import.meta.env.VITE_API_DEV_URL;
 
-export const fetchById = async (entity: string, id: string) => {
+export const fetchById = async (entity: string, id: string, query: [string, string][] = []) => {
     try {
-        const res = await fetch(`${isDev == 'true' ? apiDevUrl : apiUrl}/api/${entity}/${id}`);
+        const queryParams = query.length 
+            ? `?${query.map(q => `${q[0]}=${encodeURIComponent(q[1])}`).join('&')}` 
+            : '';
+        
+        const res = await fetch(`${isDev == 'true' ? apiDevUrl : apiUrl}/api/${entity}/${id}${queryParams}`);
         return res.json();
     } catch (err) {
         return { error: `Error retrieving ${entity}: ${err}` };
