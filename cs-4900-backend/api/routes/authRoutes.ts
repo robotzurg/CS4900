@@ -31,7 +31,7 @@ passport.use(
 
         // New user, insert into database
         const newUserId = generateId();
-        await pool.query('INSERT INTO users (id, username, profile_picture) VALUES ($1, $2, $3)', [newUserId, profile.displayName, profile.photos[0].value]);
+        await pool.query('INSERT INTO users (id, username, profile_picture, friends_list) VALUES ($1, $2, $3, $4)', [newUserId, profile.displayName, profile.photos[0].value, []]);
 
         // Link federated credentials
         await pool.query(
