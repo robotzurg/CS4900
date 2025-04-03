@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Container, Row, Col, Image } from "react-bootstrap";
-import MainNavbar from "../../components/MainNavbar";
 import { fetchAll, fetchById } from "../../services/index";
 import MusicListGrid from "../../components/MusicListGrid";
 import { Flex } from "@mantine/core";
@@ -44,7 +43,6 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <MainNavbar />
       <Container className="mt-4">
         <Row className="d-flex p-3">
           <Col lg={8}>

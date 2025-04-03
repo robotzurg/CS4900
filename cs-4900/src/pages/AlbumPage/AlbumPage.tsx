@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { fetchById, fetchMe } from "../../services";
-import MainNavbar from "../../components/MainNavbar";
 import MusicInfoCard from "../../components/MusicInfoCard";
 import ReviewListGrid from "../../components/ReviewListGrid";
 
@@ -53,7 +52,6 @@ function AlbumPage() {
 
   return (
     <div>
-      <MainNavbar />
       <MusicInfoCard music={album} userReview={userReview} />
       {(userReview.length > 0) && <ReviewListGrid type={"user_main"} reviews={userReview} />}
       <ReviewListGrid reviews={reviews} type={"users"} />

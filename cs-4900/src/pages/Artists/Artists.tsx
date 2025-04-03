@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import MainNavbar from "../../components/MainNavbar.tsx";
 import { fetchAll } from "../../services/index.ts";
 import ArtistListGrid from "../../components/ArtistListGrid.tsx";
 import "./Artists.css";
@@ -18,7 +17,6 @@ function Artists() {
 
   return (
     <div>
-      <MainNavbar />
       <Container>
         <h3 className="pt-20 pb-20 text-capitalize">All Artists</h3>
         {loading ? <p>Loading...</p> : <ArtistListGrid artistList={artists} />}

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import { onSearch } from "../../services/index";
-import MainNavbar from "../../components/MainNavbar";
 import MusicListGrid from "../../components/MusicListGrid";
 import { useSearchParams } from "react-router-dom";
 
@@ -35,7 +34,6 @@ const SearchPage = () => {
 
   return (
     <div>
-      <MainNavbar />
       <Container className="mt-5">
         <Form className="d-flex justify-content-center mb-4" onSubmit={(e) => e.preventDefault()}>
           <Form.Control

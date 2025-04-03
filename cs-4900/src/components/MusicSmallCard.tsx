@@ -31,7 +31,7 @@ function MusicSmallCard({ musicId, entity }: { musicId: any, entity: any }) {
     if (!music) return <p>Music not found</p>;
 
     return (
-        <Card className="border-0 shadow p-0" style={{ width: "15rem", maxWidth: "15rem"}}>
+        <Card className="border-0 shadow p-0" style={{ width: "220px"}}>
         <Link to={`/${entity}/${musicId}`} style={{ textDecoration: "none" }}>
         <Card.Img variant="top" src={music.image_url} alt={music.name} />
         <Card.Body>

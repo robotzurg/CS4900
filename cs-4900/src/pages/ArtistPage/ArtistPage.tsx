@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { fetchById, fetchAll } from "../../services/index";
-import MainNavbar from "../../components/MainNavbar";
 import MusicListGrid from "../../components/MusicListGrid";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 
@@ -47,8 +46,6 @@ function ArtistPage() {
 
   return (
     <div>
-      <MainNavbar />
-
       <Container className="mt-4">
         <Row className="justify-content-center">
             <Col className="">
