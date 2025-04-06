@@ -4,9 +4,9 @@ import { fetchById, fetchMe } from "../../services";
 import MusicInfoCard from "../../components/MusicInfoCard";
 import ReviewListGrid from "../../components/ReviewListGrid";
 
-function SongPage() {
-  const { songId } = useParams(); 
-  const [song, setSong] = useState<any | null>(null);
+function MusicPage({ entity }: { entity: string }) {
+  const { musicId } = useParams(); 
+  const [music, setMusic] = useState<any | null>(null);
   const [reviews, setReviews] = useState<any[]>([]);
   const [userReview, setUserReview] = useState<any[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
@@ -26,15 +26,20 @@ function SongPage() {
   }, []);
 
   useEffect(() => {
-    if (!songId || !userId) return;
+    if (!musicId || !userId) return;
 
-    const fetchSongAndReviews = async () => {
+    const fetchMusicDataAndReviews = async () => {
       try {
-        const [songData, reviewsData] = await Promise.all([
-          fetchById("songs", songId),
-          fetchById("reviews", songId, [["type", "song"]])
+        const [musicData] = await Promise.all([
+          fetchById(entity, musicId)
         ]);
-        setSong(songData);
+
+        setMusic(musicData);
+
+        const [reviewsData] = await Promise.all([
+            fetchById("reviews", musicId, [["type", musicData.category]])
+        ])
+
         setReviews(reviewsData.filter(r => r.user_id !== userId));
         setUserReview(reviewsData.filter(r => r.user_id === userId));
       } catch (error) {
@@ -44,19 +49,25 @@ function SongPage() {
       }
     };
 
-    fetchSongAndReviews();
-  }, [songId, userId]);
+    fetchMusicDataAndReviews();
+  }, [musicId, userId]);
 
   if (loading) return <p>Loading...</p>;
-  if (!song) return <p>Song not found</p>;
+  if (!music) return <p>{entity} not found</p>;
+
+  const allReviews = [...userReview, ...reviews];
+  const averageRating = 
+  allReviews.length > 0
+    ? allReviews.reduce((acc, review) => acc + (parseFloat(review.rating) || 0), 0) / allReviews.length
+    : 0;
 
   return (
     <div>
-      <MusicInfoCard music={song} userReview={userReview} />
+      <MusicInfoCard music={music} userReview={userReview} averageRating={averageRating} />
       {(userReview.length > 0) && <ReviewListGrid type={"user_main"} reviews={userReview} />}
       <ReviewListGrid reviews={reviews} type={"users"} />
     </div>
   );
 }
 
-export default SongPage;
+export default MusicPage;

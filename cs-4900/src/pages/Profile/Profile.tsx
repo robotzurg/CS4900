@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Container, Row, Col, Image } from "react-bootstrap";
+import { Container, Row, Col, Image, Button } from "react-bootstrap";
 import { fetchAll, fetchById } from "../../services/index";
 import MusicListGrid from "../../components/MusicListGrid";
 import { Flex } from "@mantine/core";
@@ -59,6 +59,10 @@ const ProfilePage = () => {
                 <h2><strong>{user.username}</strong></h2>
               </Flex>
               <p className="pt-20">{user.bio || "User has not written a bio yet."} </p>
+              <Flex gap={15}>
+                <Button>Connect to Spotify</Button>
+                <Button>Connect to Last.fm</Button>
+              </Flex>
             </Row>
             <Row>
               <h2><strong>Song Reviews</strong></h2>

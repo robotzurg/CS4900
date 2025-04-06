@@ -35,12 +35,12 @@ function Home() {
 
         <section>
           <h2 className="pt-10 pb-10 bold">Popular Songs</h2>
-          <MusicListGrid musicList={songs.slice(0, 6)} entity="songs" />
+          <MusicListGrid musicList={songs.slice(0, 5)} entity="songs" />
         </section>
 
         <section>
           <h2 className="pt-10 pb-10 bold">Popular Albums</h2>
-          <MusicListGrid musicList={albums.slice(0, 6)} entity="albums" />
+          <MusicListGrid musicList={albums.slice(0, 5)} entity="albums" />
         </section>
       </Container>
     </div>

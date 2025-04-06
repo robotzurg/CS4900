@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
-import { Form, Button, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { onSearch } from "../../services/index";
 import MusicListGrid from "../../components/MusicListGrid";
 import { useSearchParams } from "react-router-dom";
+import ArtistListGrid from "../../components/ArtistListGrid";
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("q");
-
-  const [query, setQuery] = useState<string>(searchQuery != null ? searchQuery : "");
-  const [results, setResults] = useState<any[]>([]);
+  
+  const [songResults, setSongResults] = useState<any[]>([]);
+  const [artistResults, setArtistResults] = useState<any[]>([]);
+  const [albumResults, setAlbumResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -19,12 +21,17 @@ const SearchPage = () => {
   }, [searchQuery]);
 
   const handleSearch = async (query: string) => {
-    setQuery(query);
-    if (!query.trim()) return;
     setLoading(true);
     try {
-      const searchResults = await onSearch(query, "songs");
-      setResults(searchResults);
+      const [songs, artists, albums] = await Promise.all([
+        onSearch(query, "songs"),
+        onSearch(query, "artists"),
+        onSearch(query, "albums")
+      ]);
+      
+      setSongResults(songs);
+      setArtistResults(artists);
+      setAlbumResults(albums);
     } catch (error) {
       console.error("Error searching:", error);
     } finally {
@@ -34,28 +41,28 @@ const SearchPage = () => {
 
   return (
     <div>
-      <Container className="mt-5">
-        <Form className="d-flex justify-content-center mb-4" onSubmit={(e) => e.preventDefault()}>
-          <Form.Control
-            type="text"
-            placeholder="Search for a song"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-50"
-          />
-          <Button variant="primary" onClick={() => handleSearch(query)} className="ms-2">
-            Search
-          </Button>
-        </Form>
+      <Container className="mt-4">
         {loading ? (
           <p>Loading...</p>
         ) : (
           <div>
-            {results.length > 0 ? (
-              <MusicListGrid musicList={results} entity="songs" />
-            ) : (
-              <p>No results found</p>
-            )}
+            <h1 className="pb-40">Search Results for "{searchQuery}"</h1>
+            
+            <section className="mb-40">
+              <h2>Songs</h2>
+              <MusicListGrid musicList={songResults} entity="songs" />
+            </section>
+
+            <section className="mb-40">
+              <h2>Albums</h2>
+              <MusicListGrid musicList={albumResults} entity="albums" />
+            </section>
+
+            <section>
+              <h2>Artists</h2>
+              <ArtistListGrid artistList={artistResults} />
+            </section>
+
           </div>
         )}
       </Container>

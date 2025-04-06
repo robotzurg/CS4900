@@ -7,44 +7,44 @@ import { faSpotify, faSoundcloud, faApple, faYoutube } from '@fortawesome/free-b
 import CreateReviewModal from './CreateReviewModal';
 import { addReview, fetchMe, getReviewByUserId, updateReview } from '../services';
 
-function MusicInfoCard({ music, userReview }: { music: any, userReview: any[] }) {
+function MusicInfoCard({ music, userReview, averageRating }: { music: any, userReview: any[], averageRating: number }) {
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState<any>(null);
 
   const handleCreateReview = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
-const handleReviewSubmit = async (rating: number | null, reviewText: string, favorite: boolean) => {
-  if (!user) return;
+  const handleReviewSubmit = async (rating: number | null, reviewText: string, favorite: boolean) => {
+    if (!user) return;  
 
-  const isAlbum = music.category === "album";
-  const musicEntityKey = isAlbum ? "album_id" : "song_id";
+    const isAlbum = music.category === "album";
+    const musicEntityKey = isAlbum ? "album_id" : "song_id";
 
-  const existingReview = await getReviewByUserId(music.id, user.id);
+    const existingReview = await getReviewByUserId(music.id, user.id);
 
-  if (existingReview) {
-    await updateReview({
-      id: existingReview.id,
-      user_id: user.id,
-      [musicEntityKey]: music.id,
-      timestamp: new Date().toISOString().split('T')[0],
-      favorited: favorite,
-      rating: rating,
-      review_text: reviewText,
-    });
-  } else {
-    await addReview({
-      user_id: user.id,
-      [musicEntityKey]: music.id,
-      timestamp: new Date().toISOString().split('T')[0],
-      favorited: favorite,
-      rating: rating,
-      review_text: reviewText,
-    });
-  }
+    if (existingReview) {
+      await updateReview({
+        id: existingReview.id,
+        user_id: user.id,
+        [musicEntityKey]: music.id,
+        timestamp: new Date().toISOString().split('T')[0],
+        favorited: favorite,
+        rating: rating,
+        review_text: reviewText,
+      });
+    } else {
+      await addReview({
+        user_id: user.id,
+        [musicEntityKey]: music.id,
+        timestamp: new Date().toISOString().split('T')[0],
+        favorited: favorite,
+        rating: rating,
+        review_text: reviewText,
+      });
+    }
 
-  window.location.reload();
-};
+    window.location.reload();
+  };
 
   useEffect(() => {
     const checkUser = async () => {
@@ -101,24 +101,24 @@ const handleReviewSubmit = async (rating: number | null, reviewText: string, fav
                 <Stack gap="0">
                   <RingProgress
                     size={110}
-                    sections={[{ value: 90, color: 'blue' }]}
-                    label={<Text ta="center">9.0</Text>}
+                    sections={[{ value: 60, color: 'blue' }]}
+                    label={<Text ta="center">6</Text>}
                   />
                   <Text ta="center">Critic</Text>
                 </Stack>
                 <Stack gap="0" align="center">
                   <RingProgress
                     size={110}
-                    sections={[{ value: 82, color: 'red' }]}
-                    label={<Text ta="center">8.2</Text>}
+                    sections={[{ value: averageRating * 10, color: 'red' }]}
+                    label={<Text ta="center">{averageRating.toFixed(1).toString().replace(/\.0+$/, '')}</Text>}
                   />
                   <Text ta="center">User</Text>
                 </Stack>
                 <Stack gap="0">
                   <RingProgress
                     size={110}
-                    sections={[{ value: 75, color: 'green' }]}
-                    label={<Text ta="center">7.5</Text>}
+                    sections={[{ value: 90, color: 'green' }]}
+                    label={<Text ta="center">9</Text>}
                   />
                   <Text ta="center">Friends</Text>
                 </Stack>

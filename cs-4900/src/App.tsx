@@ -1,11 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import Songs from "./pages/Songs/Songs";
-import SongPage from "./pages/SongPage/SongPage";
-import Albums from "./pages/Albums/Albums";
+import MusicPage from "./pages/MusicPage/MusicPage";
+import MusicAll from "./pages/MusicAll/MusicAll";
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
-import AlbumPage from "./pages/AlbumPage/AlbumPage";
 import ProfilePage from "./pages/Profile/Profile";
 import SearchPage from "./pages/Search/Search";
 import Artists from "./pages/Artists/Artists";
@@ -15,6 +13,10 @@ import MainNavbar from "./components/MainNavbar";
 import MainFooter from "./components/MainFooter";
 import { useEffect } from "react";
 import { Container } from "react-bootstrap";
+import NotFound from "./pages/NotFound/NotFound";
+import Support from "./pages/Support/Support";
+import Tos from "./pages/Legal/Tos";
+import Privacy from "./pages/Legal/Privacy";
 
 function App() {
   useEffect(() => {
@@ -29,18 +31,22 @@ function App() {
         <Container className="flex-grow-1 py-4">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/songs" element={<Songs />} />
-            <Route path="/songs/:songId" element={<SongPage />} />
-            <Route path="/albums" element={<Albums />} />
-            <Route path="/albums/:albumId" element={<AlbumPage />} />
+            <Route path="/songs" element={<MusicAll entity="songs" />} />
+            <Route path="/songs/:musicId" element={<MusicPage entity="songs" />} />
+            <Route path="/albums" element={<MusicAll entity="albums" />} />
+            <Route path="/albums/:musicId" element={<MusicPage entity="albums" />} />
             <Route path="/artists" element={<Artists />} />
             <Route path="/artists/:artistId" element={<ArtistPage />} />
             <Route path="/profile/:userId" element={<ProfilePage />} />
             <Route path="/create-profile" element={<CreateProfilePage />} />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/tos" element={<Tos />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Container>
-        <MainFooter />
+        <MainFooter /> 
       </div>
     </MantineProvider>
   );

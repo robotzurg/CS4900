@@ -32,3 +32,13 @@ export const searchArtists = async (query: string): Promise<{ id: string; namnam
     );
     return rows;
 };
+
+
+export const searchAlbums = async (query: string): Promise<{ id: string; namnamee: string }[]> => {
+    if (!query) return [];
+    const { rows } = await pool.query(
+        "SELECT id, name FROM albums WHERE name ILIKE $1 LIMIT 10",
+        [`%${query}%`]
+    );
+    return rows;
+};

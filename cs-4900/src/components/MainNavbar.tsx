@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Container, Nav, Navbar, Button, FormControl, Form, Image, NavDropdown, InputGroup } from 'react-bootstrap';
 import { authLogin, authLogout, fetchMe, onSearch } from '../services/index.ts';
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function MainNavbar() {
   const [user, setUser] = useState<any>(() => {
@@ -76,9 +74,11 @@ function MainNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/songs">View Songs</Nav.Link>
-            <Nav.Link href="/albums">View Albums</Nav.Link>
-            <Nav.Link href="/artists">View Artists</Nav.Link>
+            <Nav.Link href="/songs">Songs</Nav.Link>
+            <Nav.Link href="/albums">Albums</Nav.Link>
+            <Nav.Link href="/artists">Artists</Nav.Link>
+            <Nav.Link href="/playlists">Playlists</Nav.Link>
+            <Nav.Link href="/genres">Genres</Nav.Link>
           </Nav>
           <Nav className="d-flex align-items-center">
             <Form onSubmit={handleSearchSubmit} className="me-2">
@@ -98,7 +98,6 @@ function MainNavbar() {
                     transform: 'translateY(-50%)', 
                   }}
                 >
-                  <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </div>
               </InputGroup>
             </Form>
@@ -121,6 +120,9 @@ function MainNavbar() {
               >
                 <NavDropdown.Item as={Nav.Link} href={`/profile/${user.id}`} className="py-2 px-3 text-dark">
                   Profile
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Nav.Link} href={'/friends'} className="py-2 px-3 text-dark">
+                  Friends
                 </NavDropdown.Item>
                 <NavDropdown.Item onClick={handleLogout}>
                   Logout

@@ -4,7 +4,6 @@ const apiDevUrl = import.meta.env.VITE_API_DEV_URL;
 
 export const getReviewByUserId = async (musicId: string, userId: string) => {
   const url = `${isDev === 'true' ? apiDevUrl : apiUrl}/api/reviews/${musicId}?user_id=${userId}`;
-  console.log(url);
 
   const res = await fetch(url, {
     method: "GET",
@@ -25,8 +24,6 @@ export const getReviewByUserId = async (musicId: string, userId: string) => {
 
 export const addReview = async (reviewData) => {
     const url = `${isDev === 'true' ? apiDevUrl : apiUrl}/api/reviews`;
-    console.log(url);
-    console.log(reviewData);
   
     const res = await fetch(url, {
       method: "POST",
@@ -38,7 +35,6 @@ export const addReview = async (reviewData) => {
     });
   
     if (!res.ok) {
-      console.log(res);
       throw new Error('Error adding review');
     }
   
@@ -47,7 +43,6 @@ export const addReview = async (reviewData) => {
 
 export const updateReview = async (reviewData) => {
   const url = `${isDev === 'true' ? apiDevUrl : apiUrl}/api/reviews/${reviewData.id}`;
-  console.log(url);
 
   const res = await fetch(url, {
     method: "PUT",
@@ -59,7 +54,6 @@ export const updateReview = async (reviewData) => {
   });
 
   if (!res.ok) {
-    console.log(res);
     throw new Error('Error updating review');
   }
 

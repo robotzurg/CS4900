@@ -33,6 +33,7 @@ h1 {
 }
 
 .navbar-nav {
+  background-color: rgb(238, 237, 237);
   display: flex;
   align-items: center;
 }
@@ -45,10 +46,6 @@ h1 {
   background-color: rgb(238, 237, 237);
 }
 
-.container {
-  max-width: 1550px;
-}
-
 .music-card {
   margin: auto;
   background-color: rgb(241, 241, 241);
@@ -57,8 +54,8 @@ h1 {
 
 .review-card {
   margin: auto;
-  background-color: rgb(241, 241, 241);
-  border-radius: 10px;
+  /* background-color: rgb(241, 241, 241);
+  border-radius: 10px; */
 }
 
 .page-header::after {
@@ -87,7 +84,14 @@ h1 {
 }
 
 .music-card-wrapper {
-  margin-bottom: 50px;
+  margin-bottom: 25px;
+}
+
+@media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 1200px) {
+
 }
 
 /* General utility classes */
@@ -129,11 +133,3 @@ h1 {
 .mr-20 { margin-right: 20px; }
 .mr-40 { margin-right: 40px; }
 .mr-80 { margin-right: 80px; }
-
-/* Responsive versions */
-@media (max-width: 768px) {
-  .pt-sm-20 { padding-top: 20px; }
-  .pb-sm-20 { padding-bottom: 20px; }
-  .mt-sm-20 { margin-top: 20px; }
-  .mb-sm-20 { margin-bottom: 20px; }
-}

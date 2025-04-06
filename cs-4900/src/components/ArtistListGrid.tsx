@@ -2,6 +2,15 @@ import { Container, Row, Col } from "react-bootstrap";
 import ArtistCard from "./ArtistCard";
 
 function ArtistListGrid({ artistList }: { artistList: any[] }) {
+
+  if (!artistList || artistList.length === 0) {
+    return (
+        <div>
+            <p>No artists found.</p>
+        </div>
+    );
+  }
+
   return (
     <Container>
       <Row className="g-4">
