@@ -87,6 +87,12 @@ h1 {
   margin-bottom: 25px;
 }
 
+.music-card-top-img {
+  width: 220px;
+  height: 220px;
+}
+
+
 @media screen and (max-width: 768px) {
 }
 

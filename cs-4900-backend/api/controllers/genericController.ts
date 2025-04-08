@@ -4,6 +4,7 @@ export const createGenericController = <T>(service: any, entity: string) => {
     const serviceInstance = new service();
 
     return {
+        // TODO: MAKE THIS FILTER BETTER!
         getAll: async (req: pkg.Request, res: pkg.Response): Promise<any> => {
             try {
                 const items: T[] = await serviceInstance.getAll();

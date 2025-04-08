@@ -7,7 +7,22 @@ export class ReviewService extends GenericService<Review> {
         super('reviews');
     }
 
+    async getAll(filter?: { userId?: string | null }): Promise<Review[]> {
+        let query = `SELECT * FROM reviews`;
+        const params: any[] = [];
+
+        if (filter?.userId) {
+            query += ` WHERE user_id = $1`;
+            params.push(filter.userId);
+        }
+
+        const { rows } = await pool.query(query, params);
+        return rows;
+    }
+
     async getAllReviewsByMusicType(musicId: string, type: string, userType?: string | null, userId?: string | null): Promise<Review[]> {
+        if (type == 'songs') type = 'song';
+        else if (type == 'albums') type = 'album';
         let query = `SELECT * FROM reviews WHERE ${type}_id = $1`;
         let params: any[] = [musicId];
 
@@ -21,9 +36,7 @@ export class ReviewService extends GenericService<Review> {
             params.push(userId);
         }
 
-        console.log(query, params);
-
         const { rows } = await pool.query(query, params);
         return rows;
-    }    
+    }
 }

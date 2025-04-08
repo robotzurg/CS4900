@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { fetchById, fetchMe } from "../../services";
+import { fetchById, fetchMe, getMusicReviews } from "../../services";
 import MusicInfoCard from "../../components/MusicInfoCard";
 import ReviewListGrid from "../../components/ReviewListGrid";
 
@@ -37,8 +37,8 @@ function MusicPage({ entity }: { entity: string }) {
         setMusic(musicData);
 
         const [reviewsData] = await Promise.all([
-            fetchById("reviews", musicId, [["type", musicData.category]])
-        ])
+            getMusicReviews(entity, musicId)
+        ]);
 
         setReviews(reviewsData.filter(r => r.user_id !== userId));
         setUserReview(reviewsData.filter(r => r.user_id === userId));
@@ -57,9 +57,9 @@ function MusicPage({ entity }: { entity: string }) {
 
   const allReviews = [...userReview, ...reviews];
   const averageRating = 
-  allReviews.length > 0
-    ? allReviews.reduce((acc, review) => acc + (parseFloat(review.rating) || 0), 0) / allReviews.length
-    : 0;
+    allReviews.length > 0
+      ? allReviews.reduce((acc, review) => acc + (parseFloat(review.rating) || 0), 0) / allReviews.length
+      : 0;
 
   return (
     <div>

@@ -6,15 +6,24 @@ import type { Review } from '../models/review.ts';
 const reviewController = {
     ...createGenericController(ReviewService, 'review'),
 
+    getAll: async (req: pkg.Request, res: pkg.Response): Promise<any> => {
+        try {
+            let userId = (req.query.userId as string) || null;
+            const items: Review[] = await new ReviewService().getAll({ userId: userId });
+            res.json(items);
+        } catch (err) {
+            res.status(500).json({ error: `Error retrieving reviews: ${err}` });
+        }
+    },
+
     getReviews: async (req: pkg.Request, res: pkg.Response): Promise<any> => {
         try {
-            const { musicId } = req.params;
-            let type = (req.query.type as string) || "song";
+            const { musicType, musicId } = req.params;
             let userType = (req.query.userType as string) || null;
-            let userId = (req.query.user_id as string) || null;
+            let userId = (req.query.userId as string) || null; 
 
             let reviews: Review[] = [];
-            reviews = await new ReviewService().getAllReviewsByMusicType(musicId, type, userType, userId);
+            reviews = await new ReviewService().getAllReviewsByMusicType(musicId, musicType, userType, userId);
 
             res.json(reviews);
         } catch (err) {

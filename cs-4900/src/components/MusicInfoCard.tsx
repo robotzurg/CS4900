@@ -5,7 +5,7 @@ import { Flex, RingProgress, Text, Stack } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpotify, faSoundcloud, faApple, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import CreateReviewModal from './CreateReviewModal';
-import { addReview, fetchMe, getReviewByUserId, updateReview } from '../services';
+import { addReview, fetchMe, getMusicReviews, updateReview } from '../services';
 
 function MusicInfoCard({ music, userReview, averageRating }: { music: any, userReview: any[], averageRating: number }) {
   const [showModal, setShowModal] = useState(false);
@@ -20,7 +20,7 @@ function MusicInfoCard({ music, userReview, averageRating }: { music: any, userR
     const isAlbum = music.category === "album";
     const musicEntityKey = isAlbum ? "album_id" : "song_id";
 
-    const existingReview = await getReviewByUserId(music.id, user.id);
+    const existingReview = await getMusicReviews(music.id, music.type, ["userId", user.id]);
 
     if (existingReview) {
       await updateReview({

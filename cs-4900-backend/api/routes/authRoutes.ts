@@ -31,7 +31,7 @@ passport.use(
 
         // New user, insert into database
         const newUserId = generateId();
-        await pool.query('INSERT INTO users (id, username, profile_picture, friends_list) VALUES ($1, $2, $3, $4)', [newUserId, profile.displayName, profile.photos[0].value, []]);
+        await pool.query('INSERT INTO users (id, username, profile_picture, friends_list) VALUES ($1, $2, $3, $4)', [newUserId, profile.displayName, 'https://www.gravatar.com/avatar/?d=mp', []]);
 
         // Link federated credentials
         await pool.query(
@@ -40,7 +40,7 @@ passport.use(
         );
 
         // Pass user info with new: true in info argument
-        return done(null, { id: newUserId, username: profile.displayName, pic: profile.photos[0].value, new: true });
+        return done(null, { id: newUserId, username: profile.displayName, pic: 'https://www.gravatar.com/avatar/?d=mp', new: true });
       } catch (err) {
         console.log(err);
         return done(err);
@@ -49,12 +49,11 @@ passport.use(
   )
 );
 
-// **Login route**
+// Login rout
 router.get('/login/federated/google', passport.authenticate('google'));
 
-// **Logout route**
+// Logout route
 router.get('/logout', (req, res) => {
-  // Logout user from passport session
   req.logout((err) => {
     if (err) {
       return res.status(500).send('Failed to log out');
@@ -76,7 +75,7 @@ router.get('/logout', (req, res) => {
   });
 });
 
-// **Google OAuth callback**
+// Google OAuth callback
 router.get(
   '/oauth2/redirect/google',
   passport.authenticate('google', { 
@@ -98,11 +97,12 @@ router.get(
         : `${process.env.MAIN_FRONT_URL}/profile/${req.user.id}`);
     }
   }
-);
+); 
 
 router.get('/api/me', (req, res) => {
   if (req.isAuthenticated()) { 
-    res.json(req.user); 
+    const user = req.user;
+    res.json({ ...user }); 
   } else {
     res.status(401).json({ error: 'Not logged in' }); 
   }

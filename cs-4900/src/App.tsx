@@ -17,6 +17,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import Support from "./pages/Support/Support";
 import Tos from "./pages/Legal/Tos";
 import Privacy from "./pages/Legal/Privacy";
+import ReviewPage from "./pages/ReviewPage/ReviewPage";
 
 function App() {
   useEffect(() => {
@@ -38,6 +39,8 @@ function App() {
             <Route path="/artists" element={<Artists />} />
             <Route path="/artists/:artistId" element={<ArtistPage />} />
             <Route path="/profile/:userId" element={<ProfilePage />} />
+            <Route path="/songs/:musicId/reviews/:reviewId" element={<ReviewPage />} />
+            <Route path="/albums/:musicId/reviews/:reviewId" element={<ReviewPage />} />
             <Route path="/create-profile" element={<CreateProfilePage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/support" element={<Support />} />

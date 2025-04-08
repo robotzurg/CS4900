@@ -24,8 +24,10 @@
     "express-session": "^1.18.1",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
+    "passport-spotify": "^2.0.0",
     "pg": "^8.14.1",
     "slug": "^10.0.0",
+    "spotify-web-api-node": "^5.0.2",
     "sqids": "^0.3.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2"
@@ -39,7 +41,9 @@
     "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.1",
     "@types/node": "^22.10.7",
+    "@types/passport-spotify": "^2.0.4",
     "@types/slug": "^5.0.9",
+    "@types/spotify-web-api-node": "^5.0.11",
     "typescript": "^5.7.3"
   }
 }

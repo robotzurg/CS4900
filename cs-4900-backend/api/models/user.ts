@@ -5,6 +5,7 @@ export interface User {
     discord_mailbox_dm: boolean;
     discord_review_ping: boolean;
     friends_list: Array<string>;
+    role: string;
     profile_picture?: string | null;
     spotify_mailbox_playlist_id?: string | null;
     discord_user_id?: string | null;

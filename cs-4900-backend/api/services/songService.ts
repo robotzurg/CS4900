@@ -9,7 +9,17 @@ export class SongService extends GenericService<Song> {
     super('songs');
   }
 
-  async getAll(): Promise<Song[]> {
+  async getAll(filter?: { userId?: string }): Promise<Song[]> {
+    const conditions: string[] = [];
+    const values: any[] = [];
+  
+    if (filter?.userId) {
+      conditions.push(`r.user_id = $${conditions.length + 1}`);
+      values.push(filter.userId);
+    }
+  
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+  
     const query = `
       SELECT 
         a.*, 
@@ -26,9 +36,12 @@ export class SongService extends GenericService<Song> {
       LEFT JOIN Artists ar ON aa.artist_id = ar.id
       LEFT JOIN Song_Genres ga ON a.id = ga.song_id
       LEFT JOIN Genres g ON ga.genre_id = g.id
+      LEFT JOIN Reviews r ON a.id = r.song_id
+      ${whereClause}
       GROUP BY a.id;
     `;
-    const result = await pool.query(query);
+  
+    const result = await pool.query(query, values);
     return result.rows;
   }
 

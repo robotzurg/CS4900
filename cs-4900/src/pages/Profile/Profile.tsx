@@ -14,13 +14,14 @@ interface User {
 }
 
 const ProfilePage = () => {
-  const { userId } = useParams();
+  const { userId } = useParams<string>();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [songs, setSongs] = useState<any[]>([]);
 
   useEffect(() => {
-    fetchAll("songs").then(setSongs).catch(console.error);
+    if (!userId) return;
+    fetchAll("songs", [["userId", userId]]).then(setSongs).catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -61,7 +62,8 @@ const ProfilePage = () => {
               <p className="pt-20">{user.bio || "User has not written a bio yet."} </p>
               <Flex gap={15}>
                 <Button>Connect to Spotify</Button>
-                <Button>Connect to Last.fm</Button>
+                <Button>Connect to Last.fm</Button> 
+                <Button>Connect to Discord</Button>
               </Flex>
             </Row>
             <Row>

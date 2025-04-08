@@ -54,7 +54,6 @@ export class GenericService<T> {
       const placeholders = values.map((_, index) => `$${index + 1}`).join(', ');
       fields.unshift('id');
       fields = fields.join(', ');
-      console.log(fields);
 
       const result = await pool.query(
         `INSERT INTO ${this.tableName} (${fields}) VALUES (${placeholders}) RETURNING *`,

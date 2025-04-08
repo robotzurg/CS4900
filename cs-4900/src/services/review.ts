@@ -2,8 +2,32 @@ let isDev = import.meta.env.VITE_IS_DEV;
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiDevUrl = import.meta.env.VITE_API_DEV_URL;
 
-export const getReviewByUserId = async (musicId: string, userId: string) => {
-  const url = `${isDev === 'true' ? apiDevUrl : apiUrl}/api/reviews/${musicId}?user_id=${userId}`;
+export const getReview = async (reviewId: string) => {
+  const url = `${isDev === 'true' ? apiDevUrl : apiUrl}/api/reviews/${reviewId}`;
+
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    throw new Error('Error fetching review');
+  }
+
+  const review = await res.json();
+  return review;
+};
+
+export const getMusicReviews = async (entity: string, musicId: string, query: any[] = []) => {
+
+  const queryParams = query.length 
+            ? `?${query.map(q => `${q[0]}=${encodeURIComponent(q[1])}`).join('&')}` 
+            : '';
+
+  const url = `${isDev === 'true' ? apiDevUrl : apiUrl}/api/reviews/${entity}/${musicId}${queryParams}`;
 
   const res = await fetch(url, {
     method: "GET",
@@ -18,7 +42,7 @@ export const getReviewByUserId = async (musicId: string, userId: string) => {
   }
 
   const reviews = await res.json();
-  return reviews.length > 0 ? reviews[0] : null;
+  return reviews;
 };
 
 

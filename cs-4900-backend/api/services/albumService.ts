@@ -9,9 +9,20 @@ export class AlbumService extends GenericService<Album> {
     super('albums');
   }
 
-  async getAll(): Promise<Album[]> {
+  async getAll(filter?: { userId?: string }): Promise<Album[]> {
+    const conditions: string[] = [];
+    const values: any[] = [];
+  
+    if (filter?.userId) {
+      conditions.push(`r.user_id = $${conditions.length + 1}`);
+      values.push(filter.userId);
+    }
+  
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+  
     const query = `
-      SELECT a.*, 
+      SELECT 
+        a.*, 
         COALESCE(
           json_agg(DISTINCT jsonb_build_object('id', aa.artist_id, 'name', ar.name)) 
           FILTER (WHERE aa.artist_id IS NOT NULL), '[]'
@@ -25,9 +36,12 @@ export class AlbumService extends GenericService<Album> {
       LEFT JOIN Artists ar ON aa.artist_id = ar.id
       LEFT JOIN Album_Genres ga ON a.id = ga.album_id
       LEFT JOIN Genres g ON ga.genre_id = g.id
+      LEFT JOIN Reviews r ON a.id = r.album_id
+      ${whereClause}
       GROUP BY a.id;
     `;
-    const result = await pool.query(query);
+  
+    const result = await pool.query(query, values);
     return result.rows;
   }
   
