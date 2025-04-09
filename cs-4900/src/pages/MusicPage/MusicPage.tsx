@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { fetchById, getMusicReviews } from "../../services";
 import MusicInfoCard from "../../components/MusicInfoCard";
-import { Col, Row } from "react-bootstrap";
 
 function MusicPage({ entity }: { entity: string }) {
   const { musicId } = useParams(); 
