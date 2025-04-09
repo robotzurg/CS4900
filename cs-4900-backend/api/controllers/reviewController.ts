@@ -9,7 +9,8 @@ const reviewController = {
     getAll: async (req: pkg.Request, res: pkg.Response): Promise<any> => {
         try {
             let userId = (req.query.userId as string) || null;
-            const items: Review[] = await new ReviewService().getAll({ userId: userId });
+            let type = (req.query.type as string) || null;
+            const items: Review[] = await new ReviewService().getAll({ userId: userId, type: type});
             res.json(items);
         } catch (err) {
             res.status(500).json({ error: `Error retrieving reviews: ${err}` });

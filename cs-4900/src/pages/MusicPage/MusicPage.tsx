@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { fetchById, fetchMe, getMusicReviews } from "../../services";
+import { fetchById, getMusicReviews } from "../../services";
 import MusicInfoCard from "../../components/MusicInfoCard";
-import ReviewListGrid from "../../components/ReviewListGrid";
+import { Col, Row } from "react-bootstrap";
 
 function MusicPage({ entity }: { entity: string }) {
   const { musicId } = useParams(); 
@@ -13,20 +13,15 @@ function MusicPage({ entity }: { entity: string }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await fetchMe();
-        setUserId(userData?.id || null);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    };
-
-    fetchUser();
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const userData = JSON.parse(storedUser);
+      setUserId(userData?.id || null);
+    }
   }, []);
 
   useEffect(() => {
-    if (!musicId || !userId) return;
+    if (!musicId) return;
 
     const fetchMusicDataAndReviews = async () => {
       try {
@@ -40,8 +35,13 @@ function MusicPage({ entity }: { entity: string }) {
             getMusicReviews(entity, musicId)
         ]);
 
-        setReviews(reviewsData.filter(r => r.user_id !== userId));
-        setUserReview(reviewsData.filter(r => r.user_id === userId));
+        if (userId) {
+          setUserReview(reviewsData.filter(r => r.user_id === userId));
+          setReviews(reviewsData.filter(r => r.user_id !== userId));
+        } else {
+          setUserReview([]);
+          setReviews(reviewsData);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -55,17 +55,9 @@ function MusicPage({ entity }: { entity: string }) {
   if (loading) return <p>Loading...</p>;
   if (!music) return <p>{entity} not found</p>;
 
-  const allReviews = [...userReview, ...reviews];
-  const averageRating = 
-    allReviews.length > 0
-      ? allReviews.reduce((acc, review) => acc + (parseFloat(review.rating) || 0), 0) / allReviews.length
-      : 0;
-
   return (
     <div>
-      <MusicInfoCard music={music} userReview={userReview} averageRating={averageRating} />
-      {(userReview.length > 0) && <ReviewListGrid type={"user_main"} reviews={userReview} />}
-      <ReviewListGrid reviews={reviews} type={"users"} />
+      <MusicInfoCard music={music} reviews={reviews} userReview={userReview} />
     </div>
   );
 }

@@ -28,7 +28,6 @@ export const fetchAll = async (entity: string, query: [string, string][] = []) =
     }
 };
 
-
 export const searchByName = async (entity: string, query: string) => {
     try {
         if (!query || !entity) return []
@@ -38,5 +37,27 @@ export const searchByName = async (entity: string, query: string) => {
         return results;
     } catch (err) {
         return { error: `Error retrieving ${entity}: ${err}` };
+    }
+};
+
+export const uploadImage = async (imageFile: File): Promise<{ url?: string; error?: string }> => {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    try {
+        const response = await fetch(`${isDev == 'true' ? apiDevUrl : apiUrl}/api/upload`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            const errMsg = await response.text();
+            return { error: `Upload failed: ${errMsg}` };
+        }
+
+        const data = await response.json();
+        return { url: data.url };
+    } catch (err) {
+        return { error: `Error uploading image: ${err}` };
     }
 };

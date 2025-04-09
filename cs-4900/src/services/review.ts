@@ -66,6 +66,7 @@ export const addReview = async (reviewData) => {
 };
 
 export const updateReview = async (reviewData) => {
+  console.log(reviewData);
   const url = `${isDev === 'true' ? apiDevUrl : apiUrl}/api/reviews/${reviewData.id}`;
 
   const res = await fetch(url, {

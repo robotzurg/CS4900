@@ -1,25 +1,25 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import ReviewCard from './ReviewCard';
 
-function ReviewListGrid({ type, reviews }: { type: string, reviews: any[] }) {
+function ReviewListGrid({ reviews, type='' }: { reviews: any[], type?: string }) {
 
-  let header = 'Reviews';
+  let header = '';
   
   switch (type) {
     case 'user_main': header = 'Your Review'; break;
     case 'critic': header = 'Critic Reviews'; break;
-    case 'user': 
-    default: header = 'Reviews'; break;
+    case 'user': header = 'Reviews'; break;
+    default: header = ''; break;
   }
 
   return (
     <div>
     <Container>
     <Row className="g-4 mt-1">
-        <h2>{header}</h2>
+        {header !== '' && <h2>{header}</h2>}
         {reviews.length > 0 ? (
         reviews.map((review) => (
-            <Col key={review.id} md={6}>
+            <Col key={review.id}>
                 <ReviewCard review={review} />
             </Col>
         ))
@@ -33,4 +33,3 @@ function ReviewListGrid({ type, reviews }: { type: string, reviews: any[] }) {
 }
 
 export default ReviewListGrid;
-

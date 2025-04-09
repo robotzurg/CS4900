@@ -12,6 +12,7 @@ import songRouter from './routes/songRoutes.ts';
 import reviewRouter from './routes/reviewsRoutes.ts';
 import userRouter from './routes/userRoutes.ts';
 import searchRouter from './routes/searchRoutes.ts';
+import otherRouter from './routes/otherRoutes.ts';
 
 dotenv.config();
 
@@ -87,6 +88,7 @@ app.use('/', songRouter);
 app.use('/', reviewRouter);
 app.use('/', userRouter);
 app.use('/', searchRouter);
+app.use('/', otherRouter);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

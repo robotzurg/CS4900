@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import { onSearch } from "../../services/index";
 import MusicListGrid from "../../components/MusicListGrid";
 import { useSearchParams } from "react-router-dom";
-import ArtistListGrid from "../../components/ArtistListGrid";
+import PersonListGrid from "../../components/PersonListGrid";
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
@@ -12,6 +12,7 @@ const SearchPage = () => {
   const [songResults, setSongResults] = useState<any[]>([]);
   const [artistResults, setArtistResults] = useState<any[]>([]);
   const [albumResults, setAlbumResults] = useState<any[]>([]);
+  const [userResults, setUserResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -23,15 +24,17 @@ const SearchPage = () => {
   const handleSearch = async (query: string) => {
     setLoading(true);
     try {
-      const [songs, artists, albums] = await Promise.all([
+      const [songs, artists, albums, users] = await Promise.all([
         onSearch(query, "songs"),
         onSearch(query, "artists"),
-        onSearch(query, "albums")
+        onSearch(query, "albums"),
+        onSearch(query, "users"),
       ]);
       
       setSongResults(songs);
       setArtistResults(artists);
       setAlbumResults(albums);
+      setUserResults(users);
     } catch (error) {
       console.error("Error searching:", error);
     } finally {
@@ -60,7 +63,12 @@ const SearchPage = () => {
 
             <section>
               <h2>Artists</h2>
-              <ArtistListGrid artistList={artistResults} />
+              <PersonListGrid personList={artistResults} entity="artists" />
+            </section>
+
+            <section>
+              <h2>Users</h2>
+              <PersonListGrid personList={userResults} entity="users" />
             </section>
 
           </div>

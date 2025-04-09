@@ -7,13 +7,23 @@ export class ReviewService extends GenericService<Review> {
         super('reviews');
     }
 
-    async getAll(filter?: { userId?: string | null }): Promise<Review[]> {
+    async getAll(filter?: { userId?: string | null, type?: string | null }): Promise<Review[]> {
         let query = `SELECT * FROM reviews`;
+        const conditions: string[] = [];
         const params: any[] = [];
 
         if (filter?.userId) {
-            query += ` WHERE user_id = $1`;
+            conditions.push(`user_id = $${params.length + 1}`);
             params.push(filter.userId);
+        }
+
+        if (filter?.type) {
+            conditions.push(`type = $${params.length + 1}`);
+            params.push(filter.type);
+        }
+
+        if (conditions.length > 0) {
+            query += ` WHERE ` + conditions.join(' AND ');
         }
 
         const { rows } = await pool.query(query, params);

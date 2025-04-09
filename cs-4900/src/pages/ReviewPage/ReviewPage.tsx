@@ -34,7 +34,10 @@ const ReviewPage: React.FC = () => {
 
   if (!review) return;
 
-  const formattedRating = review.rating.toString().replace(/\.0+$/, '');
+  let formattedRating = '';
+  if (review.rating) {
+    formattedRating = `(${review.rating.toString().replace(/\.0+$/, '')}/10)`;
+  }
   
   return (
     <div>
@@ -73,7 +76,7 @@ const ReviewPage: React.FC = () => {
                       <h5 className="mb-0">
                           <Link to={`/profile/${user.id}`}>{user.username}</Link>
                       </h5>
-                      <h5>{formattedRating}/10</h5>
+                      <h5>{formattedRating}</h5>
                     </div>
                     <Button variant='secondary' className='ml-10'><FontAwesomeIcon icon={faEdit} /></Button>
                     <Button variant='danger'><FontAwesomeIcon icon={faTrash} /></Button>

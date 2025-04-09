@@ -8,7 +8,6 @@ import ProfilePage from "./pages/Profile/Profile";
 import SearchPage from "./pages/Search/Search";
 import Artists from "./pages/Artists/Artists";
 import ArtistPage from "./pages/ArtistPage/ArtistPage";
-import CreateProfilePage from "./pages/CreateProfilePage/CreateProfilePage";
 import MainNavbar from "./components/MainNavbar";
 import MainFooter from "./components/MainFooter";
 import { useEffect } from "react";
@@ -18,6 +17,8 @@ import Support from "./pages/Support/Support";
 import Tos from "./pages/Legal/Tos";
 import Privacy from "./pages/Legal/Privacy";
 import ReviewPage from "./pages/ReviewPage/ReviewPage";
+import Users from "./pages/Users/Users";
+import CreateProfilePage from "./pages/CreateProfilePage/CreateProfilePage";
 
 function App() {
   useEffect(() => {
@@ -38,11 +39,12 @@ function App() {
             <Route path="/albums/:musicId" element={<MusicPage entity="albums" />} />
             <Route path="/artists" element={<Artists />} />
             <Route path="/artists/:artistId" element={<ArtistPage />} />
+            <Route path="/users" element={<Users />} />
             <Route path="/profile/:userId" element={<ProfilePage />} />
             <Route path="/songs/:musicId/reviews/:reviewId" element={<ReviewPage />} />
             <Route path="/albums/:musicId/reviews/:reviewId" element={<ReviewPage />} />
             <Route path="/create-profile" element={<CreateProfilePage />} />
-            <Route path="/search" element={<SearchPage />} />
+            <Route path="/results" element={<SearchPage />} />
             <Route path="/support" element={<Support />} />
             <Route path="/tos" element={<Tos />} />
             <Route path="/privacy" element={<Privacy />} />

@@ -44,7 +44,7 @@ function MainNavbar() {
   const handleSearchClick = () => {
     if (searchTerm.trim() !== '') {
       onSearch(searchTerm);
-      navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+      navigate(`/results?q=${encodeURIComponent(searchTerm)}`);
       setSearchTerm('');
     }
   };
@@ -77,7 +77,7 @@ function MainNavbar() {
             <Nav.Link href="/songs">Songs</Nav.Link>
             <Nav.Link href="/albums">Albums</Nav.Link>
             <Nav.Link href="/artists">Artists</Nav.Link>
-            <Nav.Link href="/playlists">Playlists</Nav.Link>
+            <Nav.Link href="/users">Users</Nav.Link>
             <Nav.Link href="/genres">Genres</Nav.Link>
           </Nav>
           <Nav className="d-flex align-items-center">
@@ -121,9 +121,9 @@ function MainNavbar() {
                 <NavDropdown.Item as={Nav.Link} href={`/profile/${user.id}`} className="py-2 px-3 text-dark">
                   Profile
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Nav.Link} href={'/friends'} className="py-2 px-3 text-dark">
+                {/* <NavDropdown.Item as={Nav.Link} href={'/friends'} className="py-2 px-3 text-dark">
                   Friends
-                </NavDropdown.Item>
+                </NavDropdown.Item> */}
                 <NavDropdown.Item onClick={handleLogout}>
                   Logout
                 </NavDropdown.Item>

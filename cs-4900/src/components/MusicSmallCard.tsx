@@ -42,6 +42,7 @@ function MusicSmallCard({ musicId, entity }: { musicId: any, entity: any }) {
 
     if (loading) return <p>Loading...</p>;
     if (!music) return <p>Music not found</p>;
+    if (!music.artists) return <p>Music not found</p>;
 
     const overallAverageRating = reviews.length > 0
         ? reviews.reduce((acc, r) => acc + (Number(r.rating) || 0), 0) / reviews.length

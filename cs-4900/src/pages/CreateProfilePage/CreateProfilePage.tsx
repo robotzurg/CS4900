@@ -77,7 +77,7 @@ const CreateProfilePage = () => {
       <Container className="mt-4">
         <Row className="d-flex p-3">
           <Col lg={8}>
-            <h2>Complete Your Profile Setup</h2>
+            <h2>Edit Profile Data</h2>
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="username" className="mb-3">
                 <Form.Label>Username</Form.Label>
