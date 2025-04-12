@@ -13,6 +13,7 @@ import reviewRouter from './routes/reviewsRoutes.ts';
 import userRouter from './routes/userRoutes.ts';
 import searchRouter from './routes/searchRoutes.ts';
 import otherRouter from './routes/otherRoutes.ts';
+import genreRouter from './routes/genreRoutes.ts';
 
 dotenv.config();
 
@@ -88,6 +89,7 @@ app.use('/', songRouter);
 app.use('/', reviewRouter);
 app.use('/', userRouter);
 app.use('/', searchRouter);
+app.use('/', genreRouter);
 app.use('/', otherRouter);
 
 // Start the server

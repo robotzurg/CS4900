@@ -19,6 +19,7 @@ import Privacy from "./pages/Legal/Privacy";
 import ReviewPage from "./pages/ReviewPage/ReviewPage";
 import Users from "./pages/Users/Users";
 import CreateProfilePage from "./pages/CreateProfilePage/CreateProfilePage";
+import Genres from "./pages/Genres/Genres";
 
 function App() {
   useEffect(() => {
@@ -43,6 +44,7 @@ function App() {
             <Route path="/profile/:userId" element={<ProfilePage />} />
             <Route path="/songs/:musicId/reviews/:reviewId" element={<ReviewPage />} />
             <Route path="/albums/:musicId/reviews/:reviewId" element={<ReviewPage />} />
+            <Route path="/genres" element={<Genres />} />
             <Route path="/create-profile" element={<CreateProfilePage />} />
             <Route path="/results" element={<SearchPage />} />
             <Route path="/support" element={<Support />} />

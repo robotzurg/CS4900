@@ -4,25 +4,22 @@ import { Modal, Button, Form } from 'react-bootstrap';
 interface CreateReviewModalProps {
   show: boolean;
   handleClose: () => void;
-  onSubmit: (rating: number | null, reviewText: string, favorite: boolean) => void;
-  existingReview?: { rating: number | null; review_text: string; favorited: boolean };
+  onSubmit: (rating: number | null, reviewText: string) => void;
+  existingReview?: { rating: number | null; review_text: string };
 }
 
 const CreateReviewModal: React.FC<CreateReviewModalProps> = ({ show, handleClose, onSubmit, existingReview }) => {
   const [rating, setRating] = useState<string>('');
   const [reviewText, setReviewText] = useState<string>('');
-  const [favorite, setFavorite] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (existingReview) {
       setRating(existingReview.rating !== null ? existingReview.rating.toString().replace(/\.0+$/, '') : '');
       setReviewText(existingReview.review_text);
-      setFavorite(existingReview.favorited);
     } else {
       setRating('');
       setReviewText('');
-      setFavorite(false);
     }
   }, [existingReview, show]);
 
@@ -42,7 +39,7 @@ const CreateReviewModal: React.FC<CreateReviewModalProps> = ({ show, handleClose
     if (rating !== '') numberRating = parseFloat(rating);
 
     if (!error) {
-      onSubmit(numberRating, reviewText, favorite);
+      onSubmit(numberRating, reviewText);
       handleClose();
     }
   };
@@ -75,15 +72,6 @@ const CreateReviewModal: React.FC<CreateReviewModalProps> = ({ show, handleClose
               rows={3}
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group className="mt-3">
-            <Form.Check
-              type="checkbox"
-              label="Favorite"
-              id="favorite-checkbox"
-              checked={favorite}
-              onChange={(e) => setFavorite(e.target.checked)}
             />
           </Form.Group>
         </Form>

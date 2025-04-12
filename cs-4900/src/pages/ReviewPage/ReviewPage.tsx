@@ -84,7 +84,14 @@ const ReviewPage: React.FC = () => {
                 </Col>
             </Row>
             <Row className='mt-20'>
-                <p className="mb-0">{review.review_text}</p>
+              <p className="mb-0">
+                {review.review_text.split('\n').map((line: string, index: number) => (
+                  <span key={index}>
+                    {line}
+                    <br />
+                  </span>
+                ))}
+              </p>
             </Row>
             <Row style={{ marginTop: '100px'}}>
               <h4>Comments</h4>

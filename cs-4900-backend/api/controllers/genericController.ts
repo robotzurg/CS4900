@@ -56,7 +56,8 @@ export const createGenericController = <T>(service: any, entity: string) => {
                 const data = req.body;
                 const artistIds = req.body.artist_ids || [];
                 const albumIds = req.body.album_ids || [];
-                const newItem: T = await serviceInstance.create(data, artistIds, albumIds);
+                const genreIds = req.body.genre_ids || [];
+                const newItem: T = await serviceInstance.create(data, artistIds, albumIds, genreIds);
                 res.status(201).json(newItem);
             } catch (err) {
                 console.log(err);

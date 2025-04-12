@@ -22,12 +22,13 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any, reviews: an
       ? allReviews.reduce((acc, review) => acc + (parseFloat(review.rating) || 0), 0) / allReviews.length
       : -1;
 
-  const handleReviewSubmit = async (rating: number | null, reviewText: string, favorite: boolean) => {
+  const handleReviewSubmit = async (rating: number | null, reviewText: string) => {
     if (!user) return;  
 
     const isAlbum = music.category === "album";
     const musicEntityKey = isAlbum ? "album_id" : "song_id";
     const musicEntityTable = isAlbum ? "albums" : "songs";
+    const musicType = isAlbum ? "album" : "song";
 
     const existingReview = await getMusicReviews(musicEntityTable, music.id, ["userId", user.id]);
 
@@ -37,18 +38,18 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any, reviews: an
         user_id: user.id,
         [musicEntityKey]: music.id,
         timestamp: new Date().toISOString().split('T')[0],
-        favorited: favorite,
         rating: rating,
         review_text: reviewText,
+        type: musicType
       });
     } else {
       await addReview({
         user_id: user.id,
         [musicEntityKey]: music.id,
         timestamp: new Date().toISOString().split('T')[0],
-        favorited: favorite,
         rating: rating,
         review_text: reviewText,
+        type: musicType
       });
     }
 

@@ -112,7 +112,6 @@ CREATE TABLE Reviews (
   id TEXT PRIMARY KEY,
   user_id TEXT REFERENCES Users(id),
   timestamp DATE NOT NULL,
-  favorited BOOLEAN NOT NULL,
   review_text TEXT,
   song_id TEXT REFERENCES Songs(id) ON DELETE CASCADE,
   album_id TEXT REFERENCES Albums(id) ON DELETE CASCADE,

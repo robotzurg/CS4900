@@ -68,7 +68,7 @@ export class SongService extends GenericService<Song> {
     return result.rows.length > 0 ? result.rows[0] : null;
   }
 
-  async create(songData: Omit<Song, 'id'>, artistIds: string[] = [], albumIds: string[] = []): Promise<Song> {
+  async create(songData: Omit<Song, 'id'>, artistIds: string[] = [], albumIds: string[] = [], genreIds: string[] = []): Promise<Song> {
     const client = await pool.connect();
     try {
 
@@ -103,6 +103,13 @@ export class SongService extends GenericService<Song> {
       );
 
       await Promise.all(albumQueries);
+
+      // Insert song-genre relationships
+      const genreQueries = genreIds.map(genreId =>
+        client.query(`INSERT INTO Song_Genres (song_id, genre_id) VALUES ($1, $2)`, [id, genreId])
+      );
+
+      await Promise.all(genreQueries);
 
       await client.query('COMMIT');
       return { ...songData, id: id };

@@ -16,7 +16,7 @@ function ReviewListGrid({ reviews, type='' }: { reviews: any[], type?: string })
     <div>
     <Container>
     <Row className="g-4 mt-1">
-        {header !== '' && <h2>{header}</h2>}
+        {header !== '' && <h4 className='mb-0'>{header}</h4>}
         {reviews.length > 0 ? (
         reviews.map((review) => (
             <Col key={review.id}>
