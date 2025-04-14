@@ -22,19 +22,19 @@ function MusicPage({ entity }: { entity: string }) {
 
   useEffect(() => {
     if (!musicId) return;
-
+    
     const fetchMusicDataAndReviews = async () => {
       try {
         const [musicData] = await Promise.all([
           fetchById(entity, musicId)
         ]);
-
+  
         setMusic(musicData);
-
+  
         const [reviewsData] = await Promise.all([
             getMusicReviews(entity, musicId)
         ]);
-
+  
         if (userId) {
           setUserReview(reviewsData.filter(r => r.user_id === userId));
           setReviews(reviewsData.filter(r => r.user_id !== userId));
@@ -48,25 +48,31 @@ function MusicPage({ entity }: { entity: string }) {
         setLoading(false);
       }
     };
-
+    
     fetchMusicDataAndReviews();
   }, [musicId, userId]);
-
+  
   if (loading) return <p>Loading...</p>;
   if (!music) return <p>{entity} not found</p>;
-
+  
   return (
     <div>
       <Helmet>
         <title>{music?.name} - Waveform</title>
-        <meta property="og:title" content={`${music?.name} by ${music?.artists.map(a => a.name).join(' & ')}`} />
-        <meta property="og:description" content={`Listen to ${music?.name} by ${music?.artists.map(a => a.name)}. Read reviews and more!`} />
+        <meta
+          property="og:title"
+          content={`${music?.name} by ${music?.artists.map(a => a.name).join(' & ')}`}
+        />
+        <meta
+          property="og:description"
+          content={`Listen to ${music?.name} by ${music?.artists.map(a => a.name).join(' & ')}. Read reviews and more!`}
+        />
         <meta property="og:image" content={music?.image_url} />
         <meta property="og:image:width" content="300" />
         <meta property="og:image:height" content="300" />
         <meta property="og:type" content="music.song" />
       </Helmet>
-
+      
       <MusicInfoCard music={music} reviews={reviews} userReview={userReview} />
     </div>
   );
