@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { Helmet } from "react-helmet";
 import { fetchById, getMusicReviews } from "../../services";
 import MusicInfoCard from "../../components/MusicInfoCard";
 
@@ -56,6 +57,15 @@ function MusicPage({ entity }: { entity: string }) {
 
   return (
     <div>
+      <Helmet>
+        <title>{music?.name} by {music?.artist}</title>
+        <meta name="description" content={`Listen to ${music?.name} by ${music?.artist}. Read reviews and more!`} />
+        <meta property="og:title" content={`${music?.name} by ${music?.artist}`} />
+        <meta property="og:description" content={`Listen to ${music?.name} by ${music?.artist}. Read reviews and more!`} />
+        <meta property="og:image" content={music?.art} />
+        <meta property="og:type" content="music.song" />
+      </Helmet>
+
       <MusicInfoCard music={music} reviews={reviews} userReview={userReview} />
     </div>
   );
