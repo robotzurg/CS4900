@@ -1,5 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons'
+import { faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function MainFooter() {
