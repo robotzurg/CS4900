@@ -22,7 +22,7 @@
     <meta property="twitter:url" content="https://www.waveformreviews.net/" />
     <meta property="twitter:title" content="Waveform Reviews" />
     <meta property="twitter:description" content="Review music, listen to recommendations, and more!" />
-    <meta property="twitter:image" content="https://www.waveformreviews.net/images/waveform-banner.png" />
+    <meta property="twitter:image" content="https://www.waveformreviews.net/images/new-waveform-logo.png" />
 
     <link
       rel="stylesheet"
@@ -32,18 +32,6 @@
     />
   </head>
   <body>
-    <Helmet>
-      <title>{music?.name} by {music?.artist}</title>
-      <meta name="description" content={`Listen to ${music?.name} by ${music?.artist}. Read reviews and more!`} />
-      <meta property="og:title" content={`${music?.name} by ${music?.artist}`} />
-      <meta property="og:description" content={`Listen to ${music?.name} by ${music?.artist}. Read reviews and more!`} />
-      <meta property="og:image" content="https://www.waveformreviews.net/images/new-waveform-logo.png" />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:type" content="music.song" />
-      <meta property="twitter:card" content="summary" />
-      <meta property="twitter:image" content="https://www.waveformreviews.net/images/new-waveform-logo.png" />
-    </Helmet>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
