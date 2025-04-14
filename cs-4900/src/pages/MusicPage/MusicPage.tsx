@@ -58,11 +58,9 @@ function MusicPage({ entity }: { entity: string }) {
   return (
     <div>
       <Helmet>
-        <title>{music?.name} by {music?.artist}</title>
-        <meta name="description" content={`Listen to ${music?.name} by ${music?.artist}. Read reviews and more!`} />
         <meta property="og:title" content={`${music?.name} by ${music?.artist}`} />
-        <meta property="og:description" content={`Listen to ${music?.name} by ${music?.artist}. Read reviews and more!`} />
-        <meta property="og:image" content={music?.art} />
+        <meta property="og:description" content={`Listen to ${music?.name} by ${music?.artists.map(a => a.name)}. Read reviews and more!`} />
+        <meta property="og:image" content={music?.image_url} />
         <meta property="og:type" content="music.song" />
       </Helmet>
 
