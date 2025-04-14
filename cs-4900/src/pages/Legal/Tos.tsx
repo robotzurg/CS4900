@@ -4,11 +4,11 @@ function Tos() {
             <h1>Waveform Terms and Conditions of Use</h1>
             <h2>1. Terms</h2>
 
-            <p>By utilizing this bot, you are agreeing to be bound by these Terms and Conditions of Use and agree that you are responsible for the agreement with any applicable local laws. If you disagree with any of these terms, you are prohibited from accessing the bot. The materials contained in the bot are protected by copyright and trade mark law.</p>
+            <p>By utilizing Waveform, you are agreeing to be bound by these Terms and Conditions of Use and agree that you are responsible for the agreement with any applicable local laws. If you disagree with any of these terms, you are prohibited from accessing Waveform. The materials contained in Waveform are protected by copyright and trade mark law.</p>
 
             <h2>2. Use License</h2>
 
-            <p>Permission is granted to temporarily download one copy of the materials on the Waveform Discord Bot for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p>
+            <p>Permission is granted to temporarily download one copy of the materials on the Waveform for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p>
 
             <ul>
                 <li>modify or copy the materials;</li>
@@ -30,15 +30,15 @@ function Tos() {
 
             <h2>5. Revisions and Errata</h2>
 
-            <p>The materials appearing on Waveform may include technical, typographical, or photographic errors. Waveform will not promise that any of the materials in this bot are accurate, complete, or current. Waveform may change the materials contained at any time without notice. Waveform does not make any commitment to update the materials.</p>
+            <p>The materials appearing on Waveform may include technical, typographical, or photographic errors. Waveform will not promise that any of the materials within it are accurate, complete, or current. Waveform may change the materials contained at any time without notice. Waveform does not make any commitment to update the materials.</p>
 
             <h2>6. Links</h2>
 
-            <p>Waveform has not reviewed all of the sites linked to its bot and is not responsible for the contents of any such linked site. The presence of any link does not imply endorsement by Waveform of the site. The use of any linked website is at the user's own risk.</p>
+            <p>Waveform has not reviewed all of the sites linked and is not responsible for the contents of any such linked site. The presence of any link does not imply endorsement by Waveform of the site. The use of any linked website is at the user's own risk.</p>
 
             <h2>7. Terms of Use Modifications</h2>
 
-            <p>Waveform may revise these Terms of Use for the bot at any time without prior notice. By using this bot, you are agreeing to be bound by the current version of these Terms and Conditions of Use.</p>
+            <p>Waveform may revise these Terms of Use at any time without prior notice. By using Waveform, you are agreeing to be bound by the current version of these Terms and Conditions of Use.</p>
 
             <h2>8. Your Privacy</h2>
 

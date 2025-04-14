@@ -10,7 +10,6 @@ function MainFooter() {
           <Col md={6}>
             <h5>Quick Links</h5>
             <ul className="list-unstyled">
-              <li><a href="/about">About</a></li>
               <li><a href="/support">Support</a></li>
               <li><a href="/tos">Terms of Service</a></li>
               <li><a href="/privacy">Privacy Policy</a></li>
@@ -19,8 +18,7 @@ function MainFooter() {
           <Col md={6} className="text-md-end">
             <h5>Social Media</h5>
             <p>
-              <a href="https://twitter.com" className="me-2"><FontAwesomeIcon icon={faTwitter} size="2x" /></a>
-              <a href="https://instagram.com"><FontAwesomeIcon icon={faInstagram} size="2x" /></a>
+              <a href="https://x.com/music_waveform" className="me-2"><FontAwesomeIcon icon={faTwitter} size="2x" /></a>
             </p>
           </Col>
         </Row>

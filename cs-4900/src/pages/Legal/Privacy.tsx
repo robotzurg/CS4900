@@ -25,7 +25,7 @@ function Privacy() {
             <li>The right to withdraw consent</li>
             </ul>
             <h2>Spotify Data</h2>
-            <p>Waveform connects to users' Spotify accounts to enrich the reviewing experience. We collect and store data from your Spotify account, including but not limited to listening history, playlists, and user profile information. This data is stored in a locally maintained database and is used solely to enhance the functionalities of the Waveform bot.</p>
+            <p>Waveform connects to users' Spotify accounts to enrich the reviewing experience. We collect and store data from your Spotify account, including but not limited to listening history, playlists, and user profile information. This data is stored in a secure maintained database and is used solely to enhance the functionalities of Waveform.</p>
             <p>We do not share your Spotify data with any third parties, and it is used exclusively for the purposes outlined in this Privacy Policy.</p>
             <h2>Privacy Policies</h2>
             <p>You may consult this list to find the Privacy Policy for each of the advertising partners of Waveform.</p>
@@ -36,11 +36,11 @@ function Privacy() {
             <p>You can choose to disable cookies through your individual browser options. To know more detailed information about cookie management with specific web browsers, it can be found at the browsers' respective websites.</p>
             <h2>Children's Information</h2>
             <p>Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity.</p>
-            <p>Waveform does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information through our bot, we strongly encourage you to contact us immediately, and we will do our best efforts to promptly remove such information from our records.</p>
+            <p>Waveform does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information, we strongly encourage you to contact us immediately, and we will do our best efforts to promptly remove such information from our records.</p>
             <h2>Online Privacy Policy Only</h2>
-            <p>Our Privacy Policy applies only to our online activities and is valid for users of our Discord bot with regards to the information that they shared and/or collect in Waveform. This policy is not applicable to any information collected offline or via channels other than this bot.</p>
+            <p>Our Privacy Policy applies only to our online activities and is valid for users of Waveform with regards to the information that they shared and/or collect in Waveform. This policy is not applicable to any information collected offline or via channels other than Waveform.</p>
             <h2>Consent</h2>
-            <p>By using our Discord bot, you hereby consent to our Privacy Policy and agree to its terms.</p>
+            <p>By using Waveform, you hereby consent to our Privacy Policy and agree to its terms.</p>
         </div>
     );
 };
