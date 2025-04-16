@@ -1,11 +1,13 @@
-import pkg from 'express';
-import pool from '../config/db.ts';
+import { Router } from 'express';
+import commentController from '../controllers/commentController.ts';
 
-const router = pkg.Router();
+const router = Router();
 
-// DELETE route to delete a comment.
-router.get('/api/comments/:commentId', async (req: pkg.Request, res: pkg.Response): Promise<any> => {
-    
-});
+router.get('/api/comments', commentController.getAll);
+router.get('/api/comments/:commentId', commentController.getById);
+router.get(`/api/comments/review/:reviewId`, commentController.getByReviewId);
+router.post('/api/comments', commentController.create);
+router.put('/api/comments/:commentId', commentController.update);
+router.delete('/api/comments/:commentId', commentController.delete);
 
 export default router;

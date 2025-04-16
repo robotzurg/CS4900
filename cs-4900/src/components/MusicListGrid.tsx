@@ -4,7 +4,7 @@ function MusicListGrid({ musicList, entity }: { musicList: any[], entity: string
     if (!musicList || musicList.length === 0) {
         return (
             <div className="music-grid-container">
-                <p>No {entity} found.</p>
+                No {entity} found.
             </div>
         );
     }

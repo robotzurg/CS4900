@@ -24,6 +24,10 @@ h1 {
   line-height: 1.1;
 }
 
+.button:hover {
+  cursor: pointer;
+}
+
 .navbar {
   background-color: rgb(238, 237, 237);
   position: sticky;

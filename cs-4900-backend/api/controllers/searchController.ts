@@ -1,5 +1,5 @@
 import pkg from 'express';
-import { searchSongs, searchArtists, searchAlbums, searchAll } from "../services/searchService.ts";
+import { searchSongs, searchArtists, searchAlbums, searchAll, searchUsers } from "../services/searchService.ts";
 
 export const getAll = async (req: pkg.Request, res: pkg.Response) => {
     try {
@@ -40,6 +40,17 @@ export const getAlbums = async (req: pkg.Request, res: pkg.Response) => {
         const query = req.query.q as string;
         const artists = await searchAlbums(query);
         res.json(artists);
+    } catch (error) {
+        console.error("Error fetching albums:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+};
+
+export const getUsers = async (req: pkg.Request, res: pkg.Response) => {
+    try {
+        const query = req.query.q as string;
+        const users = await searchUsers(query);
+        res.json(users);
     } catch (error) {
         console.error("Error fetching albums:", error);
         res.status(500).json({ error: "Server error" });

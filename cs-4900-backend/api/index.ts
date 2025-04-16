@@ -14,6 +14,7 @@ import userRouter from './routes/userRoutes.ts';
 import searchRouter from './routes/searchRoutes.ts';
 import otherRouter from './routes/otherRoutes.ts';
 import genreRouter from './routes/genreRoutes.ts';
+import commentRouter from './routes/commentsRoutes.ts'
 
 dotenv.config();
 
@@ -90,6 +91,7 @@ app.use('/', reviewRouter);
 app.use('/', userRouter);
 app.use('/', searchRouter);
 app.use('/', genreRouter);
+app.use('/', commentRouter);
 app.use('/', otherRouter);
 
 // Start the server

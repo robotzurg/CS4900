@@ -24,9 +24,7 @@ function ReviewCard({ review }: { review: any }) {
   if (review.rating) {
     formattedRating = `${review.rating.toString().replace(/\.0+$/, '')}/10`;
   }
-
-  console.log(review);
-
+  
   const reviewDate = new Date(review.timestamp);
   const isToday = new Date().toDateString() === reviewDate.toDateString();
 

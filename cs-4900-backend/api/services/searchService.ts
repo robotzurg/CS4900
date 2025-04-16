@@ -24,7 +24,7 @@ export const searchSongs = async (query: string): Promise<{ id: string; name: st
     return rows;
 };
 
-export const searchArtists = async (query: string): Promise<{ id: string; namnamee: string }[]> => {
+export const searchArtists = async (query: string): Promise<{ id: string; name: string }[]> => {
     if (!query) return [];
     const { rows } = await pool.query(
         "SELECT id, name FROM artists WHERE name ILIKE $1 LIMIT 10",
@@ -34,10 +34,19 @@ export const searchArtists = async (query: string): Promise<{ id: string; namnam
 };
 
 
-export const searchAlbums = async (query: string): Promise<{ id: string; namnamee: string }[]> => {
+export const searchAlbums = async (query: string): Promise<{ id: string; name: string }[]> => {
     if (!query) return [];
     const { rows } = await pool.query(
         "SELECT id, name FROM albums WHERE name ILIKE $1 LIMIT 10",
+        [`%${query}%`]
+    );
+    return rows;
+};
+
+export const searchUsers = async (query: string): Promise<{ id: string; username: string }[]> => {
+    if (!query) return [];
+    const { rows } = await pool.query(
+        "SELECT id, username FROM users WHERE username ILIKE $1 LIMIT 10",
         [`%${query}%`]
     );
     return rows;

@@ -61,12 +61,12 @@ const SearchPage = () => {
               <MusicListGrid musicList={albumResults} entity="albums" />
             </section>
 
-            <section>
+            <section className="mb-40">
               <h2>Artists</h2>
               <PersonListGrid personList={artistResults} entity="artists" />
             </section>
 
-            <section>
+            <section className="mb-40">
               <h2>Users</h2>
               <PersonListGrid personList={userResults} entity="users" />
             </section>

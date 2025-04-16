@@ -59,7 +59,7 @@ function MainNavbar() {
       <Container>
         <Navbar.Brand href="/" className="d-flex align-items-center">
           <Image 
-            src={"../images/new-waveform-logo.png"} 
+            src={`/images/new-waveform-logo.png`} 
             alt="Waveform" 
             className="me-2" 
             width={30} 

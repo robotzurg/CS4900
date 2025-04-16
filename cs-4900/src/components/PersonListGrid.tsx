@@ -6,7 +6,7 @@ function PersonListGrid({ personList, entity }: { personList: any[], entity: str
   if (!personList || personList.length === 0) {
     return (
         <div>
-            <p>No {entity} found.</p>
+          No {entity} found.
         </div>
     );
   }
