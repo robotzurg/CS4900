@@ -44,9 +44,9 @@ function MusicSmallCard({ musicId, entity }: { musicId: any, entity: any }) {
     if (!music) return <p>Music not found</p>;
     if (!music.artists) return <p>Music not found</p>;
 
-    const overallAverageRating = reviews.length > 0
+    let overallAverageRating = reviews.length > 0
         ? reviews.reduce((acc, r) => acc + (Number(r.rating) || 0), 0) / reviews.length
-        : 0;
+        : '-';
 
     return (
         <Card
@@ -81,30 +81,30 @@ function MusicSmallCard({ musicId, entity }: { musicId: any, entity: any }) {
                                 <RingProgress
                                     size={55}
                                     thickness={6}
-                                    sections={[{ value: 6 * 10, color: 'blue' }]}
-                                    label={<Text ta="center">6</Text>}
+                                    sections={[{ value: 0, color: 'blue' }]}
+                                    label={<Text ta="center">-</Text>}
                                 />
-                                <Text ta="center">Critic</Text>
+                                <Text ta="center">Critics</Text>
                             </Stack>
                             <Stack gap="0" align="center">
                                 <RingProgress
                                     size={55}
                                     thickness={6}
-                                    sections={[{ value: overallAverageRating * 10, color: 'red' }]}
+                                    sections={[{ value: (typeof overallAverageRating === 'number' ? parseFloat(overallAverageRating.toString()) * 10 : 0), color: 'red' }]}
                                     label={
                                         <Text ta="center">
-                                            {overallAverageRating.toFixed(1).replace(/\.0+$/, '')}
+                                            {typeof overallAverageRating === 'number' ? overallAverageRating.toFixed(1).replace(/\.0+$/, '') : overallAverageRating}
                                         </Text>
                                     }
                                 />
-                                <Text ta="center">User</Text>
+                                <Text ta="center">Users</Text>
                             </Stack>
                             <Stack gap="0" align="center">
                                 <RingProgress
                                     size={55}
                                     thickness={6}
-                                    sections={[{ value: 9 * 10, color: 'green' }]}
-                                    label={<Text ta="center">9</Text>}
+                                    sections={[{ value: 0, color: 'green' }]}
+                                    label={<Text ta="center">-</Text>}
                                 />
                                 <Text ta="center">Friends</Text>
                             </Stack>

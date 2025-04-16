@@ -26,7 +26,7 @@ function ReviewCard({ review }: { review: any }) {
   }
   
   const reviewDate = new Date(review.timestamp);
-  const isToday = new Date().toDateString() === reviewDate.toDateString();
+  const isToday = false;
 
   return (
     <Container className="review-card p-3 border rounded">

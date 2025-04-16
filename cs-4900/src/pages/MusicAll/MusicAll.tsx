@@ -13,6 +13,8 @@ function MusicAll({ entity }: {entity: string}) {
     fetchAll(entity).then(setMusicList).catch(console.error);
   }, []);
 
+  console.log(musicList);
+
   return (
     <div>
       <Container>

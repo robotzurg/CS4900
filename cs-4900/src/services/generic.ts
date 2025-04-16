@@ -52,7 +52,7 @@ export const updateItem = async (entity: string, id: string, data: any) => {
     const res = await fetch(
       `${apiUrl}/api/${entity}/${id}`, 
       {
-        method: 'PATCH',
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       }

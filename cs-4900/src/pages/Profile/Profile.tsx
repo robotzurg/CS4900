@@ -126,12 +126,12 @@ const ProfilePage = () => {
           </Col>
           <Col lg={4} className="bg-gray">
             <div style={{ minHeight: '500px', backgroundColor: '#f0f0f0', borderRadius: '8px', padding: '20px' }}>
+            <div className="mb-20">
+                <h4><strong>Topster</strong></h4>
+                <Topster />
+              </div>
             {reviews.length > 0 ? (
               <>
-                <div className="mb-20">
-                  <h4><strong>Topster</strong></h4>
-                  <Topster />
-                </div>
                 <h5 className="mb-10"><strong>Statistics</strong></h5>
                 <p><strong>Reviews:</strong> {reviews.length}<br />
                 <strong>Average Rating:</strong> {
@@ -141,7 +141,9 @@ const ProfilePage = () => {
                 }</p>
               </>
             ) : (
-              <p>No review stats yet.</p>
+              <>
+                <p>No review stats yet.</p>
+              </>
             )}
 
             </div>
