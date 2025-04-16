@@ -1,12 +1,12 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-test('Check API version button', async ({ page }) => {
+test('test', async ({ page }) => {
   await page.goto('http://localhost:5173/');
-  await page.click('#get-api-version');
-
-  const response = await page.request.get(`${process.env.VITE_API_DEV_URL}/`);
-  expect(response.status()).toBe(200);
+  await page.getByRole('link', { name: 'Songs' }).click();
+  await page.getByRole('heading', { name: 'All songs' }).click();
+  await page.getByRole('img', { name: 'Test Song f' }).click();
+  await page.getByText('Test Song f').click();
 });

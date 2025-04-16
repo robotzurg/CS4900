@@ -4,10 +4,10 @@ export const createGenericController = <T>(service: any, entity: string) => {
     const serviceInstance = new service();
 
     return {
-        // TODO: MAKE THIS FILTER BETTER!
         getAll: async (req: pkg.Request, res: pkg.Response): Promise<any> => {
             try {
-                const items: T[] = await serviceInstance.getAll();
+                const filter = Object.keys(req.query).length ? req.query : undefined;
+                const items: T[] = await serviceInstance.getAll(filter);
                 res.json(items);
             } catch (err) {
                 res.status(500).json({ error: `Error retrieving ${entity}s: ${err}` });

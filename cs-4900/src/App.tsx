@@ -20,6 +20,7 @@ import ReviewPage from "./pages/ReviewPage/ReviewPage";
 import Users from "./pages/Users/Users";
 import CreateProfilePage from "./pages/CreateProfilePage/CreateProfilePage";
 import Genres from "./pages/Genres/Genres";
+import GenrePage from "./pages/GenrePage/GenrePage";
 
 function App() {
   useEffect(() => {
@@ -45,6 +46,7 @@ function App() {
             <Route path="/songs/:musicId/reviews/:reviewId" element={<ReviewPage />} />
             <Route path="/albums/:musicId/reviews/:reviewId" element={<ReviewPage />} />
             <Route path="/genres" element={<Genres />} />
+            <Route path="/genres/:genreId" element={<GenrePage />} />
             <Route path="/create-profile" element={<CreateProfilePage />} />
             <Route path="/results" element={<SearchPage />} />
             <Route path="/support" element={<Support />} />

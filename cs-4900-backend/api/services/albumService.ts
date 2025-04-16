@@ -9,17 +9,22 @@ export class AlbumService extends GenericService<Album> {
     super('albums');
   }
 
-  async getAll(filter?: { userId?: string }): Promise<Album[]> {
+  async getAll(filter?: { userId?: string; genreId?: string }): Promise<Album[]> {
     const conditions: string[] = [];
     const values: any[] = [];
-  
+
     if (filter?.userId) {
       conditions.push(`r.user_id = $${conditions.length + 1}`);
       values.push(filter.userId);
     }
-  
+
+    if (filter?.genreId) {
+      conditions.push(`ga.genre_id = $${conditions.length + 1}`);
+      values.push(filter.genreId);
+    }
+
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
-  
+
     const query = `
       SELECT 
         a.*, 
@@ -40,7 +45,7 @@ export class AlbumService extends GenericService<Album> {
       ${whereClause}
       GROUP BY a.id;
     `;
-  
+
     const result = await pool.query(query, values);
     return result.rows;
   }
