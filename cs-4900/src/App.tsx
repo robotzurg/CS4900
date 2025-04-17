@@ -25,7 +25,7 @@ import GenrePage from "./pages/GenrePage/GenrePage";
 function App() {
   useEffect(() => {
     const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-    if (link) link.href = "/favicon.png";
+    if (link) link.href = "https://www.waveformreviews.net/images/new-waveform-logo.png";
   }, []);
 
   return (
