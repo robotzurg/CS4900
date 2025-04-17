@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { fetchById, fetchAll } from "../../services/index";
 import MusicListGrid from "../../components/MusicListGrid";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 
 function ArtistPage() {
   const { artistId } = useParams(); 
@@ -46,6 +47,9 @@ function ArtistPage() {
 
   return (
     <div>
+      <Helmet>
+        <title>{artist?.name} - Waveform</title>
+      </Helmet>
       <Container className="mt-4">
         <Row className="justify-content-center">
             <Col className="">

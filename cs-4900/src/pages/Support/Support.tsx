@@ -1,9 +1,13 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { Helmet } from 'react-helmet';
 
 const Support: React.FC = () => {
     return (
         <Container className="mt-4">
+            <Helmet>
+                <title>Support - Waveform</title>
+            </Helmet>
             <Row>
                 <Col md={8}>
                     <h1 className="mb-4">Support</h1>

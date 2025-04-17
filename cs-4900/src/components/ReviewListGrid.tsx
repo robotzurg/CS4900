@@ -8,7 +8,7 @@ function ReviewListGrid({ reviews, type='' }: { reviews: any[], type?: string })
   switch (type) {
     case 'user_main': header = 'Your Review'; break;
     case 'critic': header = 'Critic Reviews'; break;
-    case 'user': header = 'Reviews'; break;
+    case 'users': header = 'Reviews'; break;
     default: header = ''; break;
   }
 

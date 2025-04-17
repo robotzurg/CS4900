@@ -3,6 +3,7 @@ import './Home.css';
 import { useEffect, useState } from "react";
 import { fetchAll } from "../../services";
 import MusicListGrid from "../../components/MusicListGrid";
+import { Helmet } from "react-helmet";
 
 function Home() {
   const [songs, setSongs] = useState<any[]>([]);
@@ -15,6 +16,9 @@ function Home() {
 
   return (
     <div>
+      <Helmet>
+          <title>Waveform</title>
+      </Helmet>
       <Container>
         <Row className="pb-40">
           <Col md={6} className="pl-40">

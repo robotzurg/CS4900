@@ -8,6 +8,7 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import EditProfileModal from "../../components/EditProfileModal";
 import BigReviewCard from "../../components/BigReviewCard";
 import Topster from "../../components/Topster";
+import { Helmet } from "react-helmet";
 
 const ProfilePage = () => {
   const { userId } = useParams<string>();
@@ -75,6 +76,9 @@ const ProfilePage = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>{user?.username || 'User'} - Waveform</title>
+      </Helmet>
       <Container className="mt-4">
         <Row className="d-flex p-3">
           <Col lg={8}>
@@ -119,7 +123,7 @@ const ProfilePage = () => {
                     />
                   ))
                 ) : (
-                  <p>No reviews available</p>
+                  <p>No reviews available.</p>
                 )}
               </div>
             </Row>

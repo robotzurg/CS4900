@@ -1,6 +1,11 @@
+import { Helmet } from "react-helmet";
+
 function Tos() {
     return (
         <div style={{ padding: '20px' }}>
+            <Helmet>
+                <title>Terms of Service - Waveform</title>
+            </Helmet>
             <h1>Waveform Terms and Conditions of Use</h1>
             <h2>1. Terms</h2>
 

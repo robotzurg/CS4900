@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchAll, fetchById } from "../../services";
 import MusicListGrid from "../../components/MusicListGrid";
 import { Container } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 
 function GenrePage() {
   const { genreId } = useParams();
@@ -36,6 +37,9 @@ function GenrePage() {
 
   return (
     <Container className="pt-3">
+      <Helmet>
+        <title>{genre?.name} - Waveform</title>
+      </Helmet>
       <h2 className="mb-4 text-capitalize">{genre.name}</h2>
 
       {genreSongs.length > 0 && (

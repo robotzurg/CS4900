@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { Flex, RingProgress, Text, Modal } from '@mantine/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpotify, faSoundcloud, faApple, faYoutube } from '@fortawesome/free-brands-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faSpotify, faSoundcloud, faApple, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import CreateReviewModal from './CreateReviewModal';
 import { addReview, getMusicReviews, updateReview } from '../services';
 import ReviewListGrid from './ReviewListGrid';
@@ -20,7 +20,7 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any, reviews: an
   const averageRating = 
     allReviews.length > 0
       ? allReviews.reduce((acc, review) => acc + (parseFloat(review.rating) || 0), 0) / allReviews.length
-      : -1;
+      : '-';
 
   const handleReviewSubmit = async (rating: number | null, reviewText: string) => {
     if (!user) return;  
@@ -96,8 +96,8 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any, reviews: an
                 <RingProgress
                   size={80}
                   thickness={9}
-                  sections={[{ value: 60, color: 'blue' }]}
-                  label={<Text ta="center" size="lg" fw={700} style={{ lineHeight: 1 }}>6</Text>}
+                  sections={[{ value: 0, color: 'blue' }]}
+                  label={<Text ta="center" size="lg" fw={700} style={{ lineHeight: 1 }}>-</Text>}
                 />
                 <div>
                   <Text fw={700}>Critic Rating</Text>
@@ -108,24 +108,26 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any, reviews: an
                 <RingProgress
                   size={80}
                   thickness={9}
-                  sections={[{ value: averageRating * 10, color: 'red' }]}
+                  sections={[{ value: typeof averageRating === 'number' ? averageRating * 10 : 0, color: 'red' }]}
                   label={
                     <Text ta="center" size="lg" fw={700} style={{ lineHeight: 1 }}>
-                      {averageRating.toFixed(1).toString().replace(/\.0+$/, '')}
+                      {typeof averageRating === 'number' 
+                        ? averageRating.toFixed(1).toString().replace(/\.0+$/, '') 
+                        : averageRating}
                     </Text>
                   }
                 />
                 <div>
                   <Text fw={700}>User Rating</Text>
-                  <Text size="sm" c="dimmed">Based on 1 review</Text>
+                  <Text size="sm" c="dimmed">Based on {reviews.length} reviews</Text>
                 </div>
               </Flex>
               <Flex align="center" gap="sm">
                 <RingProgress
                   size={80}
                   thickness={9}
-                  sections={[{ value: 90, color: 'green' }]}
-                  label={<Text ta="center" size="lg" fw={700} style={{ lineHeight: 1 }}>9</Text>}
+                  sections={[{ value: 0, color: 'green' }]}
+                  label={<Text ta="center" size="lg" fw={700} style={{ lineHeight: 1 }}>-</Text>}
                 />
                 <div>
                   <Text fw={700}>Friends Rating</Text>
@@ -144,16 +146,16 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any, reviews: an
                 style={{ width: '430px', borderRadius: '10px', cursor: 'pointer' }}
                 onClick={() => setImageModalOpen(true)}
               />
-              <Flex gap="5">
+              {/* <Flex gap="5">
                 <FontAwesomeIcon icon={faSpotify} size="2x" fixedWidth />
                 <FontAwesomeIcon icon={faSoundcloud} size="2x" fixedWidth />
                 <FontAwesomeIcon icon={faApple} size="2x" fixedWidth />
                 <FontAwesomeIcon icon={faYoutube} size="2x" fixedWidth />
-              </Flex>
+              </Flex> */}
             </Flex>
-            <div style={{ minHeight: '500px', width: '430px', backgroundColor: '#f0f0f0', borderRadius: '8px', padding: '20px' }}>
+            {/* <div style={{ minHeight: '500px', width: '430px', backgroundColor: '#f0f0f0', borderRadius: '8px', padding: '20px' }}>
               <p>Sidebar content (add later)</p>
-            </div>
+            </div> */}
           </Col>
         </Row>
         <CreateReviewModal show={showModal} handleClose={handleCloseModal} onSubmit={handleReviewSubmit} existingReview={userReview.length > 0 ? userReview[0] : null} />

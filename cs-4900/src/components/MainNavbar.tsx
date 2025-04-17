@@ -4,10 +4,15 @@ import { authLogin, authLogout, fetchMe, onSearch } from '../services/index.ts';
 import { useNavigate } from 'react-router-dom';
 
 function MainNavbar() {
-  const [user, setUser] = useState<any>(() => {
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
@@ -24,6 +29,16 @@ function MainNavbar() {
     };
 
     if (!user) checkUser();
+  }, []);
+
+  useEffect(() => {
+    const syncUser = () => {
+      const storedUser = localStorage.getItem("user");
+      setUser(storedUser ? JSON.parse(storedUser) : null);
+    };
+
+    window.addEventListener("storage", syncUser);
+    return () => window.removeEventListener("storage", syncUser);
   }, []);
 
   const handleLogin = () => {

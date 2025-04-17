@@ -4,6 +4,7 @@ import { onSearch } from "../../services/index";
 import MusicListGrid from "../../components/MusicListGrid";
 import { useSearchParams } from "react-router-dom";
 import PersonListGrid from "../../components/PersonListGrid";
+import { Helmet } from "react-helmet";
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
@@ -44,6 +45,9 @@ const SearchPage = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>{searchQuery} Results - Waveform</title>
+      </Helmet>
       <Container className="mt-4">
         {loading ? (
           <p>Loading...</p>

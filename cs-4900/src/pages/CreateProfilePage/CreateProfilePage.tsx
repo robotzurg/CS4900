@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Container, Row, Col, Form, Button, Image } from "react-bootstrap";
-import { updateUser } from "../../services";
+import { updateUser } from "../../services/user.ts";
 import { useSearchParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { uploadImage } from "../../services/generic.ts";
 
 // Interface for user data
 interface User {
@@ -13,7 +15,6 @@ interface User {
 }
 
 const CreateProfilePage = () => {
-  // Extract userId from query parameter in URL
   const [searchParams] = useSearchParams();
   const userId = searchParams.get("id");
   let userProfilePic = searchParams.get("pic");
@@ -36,6 +37,7 @@ const CreateProfilePage = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -48,14 +50,12 @@ const CreateProfilePage = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUserData((prevData) => ({
-          ...prevData,
-          profile_picture: reader.result as string,
-        }));
-      };
-      reader.readAsDataURL(file);
+      setSelectedImageFile(file);
+      const previewUrl = URL.createObjectURL(file);
+      setUserData((prevData) => ({
+        ...prevData,
+        profile_picture: previewUrl,
+      }));
     }
   };
 
@@ -63,8 +63,24 @@ const CreateProfilePage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await updateUser(userData); // Call the API to update the profile
-      window.location.href = `/profile/${userData.id}`; // Redirect to the updated profile page
+      let finalProfilePicture = userData.profile_picture;
+
+      if (selectedImageFile) {
+        const response = await uploadImage(selectedImageFile);
+        const url = typeof response === 'string' ? response : response.url;
+        if (url) {
+          finalProfilePicture = url;
+        } else {
+          alert("Failed to retrieve image URL");
+        }
+      }
+
+      await updateUser({
+        ...userData,
+        profile_picture: finalProfilePicture,
+      });
+
+      window.location.href = `/profile/${userData.id}`;
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
@@ -74,6 +90,9 @@ const CreateProfilePage = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Create Profile - Waveform</title>
+      </Helmet>
       <Container className="mt-4">
         <Row className="d-flex p-3">
           <Col lg={8}>

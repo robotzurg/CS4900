@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { fetchAll } from "../../services/index.ts";
 import "./Genres.css";
 import { Container, Button } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 
 function Genres() {
   const [genreList, setGenreList] = useState<any[]>([]);
@@ -14,6 +15,9 @@ function Genres() {
 
   return (
     <div>
+       <Helmet>
+          <title>Genres - Waveform</title>
+      </Helmet>
       <Container>
         <h3 className="pt-20 pb-20 text-capitalize">Genres</h3>
         <div className="genre-list">

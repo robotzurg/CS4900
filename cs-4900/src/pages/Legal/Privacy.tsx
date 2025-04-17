@@ -1,6 +1,11 @@
+import { Helmet } from "react-helmet";
+
 function Privacy() {
     return (
         <div style={{ padding: '20px' }}>
+            <Helmet>
+                <title>Privacy Policy - Waveform</title>
+            </Helmet>
             <h1>Privacy Policy for Waveform</h1>
             <p>At Waveform, one of our main priorities is the privacy of our users. This Privacy Policy document contains types of information that are collected and recorded by Waveform and how we use it.</p>
             <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us. Our Privacy Policy was generated with the help of <a href="https://www.gdprprivacypolicy.net/">GDPR Privacy Policy Generator</a>.</p>
