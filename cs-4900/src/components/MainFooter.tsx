@@ -18,7 +18,7 @@ function MainFooter() {
           <Col md={6} className="text-md-end">
             <h5>Social Media</h5>
             <p>
-              <a href="https://x.com/music_waveform" className="me-2"><FontAwesomeIcon icon={faTwitter} size="2x" /></a>
+              <a href="https://x.com/music_waveform" className="me-2" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faTwitter} size="2x" /></a>
             </p>
           </Col>
         </Row>
