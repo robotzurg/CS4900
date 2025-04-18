@@ -21,6 +21,7 @@ import Users from "./pages/Users/Users";
 import CreateProfilePage from "./pages/CreateProfilePage/CreateProfilePage";
 import Genres from "./pages/Genres/Genres";
 import GenrePage from "./pages/GenrePage/GenrePage";
+import AddMusicPage from "./pages/AddMusicPage/AddMusicPage";
 
 function App() {
   useEffect(() => {
@@ -48,6 +49,7 @@ function App() {
             <Route path="/genres" element={<Genres />} />
             <Route path="/genres/:genreId" element={<GenrePage />} />
             <Route path="/create-profile" element={<CreateProfilePage />} />
+            <Route path="/add-music" element={<AddMusicPage />} />
             <Route path="/results" element={<SearchPage />} />
             <Route path="/support" element={<Support />} />
             <Route path="/tos" element={<Tos />} />

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { Flex, RingProgress, Text, Modal } from '@mantine/core';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faSpotify, faSoundcloud, faApple, faYoutube } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpotify, faSoundcloud, faApple, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import CreateReviewModal from './CreateReviewModal';
 import { addReview, getMusicReviews, updateReview } from '../services';
 import ReviewListGrid from './ReviewListGrid';
@@ -82,7 +82,7 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any, reviews: an
               <strong>Release Date:</strong> {new Date(music.release_date).toLocaleDateString()}<br />
               <strong>Genres:</strong> {music.genres.map((genre: any, index: number) => (
                 <span key={index}>
-                  <Link className="genre-link" to={`/genre/${genre.id}`}>
+                  <Link className="genre-link" to={`/genres/${genre.id}`}>
                     {genre.name}
                   </Link>
                   {index < music.genres.length - 1 && ', '}
@@ -146,16 +146,16 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any, reviews: an
                 style={{ width: '430px', borderRadius: '10px', cursor: 'pointer' }}
                 onClick={() => setImageModalOpen(true)}
               />
-              {/* <Flex gap="5">
+              <Flex gap="5">
                 <FontAwesomeIcon icon={faSpotify} size="2x" fixedWidth />
                 <FontAwesomeIcon icon={faSoundcloud} size="2x" fixedWidth />
                 <FontAwesomeIcon icon={faApple} size="2x" fixedWidth />
                 <FontAwesomeIcon icon={faYoutube} size="2x" fixedWidth />
-              </Flex> */}
+              </Flex>
             </Flex>
-            {/* <div style={{ minHeight: '500px', width: '430px', backgroundColor: '#f0f0f0', borderRadius: '8px', padding: '20px' }}>
+            <div style={{ minHeight: '500px', width: '430px', backgroundColor: '#f0f0f0', borderRadius: '8px', padding: '20px' }}>
               <p>Sidebar content (add later)</p>
-            </div> */}
+            </div>
           </Col>
         </Row>
         <CreateReviewModal show={showModal} handleClose={handleCloseModal} onSubmit={handleReviewSubmit} existingReview={userReview.length > 0 ? userReview[0] : null} />

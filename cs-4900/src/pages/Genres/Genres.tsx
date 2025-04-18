@@ -19,7 +19,7 @@ function Genres() {
           <title>Genres - Waveform</title>
       </Helmet>
       <Container>
-        <h3 className="pt-20 pb-20 text-capitalize">Genres</h3>
+        <h3 className="pt-20 pb-20 text-capitalize">All Genres</h3>
         <div className="genre-list">
           {genreList.slice(0, visibleCount).map((genre, index) => (
             <Button
