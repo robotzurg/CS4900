@@ -8,7 +8,7 @@ function MainFooter() {
       <Container>
         <Row>
           <Col md={6}>
-            <h5>Quick Links</h5>
+            <h5>Help Links</h5>
             <ul className="list-unstyled">
               <li><a href="/support">Support</a></li>
               <li><a href="/tos">Terms of Service</a></li>

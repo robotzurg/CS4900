@@ -14,18 +14,19 @@ interface User {
   profile_picture: string | null; 
 }
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024;  // 5 MB
+const MAX_WIDTH     = 512;              
+const MAX_HEIGHT    = 512;              
+
 const CreateProfilePage = () => {
   const [searchParams] = useSearchParams();
   const userId = searchParams.get("id");
-  let userProfilePic = searchParams.get("pic");
-  let userName = searchParams.get("name");
-  
-  if (userProfilePic == null) userProfilePic = "";
-  if (userName == null) userName = "";
+  let userProfilePic = searchParams.get("pic") || "";
+  let userName      = searchParams.get("name") || "";
 
-  if (userId == null) {
+  if (!userId) {
     window.location.href = '/';
-    return;
+    return null;
   }
 
   const [userData, setUserData] = useState<User>({
@@ -41,27 +42,44 @@ const CreateProfilePage = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUserData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setUserData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    if (file) {
+    const file = e.target.files?.[0] ?? null;
+    if (!file) return;
+
+    if (file.size > MAX_FILE_SIZE) {
+      alert(`Profile picture must be smaller than ${MAX_FILE_SIZE / 1024 / 1024} MB.`);
+      return;
+    }
+
+    const previewUrl = URL.createObjectURL(file);
+    const img = new window.Image();
+    img.src = previewUrl;
+    img.onload = () => {
+      if (img.width > MAX_WIDTH || img.height > MAX_HEIGHT) {
+        alert(`Profile picture dimensions must be at most ${MAX_WIDTH}x${MAX_HEIGHT}px.`);
+        URL.revokeObjectURL(previewUrl);
+        return;
+      }
+
       setSelectedImageFile(file);
-      const previewUrl = URL.createObjectURL(file);
-      setUserData((prevData) => ({
-        ...prevData,
+      setUserData(prev => ({
+        ...prev,
         profile_picture: previewUrl,
       }));
-    }
+    };
+    img.onerror = () => {
+      alert("Invalid image file.");
+      URL.revokeObjectURL(previewUrl);
+    };
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       let finalProfilePicture = userData.profile_picture;
 

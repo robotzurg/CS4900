@@ -9,6 +9,10 @@ interface EditProfileModalProps {
   userData: { username: string; bio: string; profile_picture?: string };
 }
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 2 mb
+const MAX_WIDTH     = 512; 
+const MAX_HEIGHT    = 512;
+
 const EditProfileModal: React.FC<EditProfileModalProps> = ({ show, handleClose, onSubmit, userData }) => {
   const [formData, setFormData] = useState({ username: '', bio: '', profile_picture: '' });
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
@@ -85,14 +89,33 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ show, handleClose, 
             accept="image/*"
             onChange={(e) => {
               const file = (e.target as HTMLInputElement).files?.[0];
-              if (file) {
+              if (!file) return;
+
+              if (file.size > MAX_FILE_SIZE) {
+                alert(`Image must be smaller than ${MAX_FILE_SIZE/1024/1024} MB.`);
+                return;
+              }
+              
+              const previewUrl = URL.createObjectURL(file);
+              const img = new window.Image();
+              img.src = previewUrl;
+              img.onload = () => {
+                if (img.width  > MAX_WIDTH || img.height > MAX_HEIGHT) {
+                  alert(`Image dimensions must be at most ${MAX_WIDTH}x${MAX_HEIGHT}px.`);
+                  URL.revokeObjectURL(previewUrl);
+                  return;
+                }
+
                 setSelectedImageFile(file);
-                const previewUrl = URL.createObjectURL(file);
-                setFormData((prev) => ({
+                setFormData(prev => ({
                   ...prev,
                   profile_picture: previewUrl,
                 }));
-              }
+              };
+              img.onerror = () => {
+                alert("Invalid image file.");
+                URL.revokeObjectURL(previewUrl);
+              };
             }}
           />
           {formData.profile_picture && (

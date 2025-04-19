@@ -1,9 +1,7 @@
 import { Router } from 'express';
-import { createGenericController } from '../controllers/genericController.ts';
-import { GenreService } from '../services/genreServices.ts';
+import genreController from '../controllers/genreController.ts';
 
 const router = Router();
-const genreController = createGenericController(GenreService, 'genre');
 
 router.get('/api/genres', genreController.getAll);
 router.get('/api/genres/:genreId', genreController.getById);

@@ -95,6 +95,7 @@ function MainNavbar() {
             <Nav.Link href="/users">Users</Nav.Link>
             <Nav.Link href="/genres">Genres</Nav.Link>
             <Nav.Link href="/add-music">Add Music</Nav.Link>
+            <Nav.Link href="/add-genre">Add Genre</Nav.Link>
           </Nav>
           <Nav className="d-flex align-items-center">
             <Form onSubmit={handleSearchSubmit} className="me-2">

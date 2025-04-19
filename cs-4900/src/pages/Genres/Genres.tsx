@@ -6,8 +6,8 @@ import { Helmet } from "react-helmet";
 
 function Genres() {
   const [genreList, setGenreList] = useState<any[]>([]);
-  const [visibleCount, setVisibleCount] = useState(10);
-  const handleLoadMore = () => setVisibleCount(prev => prev + 10);
+  const [visibleCount, setVisibleCount] = useState(25);
+  const handleLoadMore = () => setVisibleCount(prev => prev + 25);
 
   useEffect(() => {
     fetchAll("genres").then(setGenreList).catch(console.error);
