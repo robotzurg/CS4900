@@ -2,7 +2,7 @@ import { Col, Container, Row, Image } from "react-bootstrap";
 import './Home.css';
 import { useEffect, useState } from "react";
 import { fetchAll } from "../../services";
-import MusicListGrid from "../../components/MusicListGrid";
+import MusicListGrid from "../../components/MusicListGrid/MusicListGrid";
 import { Helmet } from "react-helmet";
 
 function Home() {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Image } from "react-bootstrap";
 import { updateUser } from "../../services/user.ts";
 import { useSearchParams } from "react-router-dom";
@@ -18,7 +18,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;  // 5 MB
 const MAX_WIDTH     = 512;              
 const MAX_HEIGHT    = 512;              
 
-const CreateProfilePage = () => {
+function CreateProfilePage() {
   const [searchParams] = useSearchParams();
   const userId = searchParams.get("id");
   let userProfilePic = searchParams.get("pic") || "";

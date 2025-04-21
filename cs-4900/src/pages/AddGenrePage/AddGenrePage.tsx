@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet";
 import { createItem, fetchAll } from "../../services/generic.ts";
 import { MultiSelect } from "@mantine/core";
 
-const AddGenrePage: React.FC = () => {
+function AddGenrePage() {
 const [formData, setFormData] = useState<{
   name: string;
   song_ids: string[];
@@ -63,7 +63,7 @@ return (
     <Helmet>
       <title>Add Genre - Waveform</title>
     </Helmet>
-    <Container className="mt-4">
+    <Container className="mt-2">
       <Row className="p-3">
         <Col lg={8}>
           <h2>Add New Genre</h2>

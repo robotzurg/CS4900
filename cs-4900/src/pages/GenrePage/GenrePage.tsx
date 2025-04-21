@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchAll, fetchById } from "../../services";
-import MusicListGrid from "../../components/MusicListGrid";
+import MusicListGrid from "../../components/MusicListGrid/MusicListGrid";
 import { Container } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 

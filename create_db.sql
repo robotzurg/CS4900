@@ -69,6 +69,11 @@ CREATE TABLE Artists (
   name TEXT NOT NULL,
   slug TEXT UNIQUE NOT NULL,
   image_url TEXT,
+  spotify_url TEXT,
+  soundcloud_url TEXT,
+  twitter_url TEXT,
+  instagram_url TEXT,
+  youtube_url TEXT,
   bio TEXT
 );
 

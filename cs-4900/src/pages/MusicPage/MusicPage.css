@@ -1,0 +1,53 @@
+/* wrap your page in <div className="music-page"> */
+.music-page {
+    padding: 1rem;
+  }
+  
+  /* if you render info + reviews side‑by‑side: */
+  .music-page .content {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+  
+  /* on tablets (<= 768px) stack vertically */
+  @media (max-width: 768px) {
+    .music-page .content {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+  
+  /* make any images fluid */
+  .music-page img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+  }
+  
+  /* reviews list as grid on desktop */
+  .music-page .reviews-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  /* on mobile (<= 480px) one‑column only */
+  @media (max-width: 480px) {
+    .music-page .reviews-list {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* type scale down on small */
+  @media (max-width: 768px) {
+    .music-page h1,
+    .music-page h2 {
+      font-size: 1.5rem;
+    }
+    .music-page p {
+      font-size: 0.9rem;
+    }
+  }
+  

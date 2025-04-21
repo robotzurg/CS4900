@@ -1,8 +1,7 @@
-import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 
-const Support: React.FC = () => {
+function Support() {
     return (
         <Container className="mt-4">
             <Helmet>

@@ -1,28 +1,15 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import MusicPage from "./pages/MusicPage/MusicPage";
-import MusicAll from "./pages/MusicAll/MusicAll";
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
-import ProfilePage from "./pages/Profile/Profile";
-import SearchPage from "./pages/Search/Search";
-import Artists from "./pages/Artists/Artists";
-import ArtistPage from "./pages/ArtistPage/ArtistPage";
-import MainNavbar from "./components/MainNavbar";
-import MainFooter from "./components/MainFooter";
 import { useEffect } from "react";
 import { Container } from "react-bootstrap";
-import NotFound from "./pages/NotFound/NotFound";
-import Support from "./pages/Support/Support";
-import Tos from "./pages/Legal/Tos";
-import Privacy from "./pages/Legal/Privacy";
-import ReviewPage from "./pages/ReviewPage/ReviewPage";
-import Users from "./pages/Users/Users";
-import CreateProfilePage from "./pages/CreateProfilePage/CreateProfilePage";
-import Genres from "./pages/Genres/Genres";
-import GenrePage from "./pages/GenrePage/GenrePage";
-import AddMusicPage from "./pages/AddMusicPage/AddMusicPage";
-import AddGenrePage from "./pages/AddGenrePage/AddGenrePage";
+
+// Import pages
+import * as Pages from "./pages";
+
+// Import components
+import MainNavbar from "./components/MainNavbar/MainNavbar";
+import MainFooter from "./components/MainFooter";
 
 function App() {
   useEffect(() => {
@@ -36,27 +23,28 @@ function App() {
         <MainNavbar />
         <Container className="flex-grow-1 py-4">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/songs" element={<MusicAll entity="songs" />} />
-            <Route path="/songs/:musicId" element={<MusicPage entity="songs" />} />
-            <Route path="/albums" element={<MusicAll entity="albums" />} />
-            <Route path="/albums/:musicId" element={<MusicPage entity="albums" />} />
-            <Route path="/artists" element={<Artists />} />
-            <Route path="/artists/:artistId" element={<ArtistPage />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/profile/:userId" element={<ProfilePage />} />
-            <Route path="/songs/:musicId/reviews/:reviewId" element={<ReviewPage />} />
-            <Route path="/albums/:musicId/reviews/:reviewId" element={<ReviewPage />} />
-            <Route path="/genres" element={<Genres />} />
-            <Route path="/genres/:genreId" element={<GenrePage />} />
-            <Route path="/create-profile" element={<CreateProfilePage />} />
-            <Route path="/add-music" element={<AddMusicPage />} />
-            <Route path="/add-genre" element={<AddGenrePage />} />
-            <Route path="/results" element={<SearchPage />} />
-            <Route path="/support" element={<Support />} />
-            <Route path="/tos" element={<Tos />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/" element={<Pages.Home />} />
+            <Route path="/songs" element={<Pages.MusicAll entity="songs" />} />
+            <Route path="/songs/:musicId" element={<Pages.MusicPage entity="songs" />} />
+            <Route path="/albums" element={<Pages.MusicAll entity="albums" />} />
+            <Route path="/albums/:musicId" element={<Pages.MusicPage entity="albums" />} />
+            <Route path="/artists" element={<Pages.Artists />} />
+            <Route path="/artists/:artistId" element={<Pages.ArtistPage />} />
+            <Route path="/users" element={<Pages.Users />} />
+            <Route path="/profile/:userId" element={<Pages.ProfilePage />} />
+            <Route path="/songs/:musicId/reviews/:reviewId" element={<Pages.ReviewPage />} />
+            <Route path="/albums/:musicId/reviews/:reviewId" element={<Pages.ReviewPage />} />
+            <Route path="/genres" element={<Pages.Genres />} />
+            <Route path="/genres/:genreId" element={<Pages.GenrePage />} />
+            <Route path="/create-profile" element={<Pages.CreateProfilePage />} />
+            <Route path="/add-music/:musicType" element={<Pages.AddMusicPage />} />
+            <Route path="/add-genre" element={<Pages.AddGenrePage />} />
+            <Route path="/add-artist" element={<Pages.AddArtistPage />} />
+            <Route path="/results" element={<Pages.SearchPage />} />
+            <Route path="/support" element={<Pages.Support />} />
+            <Route path="/tos" element={<Pages.Tos />} />
+            <Route path="/privacy" element={<Pages.Privacy />} />
+            <Route path="*" element={<Pages.NotFound />} />
           </Routes>
         </Container>
         <MainFooter /> 

@@ -2,9 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Helmet } from "react-helmet";
 import { fetchById, getMusicReviews } from "../../services";
-import MusicInfoCard from "../../components/MusicInfoCard";
+import MusicInfoCard from "../../components/MusicInfoCard/MusicInfoCard";
 
-function MusicPage({ entity }: { entity: string }) {
+interface MusicPageProps {
+  entity: string;
+}
+
+function MusicPage({ entity }: MusicPageProps) {
   const { musicId } = useParams(); 
   const [music, setMusic] = useState<any | null>(null);
   const [reviews, setReviews] = useState<any[]>([]);

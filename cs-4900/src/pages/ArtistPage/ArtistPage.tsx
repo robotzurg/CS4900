@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { fetchById, fetchAll } from "../../services/index";
-import MusicListGrid from "../../components/MusicListGrid";
+import MusicListGrid from "../../components/MusicListGrid/MusicListGrid";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 

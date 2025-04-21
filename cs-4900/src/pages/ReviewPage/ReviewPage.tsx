@@ -8,7 +8,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { fetchCommentsForReview } from '../../services/comments.ts';
 import { createItem, deleteItem, updateItem } from '../../services/generic.ts';
 
-const ReviewPage: React.FC = () => {
+function ReviewPage() {
   const { reviewId } = useParams<any>();
   const [review, setReview] = useState<any | null>(null);
   const [user, setUser] = useState<any | null>(null);

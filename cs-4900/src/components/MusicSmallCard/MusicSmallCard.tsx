@@ -1,8 +1,9 @@
 import { Card, Col } from 'react-bootstrap';
 import { useEffect, useState } from "react";
-import { fetchById, getMusicReviews } from "../services/index";
+import { fetchById, getMusicReviews } from "../../services/index";
 import { Link, useNavigate } from 'react-router-dom';
-import { Flex, RingProgress, Text, Stack } from '@mantine/core';
+import { Flex, RingProgress, Text } from '@mantine/core';
+import './MusicSmallCard.css';
 
 function MusicSmallCard({ musicId, entity }: { musicId: any, entity: any }) {
     const [music, setMusic] = useState<any | null>(null);
@@ -50,8 +51,8 @@ function MusicSmallCard({ musicId, entity }: { musicId: any, entity: any }) {
 
     return (
         <Card
-            className="border-0 shadow p-0"
-            style={{ width: "220px", cursor: "pointer" }}
+            className="music-small-card border-0 shadow p-0"
+            style={{ cursor: "pointer" }}
             onClick={() => navigate(`/${entity}/${musicId}`)}
         >
             <Card.Img variant="top" className={'music-card-top-img'} src={music.image_url} alt={music.name} height={220} />
@@ -59,34 +60,35 @@ function MusicSmallCard({ musicId, entity }: { musicId: any, entity: any }) {
                 <Card.Title className="fw-bold">
                     {music.name}
                 </Card.Title>
-                <Card.Subtitle className="text-muted">
-                    <Col className='p-0'>
-                        By{" "}
-                        {music.artists.map((artist: any, index: number) => (
-                            <span key={index}>
-                                <Link
-                                    to={`/artists/${artist.id}`}
-                                    className="artist-link text-muted"
-                                    onClick={(e) => e.stopPropagation()} 
+                <Card.Subtitle className="text-muted" style={{ fontSize: '0.85rem' }}>
+                    <Col className="p-0">
+                        By{' '}
+                        {music.artists && music.artists.length > 0 ? (
+                            <Link
+                                to={`/artists/${music.artists[0].id}`}
+                                className="artist-link text-muted"
+                                onClick={e => e.stopPropagation()}
                                 >
-                                    {artist.name}
-                                </Link>
-                                {index < music.artists.length - 1 && ', '}
-                            </span>
-                        ))}
+                                {music.artists[0].name}
+                            </Link>
+                        ) : (
+                            <span className="text-muted">Unknown Artist</span>
+                        )}
                     </Col>
+
                     <Col>
-                        <Flex gap="5" pt="10" justify="center">
-                            <Stack gap="0" align="center">
+                        <Flex gap="5" pt="10" justify="center" className='rating-ring-container'>
+                            <div className='rating-ring'>
                                 <RingProgress
                                     size={55}
                                     thickness={6}
                                     sections={[{ value: 0, color: 'blue' }]}
                                     label={<Text ta="center">-</Text>}
+                                    className='ring-circle'
                                 />
-                                <Text ta="center">Critics</Text>
-                            </Stack>
-                            <Stack gap="0" align="center">
+                                <Text className="ring-text">Critics</Text>
+                            </div>
+                            <div className='rating-ring'>
                                 <RingProgress
                                     size={55}
                                     thickness={6}
@@ -96,18 +98,20 @@ function MusicSmallCard({ musicId, entity }: { musicId: any, entity: any }) {
                                             {typeof overallAverageRating === 'number' ? overallAverageRating.toFixed(1).replace(/\.0+$/, '') : overallAverageRating}
                                         </Text>
                                     }
+                                    className='ring-circle'
                                 />
-                                <Text ta="center">Users</Text>
-                            </Stack>
-                            <Stack gap="0" align="center">
+                                <Text className='ring-text'>Users</Text>
+                            </div>
+                            <div className='rating-ring'>
                                 <RingProgress
                                     size={55}
                                     thickness={6}
                                     sections={[{ value: 0, color: 'green' }]}
                                     label={<Text ta="center">-</Text>}
+                                    className='ring-circle'
                                 />
-                                <Text ta="center">Friends</Text>
-                            </Stack>
+                                <Text className='ring-text'>Friends</Text>
+                            </div>
                         </Flex>
                     </Col>
                 </Card.Subtitle>

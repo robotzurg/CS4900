@@ -1,0 +1,33 @@
+.music-small-card {
+    width: 150px;
+}
+
+.music-card-top-img {
+    height: 100%;
+}
+
+.rating-ring-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.rating-ring {
+    display: flex;
+    align-items: center;
+}
+
+.ring-text {
+    justify-content: center;
+}
+
+:root {
+    --rp-size: 20px; 
+}
+
+@media (min-width: 1024px) {
+    .music-small-card {
+        flex-direction: column !important;
+        width: 205px !important;
+    }
+}
+  

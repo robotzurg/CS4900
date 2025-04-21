@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { onSearch } from "../../services/index";
-import MusicListGrid from "../../components/MusicListGrid";
+import MusicListGrid from "../../components/MusicListGrid/MusicListGrid";
 import { useSearchParams } from "react-router-dom";
 import PersonListGrid from "../../components/PersonListGrid";
 import { Helmet } from "react-helmet";
