@@ -1,7 +1,7 @@
 /* Music Grid */
 .music-grid-container {
-    display: block;
-  }
+  display: block;
+}
 
 .music-card-wrapper {
     margin-bottom: 25px;
@@ -10,6 +10,7 @@
 @media (min-width: 1024px) {
   .music-grid-container {
     display: flex;
+    align-items: space-around;
     flex-wrap: wrap;
     gap: 30px;
   }

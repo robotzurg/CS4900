@@ -6,6 +6,7 @@ function BasicPersonCard({ person, entity }: { person: any, entity: string }) {
   let linkUrl = ``
   let image = "https://www.gravatar.com/avatar/?d=mp";
   let personName = 'N/A';
+  console.log(person);
   switch (entity) {
     case 'artists': 
       linkUrl = `/artists/${person.id}`;

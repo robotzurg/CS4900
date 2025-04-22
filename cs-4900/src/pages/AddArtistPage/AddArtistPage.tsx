@@ -6,9 +6,17 @@ import {
   Form,
   Button,
   Image,
+  InputGroup,
 } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { uploadImage, createItem } from "../../services/generic.ts";
+import {
+  FaSpotify,
+  FaSoundcloud,
+  FaTwitter,
+  FaInstagram,
+  FaYoutube,
+} from "react-icons/fa";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;  // 5 MB
 const MAX_WIDTH     = 512;              
@@ -36,6 +44,15 @@ function AddArtistPage() {
   });
 
   const [loading, setLoading] = useState(false);
+  
+  const socialFields = [
+    { name: "spotify_url", label: "Spotify", icon: <FaSpotify /> },
+    { name: "soundcloud_url", label: "SoundCloud", icon: <FaSoundcloud /> },
+    { name: "twitter_url", label: "Twitter", icon: <FaTwitter /> },
+    { name: "instagram_url", label: "Instagram", icon: <FaInstagram /> },
+    { name: "youtube_url", label: "YouTube", icon: <FaYoutube /> },
+  ];
+  
 
   const handleChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
@@ -47,7 +64,7 @@ function AddArtistPage() {
     if (!file) return;
 
     if (file.size > MAX_FILE_SIZE) {
-      return alert(`Image must be under ${MAX_FILE_SIZE / 1024 / 1024} MB.`);
+      return alert(`Image must be under ${MAX_FILE_SIZE / 1024 / 1024} MB.`);
     }
 
     const previewUrl = URL.createObjectURL(file);
@@ -85,7 +102,7 @@ function AddArtistPage() {
 
       const payload = {
         name: formData.name,
-        profile_image: profileUrl,
+        image_url: profileUrl,
         spotify_url: formData.spotify_url || undefined,
         soundcloud_url: formData.soundcloud_url || undefined,
         twitter_url: formData.twitter_url || undefined,
@@ -124,52 +141,22 @@ function AddArtistPage() {
                 />
               </Form.Group>
 
-              {/* Social Links */}
-              <Form.Group controlId="spotify_url" className="mb-3">
-                <Form.Label>Spotify URL</Form.Label>
-                <Form.Control
-                  name="spotify_url"
-                  type="url"
-                  value={formData.spotify_url}
-                  onChange={handleChange}
-                />
+              {socialFields.map(({ name, label, icon }) => (
+              <Form.Group controlId={name} className="mb-2" key={name}>
+                <Form.Label className="mb-1">{label}</Form.Label>
+                <InputGroup>
+                  <InputGroup.Text>{icon}</InputGroup.Text>
+                  <Form.Control
+                    name={name}
+                    type="url"  
+                    placeholder={`Enter ${label} URL`}
+                    value={formData[name]}
+                    onChange={handleChange}
+                  />
+                </InputGroup>
               </Form.Group>
-              <Form.Group controlId="soundcloud_url" className="mb-3">
-                <Form.Label>SoundCloud URL</Form.Label>
-                <Form.Control
-                  name="soundcloud_url"
-                  type="url"
-                  value={formData.soundcloud_url}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="twitter_url" className="mb-3">
-                <Form.Label>Twitter URL</Form.Label>
-                <Form.Control
-                  name="twitter_url"
-                  type="url"
-                  value={formData.twitter_url}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="instagram_url" className="mb-3">
-                <Form.Label>Instagram URL</Form.Label>
-                <Form.Control
-                  name="instagram_url"
-                  type="url"
-                  value={formData.instagram_url}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="youtube_url" className="mb-3">
-                <Form.Label>Youtube URL</Form.Label>
-                <Form.Control
-                  name="youtube_url"
-                  type="url"
-                  value={formData.youtube_url}
-                  onChange={handleChange}
-                />
-              </Form.Group>
+            ))}
+
 
               {/* Artist Image */}
               <Form.Group controlId="profileImage" className="mb-3">

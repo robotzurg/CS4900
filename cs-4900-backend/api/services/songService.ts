@@ -9,7 +9,7 @@ export class SongService extends GenericService<Song> {
     super('songs');
   }
 
-  async getAll(filter?: { userId?: string; genreId?: string }): Promise<Song[]> {
+  async getAll(filter?: { userId?: string; genreId?: string, artistId?: string }): Promise<Song[]> {
     const conditions: string[] = [];
     const values: any[] = [];
 
@@ -21,6 +21,11 @@ export class SongService extends GenericService<Song> {
     if (filter?.genreId) {
       conditions.push(`ga.genre_id = $${conditions.length + 1}`);
       values.push(filter.genreId);
+    }
+
+    if (filter?.artistId) {
+      conditions.push(`aa.artist_id = $${conditions.length + 1}`);
+      values.push(filter.artistId);
     }
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
