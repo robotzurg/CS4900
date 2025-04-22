@@ -21,7 +21,7 @@ function Home() {
       </Helmet>
       <Container>
         <Row className="pb-40">
-          <Col md={6} className="pl-40">
+          <Col md={6}>
           <h1 className="pt-40 pb-20 bold">Welcome to Waveform!</h1>
           <p>Waveform is Music Review Discord Bot/Website designed to simplify the song review process whilst creating a fun and exciting way to view and see others opinions on the music you love to listen to.
             <br/><br/>We want to provide you with the best possible experience in reviewing music, and we hope that you will enjoy your time here on the website and with the discord bot. Now get to reviewing!</p>
@@ -30,7 +30,7 @@ function Home() {
           <Image 
             src={'../images/new-waveform-logo.png'} 
             alt="waveform logo" 
-            className="me-2" 
+            className="me-2 waveform-logo" 
             width={300} 
             height={300} 
           />

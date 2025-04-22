@@ -21,6 +21,7 @@
     text-decoration: none;
     color: inherit;
   }
+  
   .artist-link:hover,
   .genre-link:hover {
     text-decoration: underline;
@@ -58,14 +59,6 @@
     }
     .music-card .page-header h3 {
       font-size: 1.25rem;
-    }
-  }
-  
-  /* Reviews grid fallback (one-column) */
-  @media (max-width: 576px) {
-    .music-card .mantine-Flex-root {
-      flex-direction: column;
-      gap: 1rem;
     }
   }
   

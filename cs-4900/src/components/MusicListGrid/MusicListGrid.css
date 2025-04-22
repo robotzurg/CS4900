@@ -1,13 +1,16 @@
 /* Music Grid */
 .music-grid-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
+    display: block;
   }
 
 .music-card-wrapper {
     margin-bottom: 25px;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1024px) {
+  .music-grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
 }
