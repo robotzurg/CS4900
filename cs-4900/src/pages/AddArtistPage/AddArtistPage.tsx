@@ -18,9 +18,7 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;  // 5 MB
-const MAX_WIDTH     = 512;              
-const MAX_HEIGHT    = 512;              
+const MAX_FILE_SIZE = 5 * 1024 * 1024;  // 5 MB        
 
 function AddArtistPage() {
   const [formData, setFormData] = useState<{
@@ -70,10 +68,6 @@ function AddArtistPage() {
     const img = new window.Image();
     img.src = previewUrl;
     img.onload = () => {
-      if (img.width > MAX_WIDTH || img.height > MAX_HEIGHT) {
-        URL.revokeObjectURL(previewUrl);
-        return alert(`Dimensions must be ≤ ${MAX_WIDTH}x${MAX_HEIGHT}px.`);
-      }
       setFormData((prev) => ({
         ...prev,
         profileFile: file,

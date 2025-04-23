@@ -1,21 +1,30 @@
 // src/pages/Genres.tsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { fetchAll } from "../../services/index.ts";
 import "./Genres.css";
 import { Container, Button } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { Flex } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 function Genres() {
-  const [genreList, setGenreList] = useState<any[]>([]);
   const [visibleCount, setVisibleCount] = useState(25);
   const navigate = useNavigate();
   const handleLoadMore = () => setVisibleCount((prev) => prev + 25);
 
-  useEffect(() => {
-    fetchAll("genres").then(setGenreList).catch(console.error);
-  }, []);
+  const { data: genreList, isLoading, error } = useQuery({
+    queryKey: ['genres', 'list'],
+    queryFn: () => fetchAll('genres'), 
+  });
+
+  if (!genreList && isLoading) {
+    return <div>Loading…</div>;
+  }
+
+  if (!genreList || error || !Array.isArray(genreList) || genreList.length === 0) {
+    return <div>No genre found.</div>;
+  }
 
   return (
     <div>

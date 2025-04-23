@@ -10,8 +10,6 @@ interface EditProfileModalProps {
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 2 mb
-const MAX_WIDTH     = 512; 
-const MAX_HEIGHT    = 512;
 
 const EditProfileModal: React.FC<EditProfileModalProps> = ({ show, handleClose, onSubmit, userData }) => {
   const [formData, setFormData] = useState({ username: '', bio: '', profile_picture: '' });
@@ -100,11 +98,6 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ show, handleClose, 
               const img = new window.Image();
               img.src = previewUrl;
               img.onload = () => {
-                if (img.width  > MAX_WIDTH || img.height > MAX_HEIGHT) {
-                  alert(`Image dimensions must be at most ${MAX_WIDTH}x${MAX_HEIGHT}px.`);
-                  URL.revokeObjectURL(previewUrl);
-                  return;
-                }
 
                 setSelectedImageFile(file);
                 setFormData(prev => ({

@@ -19,8 +19,6 @@ import { useParams } from "react-router";
 import { FaApple, FaSoundcloud, FaSpotify, FaYoutube } from "react-icons/fa";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;  // 5 MB
-const MAX_WIDTH     = 512;
-const MAX_HEIGHT    = 512;
 
 function AddMusicPage() {
   const { musicType } = useParams<{ musicType: "song" | "album" }>();
@@ -95,11 +93,6 @@ function AddMusicPage() {
     const img = new window.Image();
     img.src = previewUrl;
     img.onload = () => {
-      if (img.width > MAX_WIDTH || img.height > MAX_HEIGHT) {
-        alert(`Cover must be ≤ ${MAX_WIDTH}x${MAX_HEIGHT}px.`);
-        URL.revokeObjectURL(previewUrl);
-        return;
-      }
       setFormData(prev => ({ ...prev, coverFile: file, coverPreview: previewUrl }));
     };
     img.onerror = () => {

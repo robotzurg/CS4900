@@ -1,5 +1,6 @@
 import pkg from 'express';
 import multer from 'multer';
+import sharp from 'sharp';
 import b2 from '../config/b2Client.ts';
 import fs from 'fs';
 
@@ -11,11 +12,19 @@ router.post('/api/upload', upload.single('image'), async (req: pkg.Request, res:
     await b2.authorize();
 
     const file = req.file;
-    if (!file) return res.status(400).json({ error: 'No file uploaded' });
+    if (!file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
 
-    const fileData = fs.readFileSync(file.path);
+    // Read the raw upload
+    const fileBuffer = fs.readFileSync(file.path);
+
+    const optimizedBuffer = await sharp(fileBuffer)
+      .resize(512, 512, { fit: 'inside' })
+      .jpeg({ progressive: false }) 
+      .toBuffer();
+
     const fileName = `${Date.now()}_${file.originalname}`;
-
     const { data: { uploadUrl, authorizationToken } } = await b2.getUploadUrl({
       bucketId: process.env.B2_BUCKET_ID!,
     });
@@ -24,18 +33,18 @@ router.post('/api/upload', upload.single('image'), async (req: pkg.Request, res:
       uploadUrl,
       uploadAuthToken: authorizationToken,
       fileName,
-      data: fileData,
-      mime: file.mimetype,
+      data: optimizedBuffer,
+      mime: 'image/jpeg',
     });
 
-    fs.unlinkSync(file.path); // Clean up local file
+    fs.unlinkSync(file.path);
 
     const fileUrl = `https://f005.backblazeb2.com/file/${process.env.B2_BUCKET_NAME!}/${fileName}`;
     res.json({ url: fileUrl });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Upload failed' });
-  } 
+  }
 });
 
 export default router;

@@ -14,9 +14,7 @@ interface User {
   profile_picture: string | null; 
 }
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;  // 5 MB
-const MAX_WIDTH     = 512;              
-const MAX_HEIGHT    = 512;              
+const MAX_FILE_SIZE = 5 * 1024 * 1024;  // 5 MB            
 
 function CreateProfilePage() {
   const [searchParams] = useSearchParams();
@@ -58,11 +56,6 @@ function CreateProfilePage() {
     const img = new window.Image();
     img.src = previewUrl;
     img.onload = () => {
-      if (img.width > MAX_WIDTH || img.height > MAX_HEIGHT) {
-        alert(`Profile picture dimensions must be at most ${MAX_WIDTH}x${MAX_HEIGHT}px.`);
-        URL.revokeObjectURL(previewUrl);
-        return;
-      }
 
       setSelectedImageFile(file);
       setUserData(prev => ({

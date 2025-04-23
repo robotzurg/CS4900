@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { fetchAll } from "../../services/index.ts";
+// import { useState } from "react";
 import MusicListGrid from "../../components/MusicListGrid/MusicListGrid.tsx";
 import { Button, Container } from "react-bootstrap";
 import { Helmet } from "react-helmet";
@@ -7,13 +6,8 @@ import { Flex } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 
 function MusicAll({ entity }: { entity: string }) {
-  const [musicList, setMusicList] = useState<any[]>([]);
-  const [visibleCount, setVisibleCount] = useState(10);
+  // const [visibleCount, setVisibleCount] = useState(10);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchAll(entity).then(setMusicList).catch(console.error);
-  }, [entity]);
 
   const singular = entity.replace(/s$/, "");
 
@@ -39,10 +33,9 @@ function MusicAll({ entity }: { entity: string }) {
         </Flex>
 
         <MusicListGrid
-          musicList={musicList.slice(0, visibleCount)}
           entity={entity}
         />
-
+{/* 
         {visibleCount < musicList.length && (
           <div className="text-center mt-3">
             <Button
@@ -52,7 +45,7 @@ function MusicAll({ entity }: { entity: string }) {
               Show More
             </Button>
           </div>
-        )}
+        )} */}
       </Container>
     </div>
   );

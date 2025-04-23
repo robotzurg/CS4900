@@ -2,73 +2,58 @@
 
 import { Card, Col } from 'react-bootstrap';
 import { useEffect, useState } from "react";
-import { fetchById, getMusicReviews } from "../../services/index";
+import { getMusicReviews } from "../../services/index";
 import { Link, useNavigate } from 'react-router-dom';
 import { RingProgress, Text } from '@mantine/core';
 import './MusicSmallCard.css';
 
-function MusicSmallCard({ musicId, entity }: { musicId: string; entity: string }) {
-  const [music, setMusic] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [reviews, setReviews] = useState<any[]>([]);
-  const navigate = useNavigate();
+function MusicSmallCard({ music, entity }: { music: any, entity: any }) {
+    const [reviews, setReviews] = useState<any[]>([]);
+    const navigate = useNavigate(); 
 
-  useEffect(() => {
-    if (!musicId) return;
-    fetchById(entity, musicId)
-      .then(data => setMusic(data))
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, [entity, musicId]);
+    useEffect(() => {
+        if (!music.id) return;
+        const getReviews = async () => {
+            try {
+                const reviewData = await getMusicReviews(entity, music.id);
+                setReviews(reviewData);
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+            }
+        };
+        getReviews();
+    }, [music.id]);
 
-  useEffect(() => {
-    if (!musicId) return;
-    getMusicReviews(entity, musicId)
-      .then(setReviews)
-      .catch(console.error);
-  }, [entity, musicId]);
+    let overallAverageRating = reviews.length > 0
+        ? reviews.reduce((acc, r) => acc + (Number(r.rating) || 0), 0) / reviews.length
+        : '-';
 
-  if (loading) return <p>Loading...</p>;
-  if (!music) return <p>Music not found</p>;
-
-  const overallAverageRating =
-    reviews.length > 0
-      ? reviews.reduce((sum, r) => sum + (Number(r.rating) || 0), 0) / reviews.length
-      : '-';
-
-  return (
-    <Card
-      className="music-small-card border-0 shadow p-0"
-      style={{ cursor: 'pointer' }}
-      onClick={() => navigate(`/${entity}/${musicId}`)}
-    >
-      <Card.Img
-        variant="top"
-        className="music-card-top-img"
-        src={music.image_url}
-        alt={music.name}
-      />
-
-      <Card.Body className="justify-content-center">
-        <Card.Title className="fw-bold card-title">
-          {music.name}
-        </Card.Title>
-
-        <Card.Subtitle className="text-muted" style={{ fontSize: '0.85rem' }}>
-          <Col className="p-0">
-            By{' '}
-            {music.artists?.length > 0 ? (
-              <Link
-                to={`/artists/${music.artists[0].id}`}
-                className="artist-link text-muted"
-                onClick={e => e.stopPropagation()}
-              >
-                {music.artists[0].name}
-              </Link>
-            ) : (
-              <span className="text-muted">Unknown Artist</span>
-            )}
-          </Col>
+    return (
+        <Card
+            className="music-small-card border-0 shadow p-0"
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate(`/${entity}/${music.id}`)}
+        >
+            <Card.Img variant="top" className={'music-card-top-img'} src={music.image_url} alt={music.name} height={220} />
+            <Card.Body>
+                <Card.Title className="fw-bold">
+                    {music.name}
+                </Card.Title>
+                <Card.Subtitle className="text-muted" style={{ fontSize: '0.85rem' }}>
+                    <Col className="p-0">
+                        By{' '}
+                        {music.artists && music.artists.length > 0 ? (
+                            <Link
+                                to={`/artists/${music.artists[0].id}`}
+                                className="artist-link text-muted"
+                                onClick={e => e.stopPropagation()}
+                                >
+                                {music.artists[0].name}
+                            </Link>
+                        ) : (
+                            <span className="text-muted">Unknown Artist</span>
+                        )}
+                    </Col>
 
           <Col>
 

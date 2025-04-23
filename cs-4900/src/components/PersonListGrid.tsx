@@ -1,20 +1,34 @@
-import { Container, Row, Col } from "react-bootstrap";
-import BasicPersonCard from "./BasicPersonCard";
+import { useQuery } from '@tanstack/react-query';
+import { fetchAll } from '../services/generic.ts';
+import { Container, Row, Col } from 'react-bootstrap';
+import BasicPersonCard from './BasicPersonCard';
 
-function PersonListGrid({ personList, entity }: { personList: any[], entity: string }) {
+interface PersonListGridProps {
+  entity: string;
+  list?: any[];
+}
 
-  if (!personList || personList.length === 0) {
-    return (
-        <div>
-          No {entity} found.
-        </div>
-    );
+function PersonListGrid({ entity, list }: PersonListGridProps) {
+  const { data: personList, isLoading, error } = useQuery({
+    queryKey: [entity, 'list'],
+    queryFn: () => fetchAll(entity),
+    enabled: !list, 
+  });
+
+  const finalPersonList = list || personList;
+
+  if (!list && isLoading) {
+    return <div>Loading…</div>;
+  }
+
+  if (!finalPersonList || error || !Array.isArray(finalPersonList) || finalPersonList.length === 0) {
+    return <div>No {entity} found.</div>;
   }
 
   return (
     <Container>
       <Row className="g-4">
-        {personList.map((person) => (
+        {finalPersonList.map((person: any) => (
           <Col xl={2} lg={3} md={4} sm={6} xs={12} key={person.id} className="card-col col-2-5">
             <BasicPersonCard person={person} entity={entity} />
           </Col>

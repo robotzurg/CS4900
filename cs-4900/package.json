@@ -20,6 +20,7 @@
     "@mantine/core": "^7.17.2",
     "@mantine/dates": "^7.17.4",
     "@mantine/hooks": "^7.17.0",
+    "@tanstack/react-query": "^5.74.4",
     "@types/express": "^5.0.0",
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.7",

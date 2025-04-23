@@ -31,6 +31,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-spotify": "^2.0.0",
     "pg": "^8.14.1",
+    "sharp": "^0.34.1",
     "slug": "^10.0.0",
     "spotify-web-api-node": "^5.0.2",
     "sqids": "^0.3.0",

@@ -1,82 +1,104 @@
-import { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
-import { onSearch } from "../../services/index";
-import MusicListGrid from "../../components/MusicListGrid/MusicListGrid";
-import { useSearchParams } from "react-router-dom";
-import PersonListGrid from "../../components/PersonListGrid";
-import { Helmet } from "react-helmet";
+import { useQuery } from '@tanstack/react-query';
+import { Container } from 'react-bootstrap';
+import { useSearchParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { onSearch } from '../../services/index';
+import MusicListGrid from '../../components/MusicListGrid/MusicListGrid';
+import PersonListGrid from '../../components/PersonListGrid';
+
+// simple skeleton placeholder
+function SectionSkeleton({ count = 6 }: { count?: number }) {
+  return (
+    <div className="music-grid-container">
+      {Array.from({ length: count }).map((_, i) => (
+        <div className="music-card-wrapper" key={i}>
+          <div className="skeleton" />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
-  const searchQuery = searchParams.get("q");
-  
-  const [songResults, setSongResults] = useState<any[]>([]);
-  const [artistResults, setArtistResults] = useState<any[]>([]);
-  const [albumResults, setAlbumResults] = useState<any[]>([]);
-  const [userResults, setUserResults] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+  const query = searchParams.get('q') || '';
 
-  useEffect(() => {
-    if (searchQuery) {
-      handleSearch(searchQuery);
-    }
-  }, [searchQuery]);
-
-  const handleSearch = async (query: string) => {
-    setLoading(true);
-    try {
-      const [songs, artists, albums, users] = await Promise.all([
-        onSearch(query, "songs"),
-        onSearch(query, "artists"),
-        onSearch(query, "albums"),
-        onSearch(query, "users"),
-      ]);
-      
-      setSongResults(songs);
-      setArtistResults(artists);
-      setAlbumResults(albums);
-      setUserResults(users);
-    } catch (error) {
-      console.error("Error searching:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // batch all four searches in one useQuery
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['search', query],
+    queryFn: () =>
+      Promise.all([
+        onSearch(query, 'songs'),
+        onSearch(query, 'albums'),
+        onSearch(query, 'artists'),
+        onSearch(query, 'users'),
+      ]).then(([songs, albums, artists, users]) => ({
+        songs,
+        albums,
+        artists,
+        users,
+      })),
+    enabled: query.length > 0,
+  });
 
   return (
     <div>
       <Helmet>
-        <title>{searchQuery} Results - Waveform</title>
+        <title>{query ? `"${query}" Results` : 'Search'} - Waveform</title>
       </Helmet>
+
       <Container className="mt-4">
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <div>
-            <h1 className="pb-40">Search Results for "{searchQuery}"</h1>
-            
-            <section className="mb-40">
-              <h2>Songs</h2>
-              <MusicListGrid musicList={songResults} entity="songs" />
-            </section>
+        <h1 className="pb-40">
+          {query ? `Search Results for "${query}"` : 'Please enter a search term'}
+        </h1>
 
-            <section className="mb-40">
-              <h2>Albums</h2>
-              <MusicListGrid musicList={albumResults} entity="albums" />
-            </section>
+        {/* Songs */}
+        <section className="mb-40">
+          <h2>Songs</h2>
+          {isLoading ? (
+            <SectionSkeleton />
+          ) : isError || !data?.songs.length ? (
+            <p>No songs found.</p>
+          ) : (
+            <MusicListGrid list={data.songs} entity="songs" />
+          )}
+        </section>
 
-            <section className="mb-40">
-              <h2>Artists</h2>
-              <PersonListGrid personList={artistResults} entity="artists" />
-            </section>
+        {/* Albums */}
+        <section className="mb-40">
+          <h2>Albums</h2>
+          {isLoading ? (
+            <SectionSkeleton />
+          ) : isError || !data?.albums.length ? (
+            <p>No albums found.</p>
+          ) : (
+            <MusicListGrid list={data.albums} entity="albums" />
+          )}
+        </section>
 
-            <section className="mb-40">
-              <h2>Users</h2>
-              <PersonListGrid personList={userResults} entity="users" />
-            </section>
+        {/* Artists */}
+        <section className="mb-40">
+          <h2>Artists</h2>
+          {isLoading ? (
+            <SectionSkeleton />
+          ) : isError || !data?.artists.length ? (
+            <p>No artists found.</p>
+          ) : (
+            <PersonListGrid list={data.artists} entity="artists" />
+          )}
+        </section>
 
-          </div>
-        )}
+        {/* Users */}
+        <section className="mb-40">
+          <h2>Users</h2>
+          {isLoading ? (
+            <SectionSkeleton />
+          ) : isError || !data?.users.length ? (
+            <p>No users found.</p>
+          ) : (
+            <PersonListGrid list={data.users} entity="users" />
+          )}
+        </section>
       </Container>
     </div>
   );
