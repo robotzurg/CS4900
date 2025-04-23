@@ -18,10 +18,41 @@
   .music-small-card .card-title {
     white-space: normal;
     word-break: break-word;
+    font-size: 0.85rem;
   }
 
   .music-small-card .card-body {
     justify-content: start !important;
+    padding: 10px 15px 5px 15px;
+  }
+
+  .rating-ring-container {
+    flex-direction: column;
+    gap: 0px;
+  }
+
+  .ring-text {
+    font-size: 14px
+  }
+  
+  .ring-inner-text {
+    font-size: 12px;
+  }
+
+  @media (min-width: 426px) {
+
+    .music-small-card .card-body {
+        padding: 1rem 1rem;
+    }
+
+    .music-small-card .card-title {
+        font-size: larger;
+    }
+
+    .rating-ring-container {
+        flex-direction: row;
+        gap: 30px;
+    }
   }
 
   /* desktop (≥1024px): column layout, fixed width, show rings */
@@ -39,6 +70,6 @@
     .music-small-card .ring-text {
         display: flex;
         justify-content: center;
-      }
+    }
   }
   

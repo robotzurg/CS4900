@@ -58,7 +58,7 @@ function MusicSmallCard({ music, entity }: { music: any, entity: any }) {
           <Col>
 
             {/* DESKTOP RINGS */}
-            <div className="rating-ring-container d-none d-sm-none d-lg-flex gap-3 pt-10 justify-content-center">
+            <div className="rating-ring-container d-none d-sm-none d-lg-flex pt-10 justify-content-center">
               <div className="rating-ring">
                 <RingProgress
                   size={55}
@@ -102,21 +102,21 @@ function MusicSmallCard({ music, entity }: { music: any, entity: any }) {
             </div>
 
             {/* MOBILE/TABLET */}
-            <div className="rating-ring-container d-flex d-sm-flex d-lg-none gap-3 pt-10 justify-content-start">
+            <div className="rating-ring-container d-flex d-sm-flex d-lg-none pt-10 justify-content-start">
               <div className="d-flex gap-2 rating-ring align-items-center">
                 <RingProgress
-                  size={35}
-                  thickness={3}
+                  size={30}
+                  thickness={2}
                   sections={[{ value: 0, color: 'blue' }]}
-                  label={<Text ta="center">-</Text>}
+                  label={<Text ta="center" className='ring-inner-text'>-</Text>}
                 />
                 <Text className="ring-text">Critics</Text>
               </div>
 
               <div className="d-flex gap-2 rating-ring align-items-center">
                 <RingProgress
-                  size={35}
-                  thickness={3}
+                  size={30}
+                  thickness={2}
                   sections={[{
                     value: typeof overallAverageRating === 'number'
                       ? overallAverageRating * 10
@@ -124,7 +124,7 @@ function MusicSmallCard({ music, entity }: { music: any, entity: any }) {
                     color: 'red'
                   }]}
                   label={
-                    <Text ta="center">
+                    <Text ta="center" className='ring-inner-text'>
                       {typeof overallAverageRating === 'number'
                         ? overallAverageRating.toFixed(1).replace(/\.0+$/, '')
                         : overallAverageRating}
