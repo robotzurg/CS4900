@@ -28,7 +28,7 @@
   @media (min-width: 1024px) {
     .music-small-card {
       flex-direction: column !important;
-      width: 230px !important;
+      width: 200px !important;
     }
   
     .music-small-card .music-card-top-img {
