@@ -47,14 +47,14 @@ function GenrePage() {
       {genreSongs.length > 0 && (
         <>
           <h4>Songs</h4>
-          <MusicListGrid musicList={genreSongs} entity="songs" />
+          <MusicListGrid list={genreSongs} entity="songs" />
         </>
       )}
 
       {genreAlbums.length > 0 && (
         <>
           <h4>Albums</h4>
-          <MusicListGrid musicList={genreAlbums} entity="albums" />
+          <MusicListGrid list={genreAlbums} entity="albums" />
         </>
       )}
 

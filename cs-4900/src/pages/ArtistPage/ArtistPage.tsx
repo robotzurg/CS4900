@@ -64,14 +64,14 @@ function ArtistPage() {
 
                     <h3 className='pt-20 pb-20 text-capitalize'>All Songs</h3>
                     {songs.length > 0 ? (
-                        <MusicListGrid musicList={songs} entity="songs" />
+                        <MusicListGrid list={songs} entity="songs" />
                     ) : (
                         <p>No songs found for this artist.</p>
                     )}
 
                     <h3 className='pt-20 pb-20 text-capitalize'>All Albums</h3>
                     {songs.length > 0 ? (
-                        <MusicListGrid musicList={albums} entity="albums" />
+                        <MusicListGrid list={albums} entity="albums" />
                     ) : (
                         <p>No albums found for this artist.</p>
                     )}
