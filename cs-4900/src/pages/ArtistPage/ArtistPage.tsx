@@ -43,7 +43,7 @@ function ArtistPage() {
     );
   }
 
-  if (!artist) return <p>Artist not found.</p>;
+  if (artist.error) window.location.href = '/'
 
   return (
     <div>

@@ -6,6 +6,7 @@ import {
   Form,
   Button,
   Image,
+  InputGroup,
 } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import {
@@ -15,6 +16,7 @@ import {
 } from "../../services/generic.ts";
 import { MultiSelect } from "@mantine/core";
 import { useParams } from "react-router";
+import { FaApple, FaSoundcloud, FaSpotify, FaYoutube } from "react-icons/fa";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;  // 5 MB
 const MAX_WIDTH     = 512;
@@ -32,6 +34,10 @@ function AddMusicPage() {
     coverFile: File | null;
     coverPreview: string;
     releaseDate: string;
+    spotify_url: string | null;
+    soundcloud_url: string | null;
+    apple_url: string | null;
+    youtube_url: string | null;
   }>({
     itemType,
     name: "",
@@ -40,11 +46,23 @@ function AddMusicPage() {
     coverFile: null,
     coverPreview: "",
     releaseDate: "",
+    spotify_url: null,
+    soundcloud_url: null,
+    apple_url: null,
+    youtube_url: null,
   });
+
+  const socialFields = [
+    { name: "spotify_url", label: "Spotify", icon: <FaSpotify />, url_pattern: /^https?:\/\/(open\.)?spotify\.com\/.+/i },
+    { name: "soundcloud_url", label: "SoundCloud", icon: <FaSoundcloud />, url_pattern: /^https?:\/\/(www\.)?soundcloud\.com\/.+/i },
+    { name: "apple_url", label: "Apple Music", icon: <FaApple />, url_pattern: /^https?:\/\/(music\.)?apple\.com\/.+/i },
+    { name: "youtube_url", label: "YouTube", icon: <FaYoutube />, url_pattern: /^https?:\/\/(www\.)?youtube\.com\/watch\?v=.+|https?:\/\/youtu\.be\/.+/i },
+  ];
 
   const [artists, setArtists] = useState<any[]>([]);
   const [genres, setGenres] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string,string>>({});
 
   useEffect(() => {
     fetchAll("artists").then(setArtists).catch(console.error);
@@ -54,6 +72,16 @@ function AddMusicPage() {
   const handleChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+
+    const field = socialFields.find(f => f.name === name);
+    if (field) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: value && !field.url_pattern.test(value)
+          ? `Invalid ${field.label} URL`
+          : ""
+      }));
+    }
   };
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +126,12 @@ function AddMusicPage() {
         genre_ids: formData.genre_ids,
         image_url: coverUrl,
         release_date: formData.releaseDate,
+        spotify_url: formData.spotify_url,
+        soundcloud_url: formData.soundcloud_url,
+        apple_url: formData.apple_url,
+        youtube_url: formData.youtube_url
       };
+
       const created = await createItem(endpoint, payload);
       window.location.href = `/${endpoint}/${created.id}`;
     } catch (err) {
@@ -155,6 +188,27 @@ function AddMusicPage() {
                   required
                 />
               </Form.Group>
+
+              {/* Social Fields */}
+              {socialFields.map(({ name, label, icon }) => (
+                <Form.Group controlId={name} key={name} className="mb-2">
+                  <Form.Label className="mb-1">{label}</Form.Label>
+                  <InputGroup hasValidation>
+                    <InputGroup.Text>{icon}</InputGroup.Text>
+                    <Form.Control
+                      name={name}
+                      type="url"
+                      placeholder={`Enter ${label} URL`}
+                      value={formData[name] ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors[name]}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors[name]}
+                    </Form.Control.Feedback>
+                  </InputGroup>
+                </Form.Group>
+              ))}
 
               {/* Release Date */}
               <Form.Group controlId="releaseDate" className="mb-3">

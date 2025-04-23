@@ -4,7 +4,7 @@ import { Card, Col } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import { fetchById, getMusicReviews } from "../../services/index";
 import { Link, useNavigate } from 'react-router-dom';
-import { Flex, RingProgress, Text } from '@mantine/core';
+import { RingProgress, Text } from '@mantine/core';
 import './MusicSmallCard.css';
 
 function MusicSmallCard({ musicId, entity }: { musicId: string; entity: string }) {
@@ -71,7 +71,9 @@ function MusicSmallCard({ musicId, entity }: { musicId: string; entity: string }
           </Col>
 
           <Col>
-            <Flex gap="5" pt="10" justify="center" className="rating-ring-container">
+
+            {/* DESKTOP RINGS */}
+            <div className="rating-ring-container d-none d-sm-none d-lg-flex gap-3 pt-10 justify-content-center">
               <div className="rating-ring">
                 <RingProgress
                   size={55}
@@ -103,7 +105,7 @@ function MusicSmallCard({ musicId, entity }: { musicId: string; entity: string }
                 <Text className="ring-text">Users</Text>
               </div>
 
-              <div className="rating-ring">
+              {/* <div className="rating-ring">
                 <RingProgress
                   size={55}
                   thickness={6}
@@ -111,8 +113,52 @@ function MusicSmallCard({ musicId, entity }: { musicId: string; entity: string }
                   label={<Text ta="center">-</Text>}
                 />
                 <Text className="ring-text">Friends</Text>
+              </div> */}
+            </div>
+
+            {/* MOBILE/TABLET */}
+            <div className="rating-ring-container d-flex d-sm-flex d-lg-none gap-3 pt-10 justify-content-start">
+              <div className="d-flex gap-2 rating-ring align-items-center">
+                <RingProgress
+                  size={35}
+                  thickness={3}
+                  sections={[{ value: 0, color: 'blue' }]}
+                  label={<Text ta="center">-</Text>}
+                />
+                <Text className="ring-text">Critics</Text>
               </div>
-            </Flex>
+
+              <div className="d-flex gap-2 rating-ring align-items-center">
+                <RingProgress
+                  size={35}
+                  thickness={3}
+                  sections={[{
+                    value: typeof overallAverageRating === 'number'
+                      ? overallAverageRating * 10
+                      : 0,
+                    color: 'red'
+                  }]}
+                  label={
+                    <Text ta="center">
+                      {typeof overallAverageRating === 'number'
+                        ? overallAverageRating.toFixed(1).replace(/\.0+$/, '')
+                        : overallAverageRating}
+                    </Text>
+                  }
+                />
+                <Text className="ring-text">Users</Text>
+              </div>
+
+              {/* <div className="rating-ring">
+                <RingProgress
+                  size={55}
+                  thickness={6}
+                  sections={[{ value: 0, color: 'green' }]}
+                  label={<Text ta="center">-</Text>}
+                />
+                <Text className="ring-text">Friends</Text>
+              </div> */}
+            </div>
           </Col>
         </Card.Subtitle>
       </Card.Body>

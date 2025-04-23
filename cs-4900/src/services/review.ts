@@ -23,8 +23,6 @@ export const getReview = async (reviewId: string) => {
 
 export const getMusicReviews = async (entity: string, musicId: string, query: any[] = []) => {
 
-  console.log(entity, musicId, query);
-
   const queryParams = query.length 
             ? `?${query.map(q => `${q[0]}=${encodeURIComponent(q[1])}`).join('&')}` 
             : '';

@@ -17,6 +17,13 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any; reviews: an
   const handleCreateReview = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
+  const socials = [
+    { url: music.spotify_url, icon: faSpotify },
+    { url: music.soundcloud_url, icon: faSoundcloud },
+    { url: music.apple_url, icon: faApple },
+    { url: music.youtube_url, icon: faYoutube },
+  ].filter(s => s.url);
+
   const allReviews = [...userReview, ...reviews];
   const averageRating =
     allReviews.length > 0
@@ -83,14 +90,42 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any; reviews: an
             </h3>
           </div>
           <p>
-            <strong>Release Date:</strong> {new Date(music.release_date).toLocaleDateString()}<br />
-            <strong>Genres:</strong> {music.genres.map((genre: any, index: number) => (
-              <span key={genre.id}>
-                <Link className="genre-link" to={`/genres/${genre.id}`}>{genre.name}</Link>
-                {index < music.genres.length - 1 && ', '}
-              </span>
-            ))}
+            <strong>Release Date:</strong>{" "}
+            {new Date(music.release_date).toLocaleDateString()}
+            <br />
+
+            {music.genres.length > 0 && (
+              <>
+                <strong>Genres:</strong>{" "}
+                {music.genres.map((genre, index) => (
+                  <span key={genre.id}>
+                    <Link className="genre-link" to={`/genres/${genre.id}`}>
+                      {genre.name}
+                    </Link>
+                    {index < music.genres.length - 1 && ", "}
+                  </span>
+                ))}
+              </>
+            )}
           </p>
+
+          {
+            socials.length > 0 && (
+              <Flex gap="5" className='pb-10'>
+                {socials.map(({ url, icon }) => (
+                  <a
+                    key={icon.iconName}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FontAwesomeIcon icon={icon} size="2x" fixedWidth />
+                  </a>
+                ))}
+              </Flex>
+            )
+          }
+
           {user && (
             <Button onClick={handleCreateReview} className="mb-3">
               {userReview.length > 0 ? 'Edit Review' : 'Add A Review'}
@@ -125,12 +160,12 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any; reviews: an
               />
               <div>
                 <Text fw={700}>User Rating</Text>
-                <Text size="sm" c="dimmed">Based on {reviews.length} reviews</Text>
+                <Text size="sm" c="dimmed">Based on {reviews.length + userReview.length} reviews</Text>
               </div>
             </Flex>
 
             {/* Friends Rating */}
-            <Flex align="center" gap="sm">
+            {/* <Flex align="center" gap="sm">
               <RingProgress size={80} thickness={9} sections={[{ value: 0, color: 'green' }]} label={
                 <Text ta="center" size="lg" fw={700} style={{ lineHeight: 1 }}>-</Text>
               } />
@@ -138,7 +173,7 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any; reviews: an
                 <Text fw={700}>Friends Rating</Text>
                 <Text size="sm" c="dimmed">Based on 0 Reviews</Text>
               </div>
-            </Flex>
+            </Flex> */}
           </Flex>
 
           {userReview.length > 0 && <ReviewListGrid type="user_main" reviews={userReview} />}
@@ -153,16 +188,9 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any; reviews: an
             onClick={() => setImageModalOpen(true)}
           />
 
-          <Flex gap="5">
-            <FontAwesomeIcon icon={faSpotify} size="2x" fixedWidth />
-            <FontAwesomeIcon icon={faSoundcloud} size="2x" fixedWidth />
-            <FontAwesomeIcon icon={faApple} size="2x" fixedWidth />
-            <FontAwesomeIcon icon={faYoutube} size="2x" fixedWidth />
-          </Flex>
-
-          <div className="sidebar">
+          {/* <div className="sidebar">
             <p>Sidebar content (add later)</p>
-          </div>
+          </div> */}
         </Col>
       </Row>
 

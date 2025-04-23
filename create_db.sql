@@ -34,11 +34,11 @@ CREATE TABLE Songs (
   slug TEXT UNIQUE NOT NULL,
   category TEXT NOT NULL,
   image_url TEXT,
-  spotify_link TEXT,
+  spotify_url TEXT,
   spotify_uri TEXT,
-  soundcloud_link TEXT,
-  apple_link TEXT,
-  youtube_link TEXT
+  soundcloud_url TEXT,
+  apple_url TEXT,
+  youtube_url TEXT
 );
 
 -- Albums Table
@@ -49,11 +49,11 @@ CREATE TABLE Albums (
   slug TEXT UNIQUE NOT NULL,
   category TEXT NOT NULL,
   image_url TEXT,
-  spotify_link TEXT,
+  spotify_url TEXT,
   spotify_uri TEXT,
-  soundcloud_link TEXT,
-  apple_link TEXT,
-  youtube_link TEXT
+  soundcloud_url TEXT,
+  apple_url TEXT,
+  youtube_url TEXT
 );
 
 -- Genres Table

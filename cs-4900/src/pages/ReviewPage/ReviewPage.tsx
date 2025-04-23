@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { getReview } from '../../services/review';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { getMusicReviews, getReview, updateReview } from '../../services/review';
 import { fetchById } from '../../services';
 import { Col, Row, Image, Button, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { fetchCommentsForReview } from '../../services/comments.ts';
 import { createItem, deleteItem, updateItem } from '../../services/generic.ts';
+import CreateReviewModal from '../../components/CreateReviewModal.tsx';
 
 function ReviewPage() {
   const { reviewId } = useParams<any>();
@@ -18,6 +19,39 @@ function ReviewPage() {
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [editingCommentText, setEditingCommentText] = useState<string>('');
   const currentUser = JSON.parse(localStorage.getItem("user") || "null");
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+
+  const handleCreateReview = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleReviewSubmit = async (rating: number | null, reviewText: string) => {
+      if (!user) return;
+
+      const isAlbum = music.category === 'album';
+      const musicEntityKey = isAlbum ? 'album_id' : 'song_id';
+      const musicEntityTable = isAlbum ? 'albums' : 'songs';
+      const musicType = isAlbum ? 'album' : 'song';
+  
+      const existingReview = await getMusicReviews(
+        musicEntityTable,
+        music.id,
+        ['userId', user.id]
+      );
+
+      await updateReview({
+        id: existingReview[0].id,
+        user_id: user.id,
+        [musicEntityKey]: music.id,
+        timestamp: new Date().toISOString().split('T')[0],
+        rating,
+        review_text: reviewText,
+        type: musicType,
+      })
+  
+      window.location.reload();
+    };
+  
 
   useEffect(() => {
     if (reviewId) {
@@ -96,6 +130,12 @@ function ReviewPage() {
     setComments((prev) => prev.filter((comment) => comment.id !== commentId));
   };
 
+  const handleDeleteReview = async () => {
+    await deleteItem('reviews', review.id);
+
+    navigate(`/${music.category}s/${music.id}`);
+  }
+
   if (!review) return;
 
   let formattedRating = '';
@@ -142,8 +182,8 @@ function ReviewPage() {
                   </h5>
                   <h5>{formattedRating}</h5>
                 </div>
-                <Button variant='secondary' className='ml-10'><FontAwesomeIcon icon={faEdit} /></Button>
-                <Button variant='danger'><FontAwesomeIcon icon={faTrash} /></Button>
+                <Button variant='secondary' className='ml-10' onClick={handleCreateReview}><FontAwesomeIcon icon={faEdit} /></Button>
+                <Button variant='danger' onClick={handleDeleteReview}><FontAwesomeIcon icon={faTrash} /></Button>
               </div>
             </Col>
           </Row>
@@ -236,6 +276,13 @@ function ReviewPage() {
               </div>
             ))}
           </Row>
+
+          <CreateReviewModal
+            show={showModal}
+            handleClose={handleCloseModal}
+            onSubmit={handleReviewSubmit}
+            existingReview={review}
+          />
         </div>
       ) : (
         <p>Loading review...</p>

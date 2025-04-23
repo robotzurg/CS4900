@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Container, Nav, Navbar, Button, FormControl, Form, Image, NavDropdown, InputGroup, Offcanvas } from 'react-bootstrap';
+import { Container, Nav, Navbar, FormControl, Form, Image, NavDropdown, InputGroup, Offcanvas } from 'react-bootstrap';
 import { authLogin, authLogout, fetchMe, onSearch } from '../../services/index.ts';
 import { Link, useNavigate } from 'react-router-dom';
 import './MainNavbar.css';
+import { Flex } from '@mantine/core';
 
 function MainNavbar() {
   const [user, setUser] = useState<any>(null);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow  = () => setShow(true);
+  const isLoggedIn = Boolean(user);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -73,6 +75,21 @@ function MainNavbar() {
     handleSearchClick();
   };
 
+  const dropdownTitle = (
+    <>
+      <Image
+        src={isLoggedIn
+          ? user.profile_picture || "https://www.gravatar.com/avatar/?d=mp"
+          : "https://www.gravatar.com/avatar/?d=mp"}
+        alt={isLoggedIn ? user.username : "Login"}
+        roundedCircle
+        width={30}
+        height={30}
+        className="me-2 navbar-image"
+      />
+    </>
+  );
+
   return (
     <Navbar expand="lg" className="navbar" style={{ maxHeight: "55px" }}>
       <Container>
@@ -80,7 +97,7 @@ function MainNavbar() {
           <Image 
             src="/images/new-waveform-logo.png" 
             alt="Waveform" 
-            className="me-2" 
+            className="me-2 navbar-pfp-image" 
             width={30} 
             height={30} 
           />
@@ -89,8 +106,40 @@ function MainNavbar() {
           </span>
         </Navbar.Brand>
 
-        {/* toggle opens offcanvas */}
-        <Navbar.Toggle aria-controls="offcanvasNavbar" onClick={handleShow} />
+        <Flex direction={'row'} gap={10} align={'center'}>
+          {/* MOBILE PROFILE DROP DOWN */}
+          <NavDropdown
+            className="d-lg-none d-sm-flex"
+            title={dropdownTitle}
+            align='end'
+            onClick={handleClose}
+            bsPrefix=''
+          >
+            {isLoggedIn ? (
+              <>
+                <NavDropdown.Item
+                  as={Link}
+                  to={`/profile/${user.id}`}
+                >
+                  Profile
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>
+                  Logout
+                </NavDropdown.Item>
+              </>
+            ) : (
+              <NavDropdown.Item
+                as="button"
+                onClick={handleLogin}
+              >
+                Login With Google
+              </NavDropdown.Item>
+            )}
+          </NavDropdown>
+
+          {/* toggle opens offcanvas */}
+          <Navbar.Toggle aria-controls="offcanvasNavbar" onClick={handleShow} />
+        </Flex>
 
         <Navbar.Offcanvas
           id="offcanvasNavbar"
@@ -115,6 +164,35 @@ function MainNavbar() {
             </Nav>
 
             <Nav className="d-flex align-items-center">
+              {/* DESKTOP PROFILE DROP DOWN */}
+              <NavDropdown
+                className="d-lg-flex d-sm-none"
+                title={dropdownTitle}
+                align='end'
+                onClick={handleClose}
+              >
+                {isLoggedIn ? (
+                  <>
+                    <NavDropdown.Item
+                      as={Link}
+                      to={`/profile/${user.id}`}
+                    >
+                      Profile
+                    </NavDropdown.Item>
+                    <NavDropdown.Item onClick={handleLogout}>
+                      Logout
+                    </NavDropdown.Item>
+                  </>
+                ) : (
+                  <NavDropdown.Item
+                    as="button"
+                    onClick={handleLogin}
+                  >
+                    Login With Google
+                  </NavDropdown.Item>
+                )}
+              </NavDropdown>
+
               <Form onSubmit={handleSearchSubmit} className="me-2 w-100">
                 <InputGroup>
                   <FormControl
@@ -128,52 +206,6 @@ function MainNavbar() {
                 </InputGroup>
               </Form>
 
-              {user ? (
-                <NavDropdown
-                  id="offcanvas-nav-dropdown-profile"
-                  title={
-                    <>
-                      <Image 
-                        src={user.profile_picture || "https://www.gravatar.com/avatar/?d=mp"} 
-                        alt={user.username} 
-                        roundedCircle 
-                        width={30} 
-                        height={30} 
-                        className="me-2"
-                      />
-                      {user.username}
-                    </>
-                  }
-                >
-                  <NavDropdown.Item as={Link} to={`/profile/${user.id}`} onClick={handleClose}>
-                    Profile
-                  </NavDropdown.Item>
-                  <NavDropdown.Item onClick={() => { handleLogout(); handleClose(); }}>
-                    Logout
-                  </NavDropdown.Item>
-                </NavDropdown>
-              ) : (
-                <NavDropdown
-                  id="offcanvas-nav-dropdown-login"
-                  title={
-                    <>
-                      <Image 
-                        src="https://www.gravatar.com/avatar/?d=mp" 
-                        alt="Login" 
-                        roundedCircle 
-                        width={30} 
-                        height={30} 
-                        className="me-2"
-                      />
-                      Login
-                    </>
-                  }
-                >
-                  <NavDropdown.Item as={Button} onClick={() => { handleLogin(); handleClose(); }}>
-                    Login With Google
-                  </NavDropdown.Item>
-                </NavDropdown>
-              )}
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>

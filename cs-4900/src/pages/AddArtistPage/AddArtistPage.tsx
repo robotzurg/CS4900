@@ -53,7 +53,6 @@ function AddArtistPage() {
     { name: "youtube_url", label: "YouTube", icon: <FaYoutube /> },
   ];
   
-
   const handleChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -155,7 +154,7 @@ function AddArtistPage() {
                   />
                 </InputGroup>
               </Form.Group>
-            ))}
+              ))}
 
 
               {/* Artist Image */}

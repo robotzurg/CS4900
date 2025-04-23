@@ -15,18 +15,14 @@
     margin-left: 10px;
 }
 
+.dropdown-toggle::after {
+    display: none !important;
+}
+
 /* TABLET / MOBILE VIEW ONLY */
 @media (max-width: 992px) {
     #offcanvasNavbar {
         width: 250px;
-    }
-
-    .search-input {
-        display: none;
-    }
-
-    .dropdown {
-        display: none;
     }
 }
 

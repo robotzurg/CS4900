@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Container, Col, Row, Image } from "react-bootstrap";
-import { fetchById } from "../services/index";
+import { fetchById, fetchCommentsForReview } from "../services/index";
 import { Link } from "react-router";
-import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ReviewCard({ review }: { review: any }) {
   const [user, setUser] = useState<any | null>(null);
+  const [comments, setComments] = useState<any[]>([]);
   const [expanded, setExpanded] = useState(false);
   const toggleExpanded = () => setExpanded(!expanded);
 
@@ -16,6 +17,11 @@ function ReviewCard({ review }: { review: any }) {
         .then((data) => setUser(data))
         .catch(console.error);
     }
+
+    fetchCommentsForReview(review.id)
+      .then((data) => setComments(data))
+      .catch(console.error)
+
   }, [review.user_id]);
 
   if (!user) return null;
@@ -74,13 +80,13 @@ function ReviewCard({ review }: { review: any }) {
         </Col>
       </Row>
       <Row className="mt-2 d-flex justify-content-start align-items-center">
-        <Col xs="auto" className="d-flex align-items-center">
+        {/* <Col xs="auto" className="d-flex align-items-center">
         <FontAwesomeIcon icon={faHeart} />
-          <p className="mb-0 ms-2">20</p>
-        </Col>
+          <p className="mb-0 ms-2">0</p>
+        </Col> */}
         <Col xs="auto" className="d-flex align-items-center">
           <FontAwesomeIcon icon={faComment} />
-          <p className="mb-0 ms-2">20</p>
+          <p className="mb-0 ms-2">{comments.length}</p>
         </Col>
         <Col xs="auto" className="d-flex align-items-center">
           <Link style={{ textDecoration: 'none' }} to={`/${review.type}s/${review.type == 'song' ? review.song_id : review.album_id}/reviews/${review.id}`}>

@@ -7,7 +7,7 @@ const NotFound = () => {
   return (
     <div style={{ padding: '2rem' }}>
       <Helmet>
-        <title>404 Not Found - Waveform</title>
+        <title>Not Found - Waveform</title>
       </Helmet>
       <h1 className="mb-20"><FontAwesomeIcon icon={faTrashCan} /> Uh oh, you hit a dead end!</h1>
       <p>We looked far and wide, but no page was found here.</p>

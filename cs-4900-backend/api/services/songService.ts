@@ -91,13 +91,13 @@ export class SongService extends GenericService<Song> {
 
       // Insert the song into the Songs table
       const insertSongQuery = `
-        INSERT INTO Songs (id, name, release_date, slug, image_url, spotify_link, spotify_uri, soundcloud_link, apple_link, youtube_link) 
+        INSERT INTO Songs (id, name, release_date, slug, image_url, spotify_url, spotify_uri, soundcloud_url, apple_url, youtube_url) 
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id;
       `;
       const { rows } = await client.query(insertSongQuery, [
         id, songData.name, songData.release_date, slug, songData.image_url,
-        songData.spotify_link, songData.spotify_uri, songData.soundcloud_link,
-        songData.apple_link, songData.youtube_link
+        songData.spotify_url, songData.spotify_uri, songData.soundcloud_url,
+        songData.apple_url, songData.youtube_url
       ]);
 
       // Insert song-artist relationships

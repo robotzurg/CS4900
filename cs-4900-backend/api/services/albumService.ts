@@ -91,13 +91,13 @@ export class AlbumService extends GenericService<Album> {
 
       // Insert the album into the Albums table
       const insertAlbumQuery = `
-        INSERT INTO Albums (id, name, release_date, slug, image_url, spotify_link, spotify_uri, soundcloud_link, apple_link, youtube_link) 
+        INSERT INTO Albums (id, name, release_date, slug, image_url, spotify_url, spotify_uri, soundcloud_url, apple_url, youtube_url) 
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id;
       `;
       await client.query(insertAlbumQuery, [
         id, albumData.name, albumData.release_date, slug, albumData.image_url,
-        albumData.spotify_link, albumData.spotify_uri, albumData.soundcloud_link,
-        albumData.apple_link, albumData.youtube_link
+        albumData.spotify_url, albumData.spotify_uri, albumData.soundcloud_url,
+        albumData.apple_url, albumData.youtube_url
       ]);
 
       // Insert album-artist relationships

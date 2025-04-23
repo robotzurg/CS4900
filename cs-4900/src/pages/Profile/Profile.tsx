@@ -9,6 +9,7 @@ import EditProfileModal from "../../components/EditProfileModal";
 import BigReviewCard from "../../components/BigReviewCard";
 import Topster from "../../components/Topster";
 import { Helmet } from "react-helmet";
+import './Profile.css'
 
 const ProfilePage = () => {
   const { userId } = useParams<string>();
@@ -62,7 +63,7 @@ const ProfilePage = () => {
   }, [userId]);
 
   if (loading) return <p>Loading...</p>;
-  if (!user) return <p>User not found</p>;
+  if (user.error) window.location.href = '/'
 
   let reviewsFiltered = reviews.filter((r) => !isNaN(parseFloat(r.rating)));
   let averageRating = reviewsFiltered.reduce((acc, r) => acc + parseFloat(r.rating), 0) / reviewsFiltered.length || 0;
@@ -73,7 +74,6 @@ const ProfilePage = () => {
   )
   .slice(0, 3);
 
-
   return (
     <div>
       <Helmet>
@@ -83,7 +83,7 @@ const ProfilePage = () => {
         <Row className="d-flex p-3">
           <Col lg={8}>
             <Row className="d-flex flex-column justify-content-center pb-40">
-              <Flex className="align-items-end gap-4">
+              <Flex className="gap-4 profile-header">
                 <Image 
                   src={user.profile_picture || "https://www.gravatar.com/avatar/?d=mp"} 
                   alt={user.username} 

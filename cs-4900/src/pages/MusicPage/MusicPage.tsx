@@ -4,12 +4,8 @@ import { Helmet } from "react-helmet";
 import { fetchById, getMusicReviews } from "../../services";
 import MusicInfoCard from "../../components/MusicInfoCard/MusicInfoCard";
 
-interface MusicPageProps {
-  entity: string;
-}
-
-function MusicPage({ entity }: MusicPageProps) {
-  const { musicId } = useParams(); 
+function MusicPage({ entity }: { entity: string }) {
+  const { musicId } = useParams<{ musicId: string }>();
   const [music, setMusic] = useState<any | null>(null);
   const [reviews, setReviews] = useState<any[]>([]);
   const [userReview, setUserReview] = useState<any[]>([]);
@@ -17,67 +13,54 @@ function MusicPage({ entity }: MusicPageProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const userData = JSON.parse(storedUser);
-      setUserId(userData?.id || null);
+    const stored = localStorage.getItem("user");
+    if (stored) {
+      const u = JSON.parse(stored);
+      setUserId(u?.id ?? null);
     }
   }, []);
 
   useEffect(() => {
     if (!musicId) return;
-    
-    const fetchMusicDataAndReviews = async () => {
+
+    const load = async () => {
       try {
-        const [musicData] = await Promise.all([
-          fetchById(entity, musicId)
-        ]);
-  
+        const musicData = await fetchById(entity, musicId);
         setMusic(musicData);
-  
-        const [reviewsData] = await Promise.all([
-            getMusicReviews(entity, musicId)
-        ]);
-  
-        if (userId) {
-          setUserReview(reviewsData.filter(r => r.user_id === userId));
-          setReviews(reviewsData.filter(r => r.user_id !== userId));
-        } else {
-          setUserReview([]);
-          setReviews(reviewsData);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+
+        const reviewsData = await getMusicReviews(entity, musicId);
+        const yours = userId ? reviewsData.filter(r => r.user_id === userId) : [];
+        const others = userId ? reviewsData.filter(r => r.user_id !== userId) : reviewsData;
+
+        setUserReview(yours);
+        setReviews(others);
+      } catch (err) {
+        console.error("Error fetching music or reviews:", err);
       } finally {
         setLoading(false);
       }
     };
-    
-    fetchMusicDataAndReviews();
-  }, [musicId, userId]);
-  
-  if (loading) return <p>Loading...</p>;
-  if (!music) return <p>{entity} not found</p>;
-  
+
+    load();
+  }, [entity, musicId, userId]);
+
+  if (loading) {
+    return <p>Loading…</p>;
+  }
+
+  if (music.error) window.location.href = '/';
+
   return (
     <div>
       <Helmet>
-        <title>{music?.name} - Waveform</title>
-        <meta
-          property="og:title"
-          content={`${music?.name} by ${music?.artists.map(a => a.name).join(' & ')}`}
-        />
-        <meta
-          property="og:description"
-          content={`Listen to ${music?.name} by ${music?.artists.map(a => a.name).join(' & ')}. Read reviews and more!`}
-        />
-        <meta property="og:image" content={music?.image_url} />
-        <meta property="og:image:width" content="300" />
-        <meta property="og:image:height" content="300" />
-        <meta property="og:type" content="music.song" />
+        <title>{music.name} - Waveform</title>
       </Helmet>
-      
-      <MusicInfoCard music={music} reviews={reviews} userReview={userReview} />
+
+      <MusicInfoCard
+        music={music}
+        reviews={reviews}
+        userReview={userReview}
+      />
     </div>
   );
 }

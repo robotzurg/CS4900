@@ -35,6 +35,8 @@ function GenrePage() {
     return null;
   }
 
+  if (genre.error) window.location.href = '/';
+
   return (
     <Container className="pt-3">
       <Helmet>
