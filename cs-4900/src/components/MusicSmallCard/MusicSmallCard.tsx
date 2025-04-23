@@ -64,7 +64,7 @@ function MusicSmallCard({ music, entity }: { music: any, entity: any }) {
                   size={55}
                   thickness={6}
                   sections={[{ value: 0, color: 'blue' }]}
-                  label={<Text ta="center">-</Text>}
+                  label={<Text ta="center" className='bold'>-</Text>}
                 />
                 <Text className="ring-text">Critics</Text>
               </div>
@@ -80,7 +80,7 @@ function MusicSmallCard({ music, entity }: { music: any, entity: any }) {
                     color: 'red'
                   }]}
                   label={
-                    <Text ta="center">
+                    <Text ta="center" className='bold'>
                       {typeof overallAverageRating === 'number'
                         ? overallAverageRating.toFixed(1).replace(/\.0+$/, '')
                         : overallAverageRating}
@@ -124,7 +124,7 @@ function MusicSmallCard({ music, entity }: { music: any, entity: any }) {
                     color: 'red'
                   }]}
                   label={
-                    <Text ta="center" className='ring-inner-text'>
+                    <Text ta="center" className='ring-inner-text bold'>
                       {typeof overallAverageRating === 'number'
                         ? overallAverageRating.toFixed(1).replace(/\.0+$/, '')
                         : overallAverageRating}
