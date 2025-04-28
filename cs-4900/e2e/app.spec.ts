@@ -8,7 +8,7 @@ test.describe("Waveform App (E2E)", () => {
   });
 
   test("has main navigation links", async ({ page }) => {
-    for (const linkText of ["Songs", "Albums", "Artists", "Genres"]) {
+    for (const linkText of ["Songs", "Albums", "Artists", "Genres", "Users"]) {
       await expect(page.getByRole("link", { name: linkText })).toBeVisible();
     }
   });
@@ -41,5 +41,20 @@ test.describe("Waveform App (E2E)", () => {
     await page.getByRole("link", { name: "Genres" }).click();
     await expect(page).toHaveURL(/\/genres$/);
     await expect(page.getByRole("heading", { name: /All Genres/i })).toBeVisible();
+  });
+
+  test("can search for a song", async ({ page }) => {
+    await page.getByPlaceholder("Search").fill("Test Song");
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(/\/results\?q=Test%20Song$/);
+    await expect(page.getByText(/Search Results for "Test Song"/i)).toBeVisible();
+  });
+
+  test("can view a specific song's details", async ({ page }) => {
+    await page.getByRole("link", { name: "Songs" }).click();
+    await expect(page).toHaveURL(/\/songs$/);
+    await page.locator(".music-small-card").first().click();
+    await expect(page.getByText('Critic Rating')).toBeVisible();
+    await expect(page.getByText('User Rating')).toBeVisible();
   });
 });

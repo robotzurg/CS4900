@@ -51,14 +51,6 @@ a:hover {
   border-radius: 10px; */
 }
 
-.page-header::after {
-  content: ""; 
-  display: block;
-  width: 40%;  
-  border-bottom: 1px solid #000000;
-  margin-top: 10px; 
-}
-
 .card-col {
   justify-content: center;
   min-width: fit-content;

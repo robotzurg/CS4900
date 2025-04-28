@@ -166,7 +166,7 @@ function MainNavbar() {
             <Nav className="d-flex align-items-center">
               {/* DESKTOP PROFILE DROP DOWN */}
               <NavDropdown
-                className="d-lg-flex d-sm-none"
+                className="d-lg-flex d-sm-none d-none"
                 title={dropdownTitle}
                 align='end'
                 onClick={handleClose}

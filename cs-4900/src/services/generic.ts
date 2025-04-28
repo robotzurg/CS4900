@@ -79,6 +79,7 @@ export const deleteItem = async (entity: string, id: string) => {
 export const searchByName = async (entity: string, query: string) => {
     try {
         if (!query || !entity) return []
+        if (query == "") return [];
         const response = await fetch(`${apiUrl}/api/${entity}?query=${query}`);
         const data = await response.json();
         const results = data.map((value: any) => ({ id: value.id, name: value.name }));

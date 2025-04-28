@@ -77,8 +77,8 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any; reviews: an
 
   return (
     <Container className="mt-1 music-card">
-      <Row className="d-flex p-3" style={{ minHeight: '100%' }}>
-        <Col xs={12} lg={8}>
+      <Row className="d-flex flex-column-reverse flex-lg-row p-3 align-items-start" style={{ minHeight: '100%' }}>
+        <Col xs={12} lg={8} className="text-center text-lg-start">
           <div className="page-header">
             <h1><strong>{music.name}</strong></h1>
             <h3>
@@ -90,41 +90,34 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any; reviews: an
             </h3>
           </div>
           <p>
-            <strong>Release Date:</strong>{" "}
+            <strong>Release Date:</strong>{' '}
             {new Date(music.release_date).toLocaleDateString()}
             <br />
 
             {music.genres.length > 0 && (
               <>
-                <strong>Genres:</strong>{" "}
+                <strong>Genres:</strong>{' '}
                 {music.genres.map((genre, index) => (
                   <span key={genre.id}>
                     <Link className="genre-link" to={`/genres/${genre.id}`}>
                       {genre.name}
                     </Link>
-                    {index < music.genres.length - 1 && ", "}
+                    {index < music.genres.length - 1 && ', '}
                   </span>
                 ))}
               </>
             )}
           </p>
 
-          {
-            socials.length > 0 && (
-              <Flex gap="5" className='pb-10'>
-                {socials.map(({ url, icon }) => (
-                  <a
-                    key={icon.iconName}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <FontAwesomeIcon icon={icon} size="2x" fixedWidth />
-                  </a>
-                ))}
-              </Flex>
-            )
-          }
+          {socials.length > 0 && (
+            <Flex gap="5" className="pb-10">
+              {socials.map(({ url, icon }) => (
+                <a key={icon.iconName} href={url} target="_blank" rel="noopener noreferrer">
+                  <FontAwesomeIcon icon={icon} size="2x" fixedWidth />
+                </a>
+              ))}
+            </Flex>
+          )}
 
           {user && (
             <Button onClick={handleCreateReview} className="mb-3">
@@ -163,34 +156,19 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any; reviews: an
                 <Text size="sm" c="dimmed">Based on {reviews.length + userReview.length} reviews</Text>
               </div>
             </Flex>
-
-            {/* Friends Rating */}
-            {/* <Flex align="center" gap="sm">
-              <RingProgress size={80} thickness={9} sections={[{ value: 0, color: 'green' }]} label={
-                <Text ta="center" size="lg" fw={700} style={{ lineHeight: 1 }}>-</Text>
-              } />
-              <div>
-                <Text fw={700}>Friends Rating</Text>
-                <Text size="sm" c="dimmed">Based on 0 Reviews</Text>
-              </div>
-            </Flex> */}
           </Flex>
 
           {userReview.length > 0 && <ReviewListGrid type="user_main" reviews={userReview} />}
           <ReviewListGrid reviews={reviews} type="users" />
         </Col>
 
-        <Col xs={12} lg={4} className="d-flex flex-column gap-3 align-items-center">
+        <Col xs={12} lg={4} className="d-flex mb-4 mb-lg-0">
           <img
             src={music.image_url}
             alt={music.name}
             className="cover-img"
             onClick={() => setImageModalOpen(true)}
           />
-
-          {/* <div className="sidebar">
-            <p>Sidebar content (add later)</p>
-          </div> */}
         </Col>
       </Row>
 
@@ -222,4 +200,3 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any; reviews: an
 }
 
 export default MusicInfoCard;
-

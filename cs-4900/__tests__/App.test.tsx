@@ -67,15 +67,15 @@ it("deleteItem() DELETEs /api/{entity}/{id} and returns JSON", async () => {
 });
 
 it("searchByName() queries /api/{entity}?query=term and maps results", async () => {
-  const fake = [{ id: "g1", name: "Rock" }];
+  const fake = [{ id: "g1", name: "psytrance" }];
   const spy = vi.spyOn(global, "fetch").mockResolvedValueOnce({
     ok: true,
     json: () => Promise.resolve(fake),
   } as any);
 
-  const results = await searchByName("genres", "rock");
+  const results = await searchByName("genres", "psytrance");
   expect(spy).toHaveBeenCalledWith(
-    expect.stringMatching(/\/api\/genres\?query=rock$/)
+    expect.stringMatching(/\/api\/genres\?query=psytrance$/)
   );
   expect(results).toEqual(fake.map(({ id, name }) => ({ id, name })));
 });
