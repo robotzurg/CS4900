@@ -110,7 +110,7 @@ function MusicInfoCard({ music, reviews, userReview }: { music: any; reviews: an
           </p>
 
           {socials.length > 0 && (
-            <Flex gap="5" className="pb-10">
+            <Flex gap="5" className="pb-10 social-links">
               {socials.map(({ url, icon }) => (
                 <a key={icon.iconName} href={url} target="_blank" rel="noopener noreferrer">
                   <FontAwesomeIcon icon={icon} size="2x" fixedWidth />

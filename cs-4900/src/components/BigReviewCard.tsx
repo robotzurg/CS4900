@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Row, Image } from 'react-bootstrap';
-import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ReviewCardProps {
@@ -75,10 +75,10 @@ const BigReviewCard: React.FC<ReviewCardProps> = ({ review, user, music }) => {
         </p>
       </Row>
       <Row className="mt-2 d-flex justify-content-start align-items-center">
-            <Col xs="auto" className="d-flex align-items-center">
+            {/* <Col xs="auto" className="d-flex align-items-center">
             <FontAwesomeIcon icon={faHeart} />
             <p className="mb-0 ms-2">20</p>
-            </Col>
+            </Col> */}
             <Col xs="auto" className="d-flex align-items-center">
             <FontAwesomeIcon icon={faComment} />
             <p className="mb-0 ms-2">20</p>

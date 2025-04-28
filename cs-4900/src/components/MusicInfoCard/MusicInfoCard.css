@@ -34,6 +34,10 @@
     justify-content: start;
   }
 
+  .social-links {
+    justify-content: start;
+  }
+
   .cover-img {
     width: 100%;
     max-width: 350px;
@@ -83,6 +87,16 @@
 
     .page-header::after {
       display: none;
+    }
+
+    .social-links {
+      justify-content: center;
+    }
+
+    .review-card .col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
   

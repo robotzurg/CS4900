@@ -1,5 +1,5 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import ReviewCard from './ReviewCard';
+import ReviewCard from './ReviewCard/ReviewCard';
 
 function ReviewListGrid({ reviews, type='' }: { reviews: any[], type?: string }) {
 

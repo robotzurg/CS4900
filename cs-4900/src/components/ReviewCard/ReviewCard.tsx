@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Container, Col, Row, Image } from "react-bootstrap";
-import { fetchById, fetchCommentsForReview } from "../services/index";
+import { fetchById, fetchCommentsForReview } from "../../services/index";
 import { Link } from "react-router";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import './ReviewCard.css';
 
 function ReviewCard({ review }: { review: any }) {
   const [user, setUser] = useState<any | null>(null);
@@ -57,7 +58,7 @@ function ReviewCard({ review }: { review: any }) {
             <h6 style={{color: 'gray'}}>
               {formattedRating}
             </h6>
-          <p className="mb-0">
+          <p className="mb-0 review-text">
             {(expanded
               ? review.review_text
               : review.review_text.length > 400
