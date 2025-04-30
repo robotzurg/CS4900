@@ -78,6 +78,37 @@ export class AlbumService extends GenericService<Album> {
     return result.rows.length > 0 ? result.rows[0] : null;
   }  
 
+  async getByName(albumName: string, artistName?: string): Promise<Album | null> {
+    let query = `
+      SELECT a.*, 
+      COALESCE(
+        json_agg(DISTINCT jsonb_build_object('id', aa.artist_id, 'name', ar.name)) 
+        FILTER (WHERE aa.artist_id IS NOT NULL), '[]'
+      ) AS artists,
+      COALESCE(
+        json_agg(DISTINCT jsonb_build_object('id', ga.genre_id, 'name', g.name)) 
+        FILTER (WHERE ga.genre_id IS NOT NULL), '[]'
+      ) AS genres
+      FROM Albums a
+      LEFT JOIN Album_Artists aa ON a.id = aa.album_id
+      LEFT JOIN Artists ar ON aa.artist_id = ar.id
+      LEFT JOIN Album_Genres ga ON a.id = ga.album_id
+      LEFT JOIN Genres g ON ga.genre_id = g.id
+      WHERE a.name ILIKE $1
+    `;
+    const params: any[] = [`%${albumName}%`];
+
+    if (artistName) {
+      query += ` AND ar.name ILIKE $2`;
+      params.push(`%${artistName}%`);
+    }
+
+    query += ` GROUP BY a.id;`;
+
+    const result = await pool.query(query, params);
+    return result.rows[0] ?? null;
+  }
+
   async create(albumData: Omit<Album, 'id'>, artistIds: string[] = [], genreIds: string[] = []): Promise<Album> {
     const client = await pool.connect();
     try {

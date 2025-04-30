@@ -6,6 +6,12 @@ export const createGenericController = <T>(service: any, entity: string) => {
     return {
         getAll: async (req: pkg.Request, res: pkg.Response): Promise<any> => {
             try {
+                const { name, artist } = req.query;
+                if (name) {
+                    const results = await serviceInstance.getByName(name, artist);
+                    return res.json(results);
+                }
+
                 const filter = Object.keys(req.query).length ? req.query : undefined;
                 const items: T[] = await serviceInstance.getAll(filter);
                 res.json(items);
