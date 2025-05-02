@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import session from 'express-session';
 import passport from 'passport';
 import pgSession from 'connect-pg-simple';
-import pool from '../api/config/db.ts';
+import pool from './config/db.ts';
 import authRouter from './routes/authRoutes.ts';
 import albumRouter from './routes/albumRoutes.ts';
 import artistRouter from './routes/artistRoutes.ts';
