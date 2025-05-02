@@ -1,12 +1,10 @@
 import pkg from 'express';
-import { UserService } from '../services/userService.ts';
-import { createGenericController } from '../controllers/genericController.ts';
+import userController from '../controllers/userController.ts';
 
 const router = pkg.Router();
-const userController = createGenericController(UserService, 'user');
 
 router.get('/api/users', userController.getAll);
-router.get('/api/users/:userId', userController.getById);
+router.get('/api/users/:userId', userController.getByIdOrDiscordId);
 router.post('/api/users', userController.create);
 router.put('/api/users/:userId', userController.update);
 router.delete('/api/users/:userId', userController.delete);

@@ -7,8 +7,6 @@ export class ArtistService extends GenericService<Artist> {
     super('artists');
   }
 
-  
-
   async create(data: Partial<Artist>) {
     const slug = generateSlug(data.name || '');
     return super.create({ ...data, slug });
